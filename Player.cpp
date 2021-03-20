@@ -9,7 +9,7 @@ Player::Player(Engimon starter){
 }
 
 void Player::showAllEngimon(){
-    
+    this->engimonList.showInventory();
 }
 
 Engimon Player::getActiveEngimon() const{
@@ -39,3 +39,15 @@ void Player::switchActiveEngimon(Engimon e){
     this->activeEngimon = e;
 }
 
+void Player::showSkillItems(){
+    this->skillItemList.showInventory();
+}
+
+void Player::useItems(SkillItem si, Engimon e){
+    if(skillItemList.isExist(si)){
+        if(engimonList.isExist(e)){
+            //e.learn(si);
+            skillItemList.remove(si);
+        }else throw e;
+    }else throw si;
+}

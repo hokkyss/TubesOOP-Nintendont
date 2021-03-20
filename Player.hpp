@@ -1,13 +1,14 @@
 #ifndef PLAYER_HPP
 #define PLAYER_HPP
 
-#include "Engimon.hpp"
 #include "Inventory.hpp"
 using namespace std;
 
 class Player {
     private:
         Engimon activeEngimon;
+        Inventory<Engimon> engimonList;
+        Inventory<SkillItem> skillItemList;
     
     public:
         // constructor awal
@@ -18,6 +19,8 @@ class Player {
         Engimon getActiveEngimon() const;
         void showEngimon(Engimon e);
         void switchActiveEngimon(Engimon e);
+        void showSkillItems();
+        void useItems(SkillItem si, Engimon e);
 
 };
 

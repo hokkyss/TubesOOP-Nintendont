@@ -14,3 +14,8 @@ ostream& operator << (ostream& out, const SkillItem& si)
 	out << si.containedSkill;
 	return out;
 }
+
+bool SkillItem :: operator== (SkillItem si)
+{
+	return this->itemName==si.itemName && this->containedSkill.getName()==si.containedSkill.getName();
+}
