@@ -93,7 +93,7 @@ ostream& operator<<(ostream& out, const Skill& s)
 	out << s.getName() << endl;
 	out << "Base Power   : " << s.getBasePower() << endl;
 	out << "Mastery Level: " << s.getMasteryLevel() << endl;
-	out << "Can be learnt by " << s.getNumOfElements() << " elements:" << endl;
+	out << "Can be learnt by " << s.getNumOfElements() << " element(s):" << endl;
 	
 	for(int i = 0; i < s.getNumOfElements(); i++)
 	{

@@ -1,8 +1,10 @@
 #include "Skill.hpp"
 #include "Element.hpp"
+#include "SkillItem.hpp"
 #include<iostream>
 #include<vector>
 #include "Skill.cpp"
+#include "SkillItem.cpp"
 // #include "gtest/gtest.h"
 using namespace std;
 
@@ -69,8 +71,7 @@ int main()
 	Skill* s3 = &Tackle;
 	s3->setMasteryLevel(150);
 	/* ------------------ */
-	cout << Tackle;
-	cout << endl;
-	Skill s4 = Tackle;
-	cout << s4 << endl;
+	
+	SkillItem i1 = TM03;
+	cout << i1;
 }
