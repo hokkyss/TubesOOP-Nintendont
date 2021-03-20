@@ -1,6 +1,7 @@
 #ifndef SKILL_HPP
 #define SKILL_HPP
 
+#include<iostream>
 #include<vector>
 #include<exception>
 #include "Element.hpp"
@@ -31,6 +32,9 @@ class Skill
 		Skill(int basePower, Element e1, Element e2, Element e3, Element e4, Element e5);
 		Skill(const Skill& s);
 		void operator=(const Skill& s);
+		~Skill();
+		
+		friend ostream& operator << (ostream& out, const Skill& s);
 		
 		int getMasteryLevel() const;
 		void setMasteryLevel(int newMasteryLevel);
@@ -56,7 +60,7 @@ Skill Avalanche(60, Ice);
 Skill IceBeam(90, Ice);
 Skill Blizzard(120, Ice);
 Skill SubzeroSlammer(140, Ice);
-Skill BullDoze(60, Ground);
+Skill Bulldoze(60, Ground);
 Skill ThousandArrows(90, Ground);
 Skill Earthquake(100, Ground);
 Skill TectonicRage(160, Ground);

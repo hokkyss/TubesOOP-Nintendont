@@ -1,4 +1,5 @@
 #include "Skill.hpp"
+#include "Element.hpp"
 #include<iostream>
 #include<vector>
 #include<exception>
@@ -74,6 +75,24 @@ void Skill :: operator=(const Skill& s)
 	{
 		this->elements.push_back(s.getElement(i));
 	}
+}
+
+Skill :: ~Skill()
+{
+}
+
+ostream& operator<<(ostream& out, const Skill& s)
+{
+	out << "Base Power   : " << s.getBasePower() << endl;
+	out << "Mastery Level: " << s.getMasteryLevel() << endl;
+	out << "Can be learnt by " << s.getNumOfElements() << " elements:" << endl;
+	
+	for(int i = 0; i < s.getNumOfElements(); i++)
+	{
+		out << i + 1 << ". " << elementName[s.getElement(i)] << endl;
+	}
+	
+	return out;
 }
 
 int Skill :: getMasteryLevel() const
