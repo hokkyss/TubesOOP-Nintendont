@@ -2,9 +2,11 @@
 #include "Element.hpp"
 #include<iostream>
 #include<vector>
-#include "gtest/gtest.h"
+#include "Skill.cpp"
+// #include "gtest/gtest.h"
 using namespace std;
 
+/*
 class SkillTester : public :: testing :: Test
 {
 	protected:
@@ -51,4 +53,15 @@ int main(int argc, char** argv)
 {
 	::testing::InitGoogleTest(&argc, argv);
 	return RUN_ALL_TESTS();
+}
+*/
+
+int main()
+{
+	Skill s1 = Tackle;
+	cout << s1;
+	cout << endl;
+	Skill s2 = s1;
+	s2.setMasteryLevel(100);
+	cout << s2;
 }
