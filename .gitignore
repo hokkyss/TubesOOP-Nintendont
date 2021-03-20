@@ -32,8 +32,8 @@
 *.app
 
 # Visual Studio Users
-.vs
-.vscode
+*.vs
+*.vscode
 
 # Spek
 *.pdf

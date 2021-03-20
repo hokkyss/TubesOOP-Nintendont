@@ -84,6 +84,11 @@ void Skill :: operator=(const Skill& s)
 	}
 }
 
+bool Skill :: operator==(const Skill& s)
+{
+	return this->name == s.getName();
+}
+
 Skill :: ~Skill()
 {
 }

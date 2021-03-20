@@ -12,7 +12,7 @@ class SkillItem
 		string itemName;
 		SkillItem(const Skill& s, string itemName);
 		friend ostream& operator << (ostream& out, const SkillItem& si);
-		bool operator== (SkillItem si);
+		bool operator==(const SkillItem& si);
 };
 
 // harus extern?

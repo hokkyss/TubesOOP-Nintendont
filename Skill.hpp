@@ -33,6 +33,7 @@ class Skill
 		Skill(string name, int basePower, Element e1, Element e2, Element e3, Element e4, Element e5);
 		Skill(const Skill& s);
 		void operator=(const Skill& s);
+		bool operator==(const Skill& s);
 		~Skill();
 		
 		friend ostream& operator << (ostream& out, const Skill& s);
