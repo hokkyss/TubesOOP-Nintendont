@@ -8,9 +8,10 @@ using namespace std;
 class SkillItem
 {
 	public:
-		string nama;
 		Skill containedSkill;
-		SkillItem(const Skill& s, string nama);
+		string itemName;
+		SkillItem(const Skill& s, string itemName);
+		friend ostream& operator << (ostream& out, const SkillItem& si);
 };
 
 // harus extern?
@@ -37,7 +38,7 @@ SkillItem TM20(Korslet, "TM20");
 SkillItem TM21(MeltTheGround, "TM21");
 SkillItem TM22(ShockTheFlame, "TM22");
 SkillItem TM23(FreezeDry, "TM23");
-SkillItem TM24(ElectroLysis, "TM24");
+SkillItem TM24(Electrolysis, "TM24");
 SkillItem TM25(ColdRefrigerator, "TM25");
 SkillItem TM26(ContradictingShock, "TM26");
 

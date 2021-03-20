@@ -5,16 +5,18 @@
 #include<exception>
 using namespace std;
 
-Skill :: Skill(int basePower, Element e)
+Skill :: Skill(string name, int basePower, Element e)
 {
+	this->name = name;
 	this->basePower = basePower;
 	this->masteryLevel = 0;
 	this->numOfElements = 1;
 	this->elements.push_back(e);
 }
 
-Skill :: Skill(int basePower, Element e1, Element e2)
+Skill :: Skill(string name, int basePower, Element e1, Element e2)
 {
+	this->name = name;
 	this->basePower = basePower;
 	this->masteryLevel = 0;
 	this->numOfElements = 2;
@@ -22,8 +24,9 @@ Skill :: Skill(int basePower, Element e1, Element e2)
 	this->elements.push_back(e2);
 }
 
-Skill :: Skill(int basePower, Element e1, Element e2, Element e3)
+Skill :: Skill(string name, int basePower, Element e1, Element e2, Element e3)
 {
+	this->name = name;
 	this->basePower = basePower;
 	this->masteryLevel = 0;
 	this->numOfElements = 3;
@@ -32,8 +35,9 @@ Skill :: Skill(int basePower, Element e1, Element e2, Element e3)
 	this->elements.push_back(e3);
 }
 
-Skill :: Skill(int basePower, Element e1, Element e2, Element e3, Element e4)
+Skill :: Skill(string name, int basePower, Element e1, Element e2, Element e3, Element e4)
 {
+	this->name = name;
 	this->basePower = basePower;
 	this->masteryLevel = 0;
 	this->numOfElements = 4;
@@ -43,8 +47,9 @@ Skill :: Skill(int basePower, Element e1, Element e2, Element e3, Element e4)
 	this->elements.push_back(e4);
 }
 
-Skill :: Skill(int basePower, Element e1, Element e2, Element e3, Element e4, Element e5)
+Skill :: Skill(string name, int basePower, Element e1, Element e2, Element e3, Element e4, Element e5)
 {
+	this->name = name;
 	this->basePower = basePower;
 	this->masteryLevel = 0;
 	this->numOfElements = 5;
@@ -57,6 +62,7 @@ Skill :: Skill(int basePower, Element e1, Element e2, Element e3, Element e4, El
 
 Skill :: Skill(const Skill& s)
 {
+	this->name = s.getName();
 	this->basePower = s.getBasePower();
 	this->masteryLevel = s.getMasteryLevel();
 	this->numOfElements = s.getNumOfElements();
@@ -68,6 +74,7 @@ Skill :: Skill(const Skill& s)
 
 void Skill :: operator=(const Skill& s)
 {
+	this->name = s.getName();
 	this->basePower = s.getBasePower();
 	this->masteryLevel = s.getMasteryLevel();
 	this->numOfElements = s.getNumOfElements();
@@ -83,6 +90,7 @@ Skill :: ~Skill()
 
 ostream& operator<<(ostream& out, const Skill& s)
 {
+	out << s.getName() << endl;
 	out << "Base Power   : " << s.getBasePower() << endl;
 	out << "Mastery Level: " << s.getMasteryLevel() << endl;
 	out << "Can be learnt by " << s.getNumOfElements() << " elements:" << endl;
@@ -95,20 +103,24 @@ ostream& operator<<(ostream& out, const Skill& s)
 	return out;
 }
 
-int Skill :: getMasteryLevel() const
+string Skill :: getName() const
 {
-	return this->masteryLevel;
-}
-
-
-void Skill :: setMasteryLevel(int newMasteryLevel)
-{
-	this->masteryLevel = newMasteryLevel;
+	return this->name;
 }
 		
 int Skill :: getBasePower() const
 {
 	return this->basePower;
+}
+
+int Skill :: getMasteryLevel() const
+{
+	return this->masteryLevel;
+}
+
+void Skill :: setMasteryLevel(int newMasteryLevel)
+{
+	this->masteryLevel = newMasteryLevel;
 }
 
 int Skill :: getNumOfElements() const

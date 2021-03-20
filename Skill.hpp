@@ -18,6 +18,7 @@ class IndexInvalidException : exception
 class Skill
 {
 	private:
+		string name;
 		int basePower;
 		int masteryLevel;
 		int numOfElements;
@@ -25,21 +26,24 @@ class Skill
 	
 	public:
 		// skill bisa saja dipelajari oleh semua elemen
-		Skill(int basePower, Element e);
-		Skill(int basePower, Element e1, Element e2);
-		Skill(int basePower, Element e1, Element e2, Element e3);
-		Skill(int basePower, Element e1, Element e2, Element e3, Element e4);
-		Skill(int basePower, Element e1, Element e2, Element e3, Element e4, Element e5);
+		Skill(string name, int basePower, Element e);
+		Skill(string name, int basePower, Element e1, Element e2);
+		Skill(string name, int basePower, Element e1, Element e2, Element e3);
+		Skill(string name, int basePower, Element e1, Element e2, Element e3, Element e4);
+		Skill(string name, int basePower, Element e1, Element e2, Element e3, Element e4, Element e5);
 		Skill(const Skill& s);
 		void operator=(const Skill& s);
 		~Skill();
 		
 		friend ostream& operator << (ostream& out, const Skill& s);
 		
+		string getName() const;
+		
+		int getBasePower() const;
+		
 		int getMasteryLevel() const;
 		void setMasteryLevel(int newMasteryLevel);
 		
-		int getBasePower() const;
 		int getNumOfElements() const;
 		
 		// mengembalikan elemen ke-index
@@ -48,62 +52,62 @@ class Skill
 };
 
 // harus extern?
-Skill Tackle(50, Fire, Ice, Ground, Electric, Water);
-Skill BodySlam(90, Fire, Ice, Ground, Electric, Water);
-Skill DoubleEdge(120, Fire, Ice, Ground, Electric, Water);
-Skill GigaImpact(150, Fire, Ice, Ground, Electric, Water);
-Skill FirePledge(50, Fire);
-Skill FlameThrower(90, Fire);
-Skill FireBlast(120, Fire);
-Skill BlastBurn(150, Fire);
-Skill Avalanche(60, Ice);
-Skill IceBeam(90, Ice);
-Skill Blizzard(120, Ice);
-Skill SubzeroSlammer(140, Ice);
-Skill Bulldoze(60, Ground);
-Skill ThousandArrows(90, Ground);
-Skill Earthquake(100, Ground);
-Skill TectonicRage(160, Ground);
-Skill ShockWave(60, Electric);
-Skill Thunderbolt(90, Electric);
-Skill VoltTackle(120, Electric);
-Skill GigavoltHavoc(160, Electric);
-Skill WaterPledge(50, Water);
-Skill Surf(90, Water);
-Skill HydroPump(120, Water);
-Skill HydroCannon(150, Water);
+Skill Tackle("Tackle", 50, Fire, Ice, Ground, Electric, Water);
+Skill BodySlam("Body Slam", 90, Fire, Ice, Ground, Electric, Water);
+Skill DoubleEdge("Double Edge", 120, Fire, Ice, Ground, Electric, Water);
+Skill GigaImpact("Giga Impact", 150, Fire, Ice, Ground, Electric, Water);
+Skill FirePledge("Fire Pledge", 50, Fire);
+Skill FlameThrower("Flamethrower", 90, Fire);
+Skill FireBlast("Fire Blast", 120, Fire);
+Skill BlastBurn("Blast Burn", 150, Fire);
+Skill Avalanche("Avalanche", 60, Ice);
+Skill IceBeam("Ice Beam", 90, Ice);
+Skill Blizzard("Blizzard", 120, Ice);
+Skill SubzeroSlammer("Subzero Slammer", 140, Ice);
+Skill Bulldoze("Bulldoze", 60, Ground);
+Skill ThousandArrows("Thousand Arrows", 90, Ground);
+Skill Earthquake("Earthquake", 100, Ground);
+Skill TectonicRage("Tectonic Rage", 160, Ground);
+Skill ShockWave("Shock Wave", 60, Electric);
+Skill Thunderbolt("Thunderbolt", 90, Electric);
+Skill VoltTackle("Volt Tackle", 120, Electric);
+Skill GigavoltHavoc("Gigavolt Havoc", 160, Electric);
+Skill WaterPledge("Water Pledge", 50, Water);
+Skill Surf("Surf", 90, Water);
+Skill HydroPump("Hydro Pump", 120, Water);
+Skill HydroCannon("Hydro Cannon", 150, Water);
 
-Skill Liquidation(85, Water, Ice);
-Skill IceHammer(100, Ice, Water);
-Skill MaxHailstorm(110, Ground, Ice);
-Skill IcicleSpear(75, Ice, Ground);
-Skill FreezeJolt(105, Ice, Electric);
-Skill QuadrupleAxel(80, Electric, Ice);
-Skill FreezingFlame(110, Ice, Fire);
-Skill BurningChill(75, Fire, Ice);
-Skill Thunder(110, Electric, Water);
-Skill Storm(75, Water, Electric);
-Skill Mudflood(95, Ground, Water);
-Skill MuddyWater(90, Water, Ground);
-Skill SteamBlast(105, Water, Fire);
-Skill SteamBomb(80, Fire, Water);
-Skill ThunderBlast(110, Electric, Ground);
-Skill EarthyShock(75, Ground, Electric);
-Skill ShockAndBurn(100, Electric, Fire);
-Skill BurnAndShock(85, Fire, Electric);
-Skill Eruption(100, Fire, Ground);
-Skill LavaPlume(85, Fire, Ground);
+Skill Liquidation("Liquidation", 85, Water, Ice);
+Skill IceHammer("Ice Hammer", 100, Ice, Water);
+Skill MaxHailstorm("Max Hailstorm", 110, Ground, Ice);
+Skill IcicleSpear("Icicle Spear", 75, Ice, Ground);
+Skill FreezeJolt("Freeze Jolt", 105, Ice, Electric);
+Skill QuadrupleAxel("Quadruple Axel", 80, Electric, Ice);
+Skill FreezingFlame("Freezing Flame", 110, Ice, Fire);
+Skill BurningChill("Burning Chill", 75, Fire, Ice);
+Skill Thunder("Thunder", 110, Electric, Water);
+Skill Storm("Storm", 75, Water, Electric);
+Skill Mudflood("Mudflood", 95, Ground, Water);
+Skill MuddyWater("Muddy Water", 90, Water, Ground);
+Skill SteamBlast("Steam Blast", 105, Water, Fire);
+Skill SteamBomb("Steam Bomb", 80, Fire, Water);
+Skill ThunderBlast("Thunder Blast", 110, Electric, Ground);
+Skill EarthyShock("Earthy Shock", 75, Ground, Electric);
+Skill ShockAndBurn("Shock and Burn", 100, Electric, Fire);
+Skill BurnAndShock("Burn and Shock", 85, Fire, Electric);
+Skill Eruption("Eruption", 100, Fire, Ground);
+Skill LavaPlume("Lava Plume", 85, Fire, Ground);
 
-Skill WeatherBall(90, Fire, Water, Ice);
-Skill TriAttack(90, Fire, Ice, Electric);
-Skill EarthPower(90, Fire, Ground, Water);
-Skill Korslet(90, Fire, Electric, Water);
-Skill MeltTheGround(90, Fire, Ground, Ice);
-Skill ShockTheFlame(90, Fire, Ground, Electric);
-Skill FreezeDry(90, Ice, Water, Ground);
-Skill ElectroLysis(90, Ice, Water, Electric);
-Skill ColdRefrigerator(90, Ice, Electric, Ground);
-Skill ContradictingShock(90, Ground, Water, Electric);
+Skill WeatherBall("Weather Ball", 90, Fire, Water, Ice);
+Skill TriAttack("Tri Attack", 90, Fire, Ice, Electric);
+Skill EarthPower("Earth Power", 90, Fire, Ground, Water);
+Skill Korslet("Korslet", 90, Fire, Electric, Water);
+Skill MeltTheGround("Melt the Ground", 90, Fire, Ground, Ice);
+Skill ShockTheFlame("Shock the Flame", 90, Fire, Ground, Electric);
+Skill FreezeDry("Freeze Dry", 90, Ice, Water, Ground);
+Skill Electrolysis("Electrolysis", 90, Ice, Water, Electric);
+Skill ColdRefrigerator("Cold Refrigerator", 90, Ice, Electric, Ground);
+Skill ContradictingShock("Contradicting Shock", 90, Ground, Water, Electric);
 
 /*
 extern Skill Tackle(50, Fire, Ice, Ground, Electric, Water);

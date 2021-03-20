@@ -3,7 +3,14 @@
 #include<iostream>
 using namespace std;
 
-SkillItem :: SkillItem(const Skill& s, string nama) : containedSkill(s)
+SkillItem :: SkillItem(const Skill& s, string itemName) : containedSkill(s)
 {
-	this->nama = nama;
+	this->itemName = itemName;
+}
+
+ostream& operator << (ostream& out, const SkillItem& si)
+{
+	out << si.itemName << ": ";
+	out << si.containedSkill;
+	return out;
 }

@@ -64,4 +64,13 @@ int main()
 	Skill s2 = s1;
 	s2.setMasteryLevel(100);
 	cout << s2;
+	cout << endl;
+	/* HINDARI BAGIAN INI */
+	Skill* s3 = &Tackle;
+	s3->setMasteryLevel(150);
+	/* ------------------ */
+	cout << Tackle;
+	cout << endl;
+	Skill s4 = Tackle;
+	cout << s4 << endl;
 }
