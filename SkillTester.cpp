@@ -3,15 +3,15 @@
 #include "SkillItem.hpp"
 #include<iostream>
 #include<vector>
+// #include "Element.cpp"
+// #include "Skill.cpp"
+// #include "SkillItem.cpp"
 using namespace std;
 
 // compilenya pake
 // g++ -o nama_exe Element.cpp Skill.cpp SkillItem.cpp SkillTester.cpp
 // atau
 // g++ Element.cpp Skill.cpp SkillItem.cpp SkillTester.cpp -o nama_exe
-
-
-
 
 int main()
 {
@@ -28,5 +28,6 @@ int main()
 	/* ------------------ */
 	
 	SkillItem i1 = TM03;
+	i1.containedSkill.setMasteryLevel(10);
 	cout << i1;
 }
