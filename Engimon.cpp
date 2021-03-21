@@ -1,9 +1,12 @@
+#include "Utilities.cpp"
 #include "Engimon.hpp"
 #include "Element.hpp"
 #include "Skill.hpp"
+#include <string.h>
 #include <bits/stdc++.h>
 
 Engimon::Engimon(string name, string species, vector<Element> elements, int maxExp, const Skill& uniqueSkill) : uniqueSkill(uniqueSkill){
+  this->idEngimon = Engimon::countID;
   this->name = name;
   this->species = species;
   for(int i = 0; i < elements.size(); i++){
@@ -13,7 +16,8 @@ Engimon::Engimon(string name, string species, vector<Element> elements, int maxE
   this->exp = 0;
   this->cumExp = 0;
   this->maxExp = maxExp;
-  // this->skillUnique = skillUnique;
+  this->skills.push_back(this->uniqueSkill);
+  Engimon::countID++;
 }
 
 Engimon::~Engimon(){
@@ -30,20 +34,69 @@ void Engimon::addExp(int exp){
   }
 }
 
-void Engimon::showDetails(){
+void Engimon::showDetails() const {
   cout << "=======ENGIMON'S DETAIL=======" << endl;
-  cout << "nama : " << this->name << endl;
-  cout << "spesies : " << this->species << endl;
-  cout << "elements : " << endl;
-  for(int i = 0; i < this->elements.size(); i++){
-    cout<<this->elements[i];
-    if(i!=this->elements.size()-1){
-      cout<<",";
+  cout << "ID Engimon : " << this->idEngimon << endl;
+  cout << "Nama : " << this->name << endl;
+  cout << "Spesies : " << this->species << endl;
+  cout << "Elements : ";
+  printVector<Element>(this->elements, ", ", false, false);
+  cout << endl;
+  cout << "Level : " << this->level << endl;
+  cout << "Exp : (" << this->exp << "/100)" << endl;
+  cout << "Total Exp : " << this->cumExp << endl;
+  cout << "Unique Skill : " << this->uniqueSkill.getName() << endl;
+  cout << "Skills : ";
+  // gabisa pake printvector karena hanya nama saja
+  for(int i = 0; i < this->skills.size(); i++){
+    cout << this->skills[i].getName();
+    if(i != this->skills.size() - 1){
+      cout << ", ";
     }
   }
-  cout<<endl;
-  cout << "level : " << this->level << endl;
-  cout << "exp : " << this->exp << endl;
-  cout << "unique skill : " << this->uniqueSkill << endl;
+  cout << endl;
+  cout << "Parents : ";
+  if (this->parentName.size() == 0 && this->parentSpecies.size() == 0) cout << "-";
+  cout << endl;
+  printVector<string>(this->parentName, ", ", false, false);
+  printVector<string>(this->parentSpecies, ", ", false, false);
   cout <<  "=======ENGIMON'S DETAIL=======" << endl;
+}
+
+void Engimon::showSkills() const {
+  cout <<  "=======SKILLS DETAIL=======" << endl;
+  printVector<Skill>(this->skills, "", true, true);
+  cout <<  "=======SKILLS DETAIL=======" << endl;
+}
+
+void Engimon::learnSkill(const Skill& skill) {
+  // TODO: kalau beda element, bakal throw exception
+  if (this->skills.size() < 4) {
+    this->skills.push_back(skill);
+    cout << this->name << " learned " << skill.getName() << "!" << endl;
+  } else {
+    string answer;
+    int idToDelete;
+    this->showSkills();
+    cout << this->name << " wants to learn the skill " << skill.getName() << "." << endl;
+    cout << "However, " << this->name << " already knows four skills." << endl;
+    cout << "Should a move be deleted and replaced with " << skill.getName() << "? (Y/N)" << endl;
+    cin >> answer;
+    if (answer == "Y") {
+      cout << "Enter the skill id you want to replace (-1 to cancel): " << endl;
+      cin >> idToDelete;
+      if (idToDelete < 0) {
+        cout << "Cancelled" << endl;
+        return;
+      } else if (idToDelete > 4) {
+        cout << "Not a valid ID" << endl;
+        return;
+      } else {
+        cout << "1, 2, and ... ... ..." << endl;
+        cout << this->name << "forgot how to use " << this->skills.at(idToDelete - 1).getName() << endl;
+        this->skills.at(idToDelete - 1) = skill;
+        cout << this->name << " learned " << skill.getName() << "!" << endl;
+      }
+    }
+  }
 }
