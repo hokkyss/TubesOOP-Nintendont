@@ -2,6 +2,7 @@
 #define ENGIMON_HPP
 
 #include "Skill.hpp"
+#include<vector>
 
 class Engimon {
   private:
@@ -20,8 +21,8 @@ class Engimon {
   public:
     Engimon(string name, string species, vector<Element> elements, int maxExp, Skill skillUnique);
     ~Engimon();
-    void handleAddExp(int exp);
-    void Show();
+    void addExp(int exp);
+    void showDetails();
 };
 
 class EngimonLiar:Engimon{

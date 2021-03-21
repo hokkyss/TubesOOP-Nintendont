@@ -13,6 +13,8 @@ enum Element
 	Water
 };
 
+ostream& operator << (ostream& out, Element e);
+
 const string elementName[5] = {"Fire", "Ice", "Ground", "Electric", "Water"}; 
 
 #endif
