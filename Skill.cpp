@@ -5,6 +5,14 @@
 #include<exception>
 using namespace std;
 
+Skill :: Skill(string name, int basePower)
+{
+	this->name = name;
+	this->basePower = basePower;
+	this->masteryLevel = 0;
+	this->numOfElements = 0;
+}
+
 Skill :: Skill(string name, int basePower, Element e)
 {
 	this->name = name;

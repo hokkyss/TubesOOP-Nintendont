@@ -26,6 +26,7 @@ class Skill
 	
 	public:
 		// skill bisa saja dipelajari oleh semua elemen
+		Skill(string name, int basePower);
 		Skill(string name, int basePower, Element e);
 		Skill(string name, int basePower, Element e1, Element e2);
 		Skill(string name, int basePower, Element e1, Element e2, Element e3);
