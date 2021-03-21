@@ -2,6 +2,7 @@
 #include "Engimon.hpp"
 #include "Element.hpp"
 #include "Skill.hpp"
+#include "SkillItem.hpp"
 #include <string.h>
 #include <bits/stdc++.h>
 
@@ -73,8 +74,9 @@ void Engimon::showSkills() const {
   cout <<  "=======SKILLS DETAIL=======" << endl;
 }
 
-void Engimon::learnSkill(const Skill& skill) {
+void Engimon::learnSkill(const SkillItem& skillItem) {
   // TODO: kalau beda element, bakal throw exception
+  Skill skill = skillItem.containedSkill;
   if (this->skills.size() < 4) {
     this->skills.push_back(skill);
     cout << this->name << " learned " << skill.getName() << "!" << endl;
@@ -96,7 +98,7 @@ void Engimon::learnSkill(const Skill& skill) {
         cout << "Not a valid ID" << endl;
         return;
       } else {
-        cout << "1, 2, and ... ... ..." << endl;
+        cout << "1, 2, and ... ... ... Poof!" << endl;
         cout << this->name << "forgot how to use " << this->skills.at(idToDelete - 1).getName() << endl;
         this->skills.at(idToDelete - 1) = skill;
         cout << this->name << " learned " << skill.getName() << "!" << endl;

@@ -3,6 +3,7 @@
 
 #include "Element.hpp"
 #include "Skill.hpp"
+#include "SkillItem.hpp"
 #include <vector>
 
 class Engimon {
@@ -29,7 +30,7 @@ class Engimon {
     void addExp(int exp);
     void showDetails() const;
     void showSkills() const;
-    void learnSkill(const Skill& skill);
+    void learnSkill(const SkillItem& skillItem);
 };
 
 class EngimonLiar:Engimon{
