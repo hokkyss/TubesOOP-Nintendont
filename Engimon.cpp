@@ -27,7 +27,11 @@ Engimon::~Engimon(){
 void Engimon::addExp(int exp){
   this->cumExp += exp;
   this->exp = this->cumExp % 100;
-  this->level = (this->exp/100) + 1;
+
+  if (this->level != (this->cumExp/100) + 1) {
+    this->level = (this->cumExp/100) + 1;
+    cout << this->name << " has leveled up to level " << this->level << endl;
+  }
 
   if(this->cumExp>=this->maxExp){
     this->~Engimon();
