@@ -7,7 +7,7 @@ class Engimon {
   private:
     static int countID;
     Skill skillUnique;
-    vector<string> elements;
+    vector<Element> elements;
     vector<Skill> skills;
     string name;
     string species;
@@ -18,7 +18,7 @@ class Engimon {
     int maxExp;
 
   public:
-    Engimon(string name, string species, vector<string> elements, int maxExp, Skill skillUnique);
+    Engimon(string name, string species, vector<Element> elements, int maxExp, Skill skillUnique);
     ~Engimon();
     void handleAddExp(int exp);
     void Show();

@@ -1,6 +1,6 @@
 #include "Engimon.hpp"
 
-Engimon::Engimon(string name, string species, vector<string> elements, int maxExp, Skill skillUnique){
+Engimon::Engimon(string name, string species, vector<Element> elements, int maxExp, Skill skillUnique){
   this->name = name;
   this->species = species;
   for(int i = 0; i<elements.size(); i++){
