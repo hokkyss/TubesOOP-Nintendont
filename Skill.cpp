@@ -5,6 +5,14 @@
 #include<exception>
 using namespace std;
 
+Skill :: Skill(string name, int basePower)
+{
+	this->name = name;
+	this->basePower = basePower;
+	this->masteryLevel = 0;
+	this->numOfElements = 0;
+}
+
 Skill :: Skill(string name, int basePower, Element e)
 {
 	this->name = name;
@@ -98,13 +106,14 @@ ostream& operator<<(ostream& out, const Skill& s)
 	out << s.getName() << endl;
 	out << "Base Power   : " << s.getBasePower() << endl;
 	out << "Mastery Level: " << s.getMasteryLevel() << endl;
+	/*
 	out << "Can be learnt by " << s.getNumOfElements() << " element(s):" << endl;
 	
 	for(int i = 0; i < s.getNumOfElements(); i++)
 	{
 		out << i + 1 << ". " << s.getElement(i) << endl;
 	}
-	
+	*/
 	return out;
 }
 
