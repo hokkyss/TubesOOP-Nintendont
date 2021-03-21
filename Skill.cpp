@@ -102,7 +102,7 @@ ostream& operator<<(ostream& out, const Skill& s)
 	
 	for(int i = 0; i < s.getNumOfElements(); i++)
 	{
-		out << i + 1 << ". " << elementName[s.getElement(i)] << endl;
+		out << i + 1 << ". " << s.getElement(i) << endl;
 	}
 	
 	return out;

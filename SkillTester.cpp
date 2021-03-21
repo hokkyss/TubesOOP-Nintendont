@@ -5,6 +5,7 @@
 #include<vector>
 #include "Skill.cpp"
 #include "SkillItem.cpp"
+#include "Element.cpp"
 // #include "gtest/gtest.h"
 using namespace std;
 
