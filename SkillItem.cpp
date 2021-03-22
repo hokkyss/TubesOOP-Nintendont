@@ -1,3 +1,4 @@
+#include "Element.hpp"
 #include "Skill.hpp"
 #include "SkillItem.hpp"
 #include<iostream>
@@ -6,6 +7,12 @@ using namespace std;
 SkillItem :: SkillItem(const Skill& s, string itemName) : containedSkill(s)
 {
 	this->itemName = itemName;
+	listOfSkillItem.push_back(*this);
+}
+
+SkillItem :: SkillItem(const SkillItem& si) : containedSkill(si.getContainedSkill())
+{
+	this->itemName = si.getItemName();
 }
 
 ostream& operator << (ostream& out, const SkillItem& si)
@@ -19,6 +26,28 @@ bool SkillItem :: operator == (const SkillItem& si)
 {
 	return (this->itemName == si.itemName) && (this->containedSkill == si.containedSkill);
 }
+
+SkillItem& getSkillItemByName(string name)
+{
+	for(int i = 0; i < listOfSkillItem.size(); i++)
+	{
+		if(listOfSkillItem[i].getItemName() == name) return listOfSkillItem[i];
+	}
+	throw ItemNotFoundException();
+}
+
+string SkillItem :: getItemName() const
+{
+	return this->itemName;
+}
+
+Skill SkillItem :: getContainedSkill() const
+{
+	return this->containedSkill;
+}
+
+vector<Skill> listOfSkill;
+vector<SkillItem> listOfSkillItem;
 
 Skill Tackle("Tackle", 50, Fire, Ice, Ground, Electric, Water);
 Skill BodySlam("Body Slam", 90, Fire, Ice, Ground, Electric, Water);

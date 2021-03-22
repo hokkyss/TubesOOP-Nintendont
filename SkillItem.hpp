@@ -3,18 +3,27 @@
 
 #include "Skill.hpp"
 #include<iostream>
+#include<vector>
 using namespace std;
 
 class SkillItem
 {
-	public:
+	private:
 		Skill containedSkill;
 		string itemName;
+		
+	public:
 		SkillItem(const Skill& s, string itemName);
+		SkillItem(const SkillItem& si);
+		
+		string getItemName() const;
+		Skill getContainedSkill() const;
 		friend ostream& operator << (ostream& out, const SkillItem& si);
 		bool operator==(const SkillItem& si);
 };
 
+extern vector<SkillItem> listOfSkillItem;
+SkillItem& getSkillItemByName(string name);
 // harus extern?
 /*
 SkillItem TM01(GigaImpact, "TM01");
