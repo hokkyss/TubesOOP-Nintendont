@@ -27,10 +27,16 @@ class Engimon {
   public:
     Engimon(string name, string species, vector<Element> elements, int maxExp, const Skill& uniqueSkill);
     ~Engimon();
+    int getLevel();
+    vector<string> getParentName();
+    vector<string> getParentSpecies();
+    vector<Element> getElements();
+    vector<Skill> getSkills();
     void addExp(int exp);
     void showDetails() const;
     void showSkills() const;
     void learnSkill(const SkillItem& skillItem);
+    void breed(Engimon couple);
 };
 
 class EngimonLiar:Engimon{

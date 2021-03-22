@@ -25,6 +25,26 @@ Engimon::~Engimon(){
   cout << this->name << " is dead :(" << endl;
 }
 
+int Engimon::getLevel() {
+  return this->level;
+}
+
+vector<string> Engimon::getParentName() {
+  return this->parentName;
+}
+
+vector<string> Engimon::getParentSpecies() {
+  return this->parentSpecies;
+}
+
+vector<Element> Engimon::getElements() {
+  return this->elements;
+}
+
+vector<Skill> Engimon::getSkills() {
+  return this->skills;
+}
+
 void Engimon::addExp(int exp){
   this->cumExp += exp;
   this->exp = this->cumExp % 100;
