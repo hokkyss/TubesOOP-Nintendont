@@ -2,75 +2,82 @@
 #include "Element.hpp"
 #include<iostream>
 #include<vector>
+#include<map>
 #include<exception>
 using namespace std;
 
 Skill :: Skill(string name, int basePower)
 {
-	this->name = name;
+	this->skillName = name;
 	this->basePower = basePower;
-	this->masteryLevel = 0;
+	this->masteryLevel = 1;
 	this->numOfElements = 0;
+	listOfSkill.push_back(*this);
 }
 
 Skill :: Skill(string name, int basePower, Element e)
 {
-	this->name = name;
+	this->skillName = name;
 	this->basePower = basePower;
-	this->masteryLevel = 0;
+	this->masteryLevel = 1;
 	this->numOfElements = 1;
 	this->elements.push_back(e);
+	listOfSkill.push_back(*this);
 }
 
 Skill :: Skill(string name, int basePower, Element e1, Element e2)
 {
-	this->name = name;
+	this->skillName = name;
 	this->basePower = basePower;
-	this->masteryLevel = 0;
+	this->masteryLevel = 1;
 	this->numOfElements = 2;
 	this->elements.push_back(e1);
 	this->elements.push_back(e2);
+	listOfSkill.push_back(*this);
 }
 
 Skill :: Skill(string name, int basePower, Element e1, Element e2, Element e3)
 {
-	this->name = name;
+	this->skillName = name;
 	this->basePower = basePower;
-	this->masteryLevel = 0;
+	this->masteryLevel = 1;
 	this->numOfElements = 3;
 	this->elements.push_back(e1);
 	this->elements.push_back(e2);
 	this->elements.push_back(e3);
+	listOfSkill.push_back(*this);
 }
 
 Skill :: Skill(string name, int basePower, Element e1, Element e2, Element e3, Element e4)
 {
-	this->name = name;
+	this->skillName = name;
 	this->basePower = basePower;
-	this->masteryLevel = 0;
+	this->masteryLevel = 1;
 	this->numOfElements = 4;
 	this->elements.push_back(e1);
 	this->elements.push_back(e2);
 	this->elements.push_back(e3);
 	this->elements.push_back(e4);
+	listOfSkill.push_back(*this);
 }
 
 Skill :: Skill(string name, int basePower, Element e1, Element e2, Element e3, Element e4, Element e5)
 {
-	this->name = name;
+	this->skillName = name;
 	this->basePower = basePower;
-	this->masteryLevel = 0;
+	this->masteryLevel = 1;
 	this->numOfElements = 5;
 	this->elements.push_back(e1);
 	this->elements.push_back(e2);
 	this->elements.push_back(e3);
 	this->elements.push_back(e4);
 	this->elements.push_back(e5);
+	listOfSkill.push_back(*this);
 }
 
 Skill :: Skill(const Skill& s)
 {
-	this->name = s.getName();
+	this->skillName = s.getName();
 	this->basePower = s.getBasePower();
 	this->masteryLevel = s.getMasteryLevel();
 	this->numOfElements = s.getNumOfElements();
@@ -82,7 +89,7 @@ Skill :: Skill(const Skill& s)
 
 void Skill :: operator=(const Skill& s)
 {
-	this->name = s.getName();
+	this->skillName = s.getName();
 	this->basePower = s.getBasePower();
 	this->masteryLevel = s.getMasteryLevel();
 	this->numOfElements = s.getNumOfElements();
@@ -94,7 +101,7 @@ void Skill :: operator=(const Skill& s)
 
 bool Skill :: operator==(const Skill& s)
 {
-	return this->name == s.getName();
+	return this->skillName == s.getName();
 }
 
 Skill :: ~Skill()
@@ -119,7 +126,7 @@ ostream& operator<<(ostream& out, const Skill& s)
 
 string Skill :: getName() const
 {
-	return this->name;
+	return this->skillName;
 }
 		
 int Skill :: getBasePower() const
@@ -151,3 +158,13 @@ Element Skill :: getElement(int index) const
 	
 	return this->elements[index];
 }
+
+Skill& getSkillByName(string name)
+{
+	for(int i = 0; i < listOfSkill.size(); i++)
+	{
+		if(listOfSkill[i].getName() == name) return listOfSkill[i];
+	}
+	throw ItemNotFoundException();
+}
+

@@ -3,6 +3,7 @@
 
 #include "Skill.hpp"
 #include<iostream>
+#include<vector>
 using namespace std;
 
 class SkillItem
@@ -15,6 +16,8 @@ class SkillItem
 		bool operator==(const SkillItem& si);
 };
 
+extern vector<SkillItem> listOfSkillItem;
+SkillItem& getSkillItemByName(string name);
 // harus extern?
 /*
 SkillItem TM01(GigaImpact, "TM01");

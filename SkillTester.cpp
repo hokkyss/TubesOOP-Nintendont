@@ -72,9 +72,16 @@ int main()
 	/* HINDARI BAGIAN INI */
 	Skill* s3 = &Tackle;
 	s3->setMasteryLevel(150);
+	cout << Tackle << endl;
 	/* ------------------ */
+	
+	Skill s4 = getSkillByName("Electrolysis");
+	cout << s4 << endl;
 	
 	SkillItem i1 = TM03;
 	i1.containedSkill.setMasteryLevel(10);
-	cout << i1;
+	cout << i1 << endl;
+	
+	SkillItem i2 = getSkillItemByName("TM10");
+	cout << i2;
 }

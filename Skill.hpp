@@ -4,6 +4,7 @@
 #include<iostream>
 #include<vector>
 #include<exception>
+#include<map>
 #include "Element.hpp"
 using namespace std;
 
@@ -15,10 +16,18 @@ class IndexInvalidException : exception
 	}
 };
 
+class ItemNotFoundException : exception
+{
+	const char* what() const throw()
+	{
+		return "Item not found!";
+	}
+};
+
 class Skill
 {
 	private:
-		string name;
+		string skillName;
 		int basePower;
 		int masteryLevel;
 		int numOfElements;
@@ -26,12 +35,12 @@ class Skill
 	
 	public:
 		// skill bisa saja dipelajari oleh semua elemen
-		Skill(string name, int basePower);
-		Skill(string name, int basePower, Element e);
-		Skill(string name, int basePower, Element e1, Element e2);
-		Skill(string name, int basePower, Element e1, Element e2, Element e3);
-		Skill(string name, int basePower, Element e1, Element e2, Element e3, Element e4);
-		Skill(string name, int basePower, Element e1, Element e2, Element e3, Element e4, Element e5);
+		Skill(string skillName, int basePower);
+		Skill(string skillName, int basePower, Element e);
+		Skill(string skillName, int basePower, Element e1, Element e2);
+		Skill(string skillName, int basePower, Element e1, Element e2, Element e3);
+		Skill(string skillName, int basePower, Element e1, Element e2, Element e3, Element e4);
+		Skill(string skillName, int basePower, Element e1, Element e2, Element e3, Element e4, Element e5);
 		Skill(const Skill& s);
 		void operator=(const Skill& s);
 		bool operator==(const Skill& s);
@@ -53,6 +62,8 @@ class Skill
 		Element getElement(int index) const;
 };
 
+extern vector<Skill> listOfSkill;
+Skill& getSkillByName(string name);
 // harus extern?
 /*
 Skill Tackle("Tackle", 50, Fire, Ice, Ground, Electric, Water);
