@@ -26,9 +26,19 @@ SkillItem& getSkillItemByName(string name)
 {
 	for(int i = 0; i < listOfSkillItem.size(); i++)
 	{
-		if(listOfSkillItem[i].itemName == name) return listOfSkillItem[i];
+		if(listOfSkillItem[i].getItemName() == name) return listOfSkillItem[i];
 	}
 	throw ItemNotFoundException();
+}
+
+string SkillItem :: getItemName()
+{
+	return this->itemName;
+}
+
+Skill& SkillItem :: getContainedSkill()
+{
+	return this->containedSkill;
 }
 
 vector<Skill> listOfSkill;

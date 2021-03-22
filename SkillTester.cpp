@@ -79,7 +79,6 @@ int main()
 	cout << s4 << endl;
 	
 	SkillItem i1 = TM03;
-	i1.containedSkill.setMasteryLevel(10);
 	cout << i1 << endl;
 	
 	SkillItem i2 = getSkillItemByName("TM10");

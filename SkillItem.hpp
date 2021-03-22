@@ -8,10 +8,14 @@ using namespace std;
 
 class SkillItem
 {
-	public:
+	private:
 		Skill containedSkill;
 		string itemName;
+	public:
 		SkillItem(const Skill& s, string itemName);
+		
+		string getItemName();
+		Skill& getContainedSkill();
 		friend ostream& operator << (ostream& out, const SkillItem& si);
 		bool operator==(const SkillItem& si);
 };
