@@ -25,4 +25,4 @@ class Species
 extern vector<Species> listOfSpecies;
 Species& getSpeciesByName(string species);
 
-#endif;
+#endif
