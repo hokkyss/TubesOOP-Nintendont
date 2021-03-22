@@ -59,6 +59,12 @@ int main(int argc, char** argv)
 	return RUN_ALL_TESTS();
 }
 */
+void test(const SkillItem& skillItem)
+{
+	Skill s = skillItem.getContainedSkill();
+	s.setMasteryLevel(5);
+	cout << s << endl;
+}
 
 int main()
 {
@@ -79,8 +85,12 @@ int main()
 	cout << s4 << endl;
 	
 	SkillItem i1 = TM03;
-	cout << i1 << endl;
+	Skill s5 = TM03.getContainedSkill();
+	cout << s5 << endl;
 	
 	SkillItem i2 = getSkillItemByName("TM10");
-	cout << i2;
+	cout << i2 << endl;
+	
+	test(TM05);
+	cout << TM05 << endl;
 }

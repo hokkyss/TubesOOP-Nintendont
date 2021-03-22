@@ -10,6 +10,11 @@ SkillItem :: SkillItem(const Skill& s, string itemName) : containedSkill(s)
 	listOfSkillItem.push_back(*this);
 }
 
+SkillItem :: SkillItem(const SkillItem& si) : containedSkill(si.getContainedSkill())
+{
+	this->itemName = si.getItemName();
+}
+
 ostream& operator << (ostream& out, const SkillItem& si)
 {
 	out << si.itemName << ": ";
@@ -31,12 +36,12 @@ SkillItem& getSkillItemByName(string name)
 	throw ItemNotFoundException();
 }
 
-string SkillItem :: getItemName()
+string SkillItem :: getItemName() const
 {
 	return this->itemName;
 }
 
-Skill& SkillItem :: getContainedSkill()
+Skill SkillItem :: getContainedSkill() const
 {
 	return this->containedSkill;
 }

@@ -11,11 +11,13 @@ class SkillItem
 	private:
 		Skill containedSkill;
 		string itemName;
+		
 	public:
 		SkillItem(const Skill& s, string itemName);
+		SkillItem(const SkillItem& si);
 		
-		string getItemName();
-		Skill& getContainedSkill();
+		string getItemName() const;
+		Skill getContainedSkill() const;
 		friend ostream& operator << (ostream& out, const SkillItem& si);
 		bool operator==(const SkillItem& si);
 };

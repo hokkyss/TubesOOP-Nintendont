@@ -35,6 +35,7 @@ class Engimon {
 
 class EngimonLiar:Engimon{
   public:
+  	// pake Position???
     pair <int,int> Position;
     void randomMove();
 };

@@ -75,9 +75,8 @@ Skill :: Skill(string name, int basePower, Element e1, Element e2, Element e3, E
 	listOfSkill.push_back(*this);
 }
 
-Skill :: Skill(const Skill& s)
+Skill :: Skill(const Skill& s) : skillName(s.getName())
 {
-	this->skillName = s.getName();
 	this->basePower = s.getBasePower();
 	this->masteryLevel = s.getMasteryLevel();
 	this->numOfElements = s.getNumOfElements();

@@ -43,7 +43,7 @@ void Player::showSkillItems(){
     this->skillItemList.showInventory();
 }
 
-void Player::useItems(SkillItem si, Engimon e){
+void Player::useItems(const SkillItem& si, Engimon e){
     if(skillItemList.isExist(si)){
         if(engimonList.isExist(e)){
             //e.learn(si);

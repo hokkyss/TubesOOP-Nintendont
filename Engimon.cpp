@@ -76,7 +76,7 @@ void Engimon::showSkills() const {
 
 void Engimon::learnSkill(const SkillItem& skillItem) {
   // TODO: kalau beda element, bakal throw exception
-  Skill skill = skillItem.containedSkill;
+  Skill skill = skillItem.getContainedSkill();
   if (this->skills.size() < 4) {
     this->skills.push_back(skill);
     cout << this->name << " learned " << skill.getName() << "!" << endl;
