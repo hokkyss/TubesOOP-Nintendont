@@ -1,11 +1,11 @@
 #include "Player.hpp"
-#include "Inventory.hpp"
 #include <iostream>
 
 using namespace std;
 
 Player::Player(Engimon starter){
     this->activeEngimon = starter;
+    pos.set(0,0);
 }
 
 void Player::showAllEngimon(){
@@ -50,4 +50,18 @@ void Player::useItems(SkillItem si, Engimon e){
             skillItemList.remove(si);
         }else throw e;
     }else throw si;
+}
+
+void Player::move(string command){
+    int x=pos.getX(), y=pos.getY();
+    if (command=="w"||command=="W") x+=1;
+    else if (command=="s"||command=="S") x-=1;
+    else if (command=="d"||command=="D") y+=1;
+    else if (command=="a"||command=="A") y-=1;
+
+    if ((y>peta.size()||y<0)||(x>peta[y].size||x<0)) throw command;
+    else{
+        pos.setX(x);
+        pos.setY(y);
+    }
 }

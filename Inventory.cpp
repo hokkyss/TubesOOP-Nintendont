@@ -54,20 +54,3 @@ void Inventory<T>::showInventory(){
         cout << i+1 << ". " << inventoryList[i].nama << endl;
     }
 }
-
-/* int main(){
-    Engimon pikachu;
-    Skill FlameThrower(90, Fire);
-    SkillItem TM27(FlameThrower, "TM27");
-
-    Inventory<Engimon> inven;
-    inven.insert(pikachu);
-    cout << inven.currentCapacity << endl;
-
-    Inventory<SkillItem> inven2;
-    inven2.insert(TM27);
-    cout << inven2.currentCapacity << endl;
-
-    inven.showInventory();
-    inven2.showInventory();
-} */

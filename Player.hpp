@@ -2,6 +2,9 @@
 #define PLAYER_HPP
 
 #include "Inventory.hpp"
+#include "Position.hpp"
+#include "Utilities.cpp"
+
 using namespace std;
 
 class Player {
@@ -9,6 +12,7 @@ class Player {
         Engimon activeEngimon;
         Inventory<Engimon> engimonList;
         Inventory<SkillItem> skillItemList;
+        Position pos;
     
     public:
         // constructor awal
@@ -21,7 +25,7 @@ class Player {
         void switchActiveEngimon(Engimon e);
         void showSkillItems();
         void useItems(SkillItem si, Engimon e);
-
+        void move(string command);
 };
 
 #endif
