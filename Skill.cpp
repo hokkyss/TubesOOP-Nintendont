@@ -148,6 +148,11 @@ int Skill :: getNumOfElements() const
 	return this->numOfElements;
 }
 
+
+vector<Element> Skill :: getElements() const {
+	return this->elements;
+}
+		
 bool Skill :: isLearntBy(Element e) const
 {
 	for(int i = 0; i < this->numOfElements; i++)

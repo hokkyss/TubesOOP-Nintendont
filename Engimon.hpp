@@ -9,7 +9,16 @@
 #include "Skill.hpp"
 #include "Position.hpp"
 #include "SkillItem.hpp"
+#include <exception>
 #include <vector>
+
+class SkillNotCompatibleException : exception
+{
+	const char* what() const throw()
+	{
+		return "Skill not compatible!";
+	}
+};
 
 class Engimon:public Species {
   private:
@@ -42,6 +51,7 @@ class Engimon:public Species {
     void addExp(int exp);
     void showDetails() const;
     void showSkills() const;
+    bool isSkillCompatible(const Skill& skill) const;
     void learnSkill(const SkillItem& skillItem);
     void addSkill(const Skill& skill);
     void setSkill(const vector<Skill> skills);
