@@ -221,7 +221,7 @@ double countSkillPower(Engimon e) {
     return res;
 }
 
-Engimon handleBattle(Engimon e1, Engimon e2) {
+int handleBattle(Engimon e1, Engimon e2) {
     double powerE1 = e1.getLevel() * countElmtAdvPower(e1, e2) + countSkillPower(e1);
     double powerE2 = e2.getLevel() * countElmtAdvPower(e2, e1) + countSkillPower(e2);
 
@@ -229,7 +229,7 @@ Engimon handleBattle(Engimon e1, Engimon e2) {
     cout << "VS" << endl;
     cout << "Power of the e2: " << powerE2 << endl;
 
-    return (powerE1 >= powerE2) ? e1 : e2;
+    return (powerE1 >= powerE2) ? 1 : 2;
 }
 
 template <class T>
