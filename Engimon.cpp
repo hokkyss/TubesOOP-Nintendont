@@ -5,14 +5,13 @@
 #include "SkillItem.hpp"
 #include <string.h>
 #include <bits/stdc++.h>
+using namespace std;
 
-Engimon::Engimon(string name, string species, vector<Element> elements, int maxExp, const Skill& uniqueSkill) : uniqueSkill(uniqueSkill){
+Engimon::Engimon(string name, const Species& species, int maxExp): uniqueSkill(species.getUniqueSkill()) {
   this->idEngimon = Engimon::countID;
   this->name = name;
-  this->species = species;
-  for(int i = 0; i < elements.size(); i++){
-    this->elements.push_back(elements[i]);
-  }
+  this->species = species.getName();
+  this->elements = species.getElements();
   this->level = 1;
   this->exp = 0;
   this->cumExp = 0;
@@ -20,6 +19,8 @@ Engimon::Engimon(string name, string species, vector<Element> elements, int maxE
   this->skills.push_back(this->uniqueSkill);
   Engimon::countID++;
 }
+
+Engimon::Engimon(string name, string species, int maxExp): Engimon(name, getSpeciesByName(species), maxExp) {};
 
 Engimon::~Engimon(){
   cout << this->name << " is dead :(" << endl;
