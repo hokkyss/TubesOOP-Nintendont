@@ -1,6 +1,7 @@
 #ifndef ENGIMON_HPP
 #define ENGIMON_HPP
 
+#include "Species.hpp"
 #include "Element.hpp"
 #include "Skill.hpp"
 #include "SkillItem.hpp"
@@ -25,7 +26,8 @@ class Engimon {
     vector<Skill> skills;
 
   public:
-    Engimon(string name, string species, vector<Element> elements, int maxExp, const Skill& uniqueSkill);
+    Engimon(string name, const Species& species, int maxExp);
+    Engimon(string name, string species, int maxExp);
     ~Engimon();
     int getLevel();
     vector<string> getParentName();
