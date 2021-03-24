@@ -3,7 +3,7 @@
 
 #include "Inventory.hpp"
 #include "Position.hpp"
-#include "Utilities.cpp"
+#include "Utilities.hpp"
 #include "Engimon.hpp"
 #include "Species.hpp"
 #include <algorithm>
@@ -16,16 +16,16 @@ class LevelNotEnoughException : exception
     {
         return "Parent's level is not enough!";
     }
-}
+};
 
 class Player {
     private:
         Engimon activeEngimon;
-        Inventory<Engimon> engimonList;
-        Inventory<SkillItem> skillItemList;
         Position pos;
     
     public:
+        Inventory<Engimon> engimonList;
+        Inventory<SkillItem> skillItemList;
         // constructor awal
         Player(const Engimon& starter);
 

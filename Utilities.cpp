@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <algorithm>
 
+#include "Utilities.hpp"
 #include "Element.hpp"
 #include "Engimon.hpp"
 #include "EngimonLiar.hpp"
@@ -19,11 +20,9 @@ using namespace std;
 #define LEVEL_BIG_WILD_POKEMON 15
 
 /* Static Data */
-double elmtAdv[5][5];
 // Element Advantages Table
 // Format Input & Access: elmtAdv[Element Attacker][Element Defender]
 
-vector<vector<char>> tabPeta;
 // Matriks Peta
 // Format Input in file.txt (no space):
 // -----ooo
@@ -37,10 +36,10 @@ vector<vector<char>> tabPeta;
 // Access: tabPeta[i][j] if (0 < i < tabPeta.size() and 0 < j < tabPeta[i].size() )
 
 /* Dynamic Data */
-EngimonLiar* wildEngimons[MAX_WILD_ENGIMON];
+// EngimonLiar* wildEngimons[MAX_WILD_ENGIMON];
 // Array of Engimon Liar
 
-Player player;
+// Player player;
 // The player
 
 /* Global Functions */

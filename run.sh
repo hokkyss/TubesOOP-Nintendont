@@ -1,1 +1,1 @@
-g++ -o test Species.cpp Position.cpp Skill.cpp SkillItem.cpp Element.cpp Engimon.cpp EngimonDriver.cpp
+g++ -o test Utilities.cpp Species.cpp Position.cpp Skill.cpp SkillItem.cpp Element.cpp Engimon.cpp EngimonDriver.cpp Inventory.cpp Player.cpp
