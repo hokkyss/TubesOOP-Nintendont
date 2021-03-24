@@ -10,7 +10,7 @@
 class EngimonLiar:public Engimon{
   public:
     Position position;
-    EngimonLiar(const Species& sp, Position pos);
+    EngimonLiar(const Species& sp, Position pos, int level);
 };
 
 #endif

@@ -2,6 +2,7 @@
 #define ENGIMON_HPP
 
 #define MAX_EXP 4900
+#define EXP_PER_LEVEL 100
 
 #include "Species.hpp"
 #include "Element.hpp"
@@ -27,6 +28,7 @@ class Engimon:public Species {
 
   public:
     Engimon(string name, string species, vector<Element> elements, const Skill& uniqueSkill);
+    Engimon(string name, const Species& species, int level);
     Engimon(string name, const Species& species);
     Engimon(string name, string species);
     ~Engimon();

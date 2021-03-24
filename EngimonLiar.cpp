@@ -5,4 +5,4 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-EngimonLiar::EngimonLiar(const Species& sp, Position pos) : Engimon(sp.getName(), sp), position(pos){}
+EngimonLiar::EngimonLiar(const Species& sp, Position pos, int level) : Engimon(sp.getName(), sp, level), position(pos){}
