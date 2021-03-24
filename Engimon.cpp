@@ -119,9 +119,22 @@ void Engimon::showSkills() const {
   cout <<  "=======SKILLS DETAIL=======" << endl;
 }
 
+bool Engimon::isSkillCompatible(const Skill& skill) const {
+  for(int i = 0; i < skill.getElements().size(); i++) {
+    if (find(this->skills.begin(), this->skills.end(), skill.getElement(i)) == this->skills.end()) {
+      return false;
+    }
+  }
+  return true;
+}
+
 void Engimon::learnSkill(const SkillItem& skillItem) {
   // TODO: kalau beda element, bakal throw exception
   Skill skill = skillItem.getContainedSkill();
+  if (!isSkillCompatible(skill)) {
+    throw SkillNotCompatibleException();
+  }
+
   if (this->skills.size() < 4) {
     this->skills.push_back(skill);
     cout << this->name << " learned " << skill.getName() << "!" << endl;

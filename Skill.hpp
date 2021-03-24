@@ -56,6 +56,8 @@ class Skill
 		void setMasteryLevel(int newMasteryLevel);
 		
 		int getNumOfElements() const;
+
+		vector<Element> getElements() const;
 		
 		bool isLearntBy(Element e) const;
 		
