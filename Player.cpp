@@ -43,7 +43,7 @@ void Player::move(string command){
     else if (command=="d"||command=="D") y+=1;
     else if (command=="a"||command=="A") y-=1;
 
-    if ((y>peta.size()||y<0)||(x>peta[y].size()||x<0)) throw command;
+    if ((y>tabPeta.size()||y<0)||(x>tabPeta[y].size()||x<0)) throw command;
     else{
         pos.setX(x);
         pos.setY(y);
