@@ -41,6 +41,10 @@ string Engimon::getName(){
   return this->name;
 }
 
+int Engimon::getExp(){
+  return this->exp;
+}
+
 int Engimon::getLevel() {
   return this->level;
 }

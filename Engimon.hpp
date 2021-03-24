@@ -33,6 +33,7 @@ class Engimon:public Species {
     Engimon(string name, string species);
     ~Engimon();
     int getLevel();
+    int getExp();
     string getName();
     vector<string> getParentName();
     vector<string> getParentSpecies();
