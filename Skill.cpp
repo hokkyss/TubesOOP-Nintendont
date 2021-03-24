@@ -147,6 +147,10 @@ int Skill :: getNumOfElements() const
 {
 	return this->numOfElements;
 }
+
+vector<Element> Skill :: getElements() const {
+	return this->elements;
+}
 		
 Element Skill :: getElement(int index) const
 {
