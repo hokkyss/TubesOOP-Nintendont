@@ -11,8 +11,8 @@ using namespace std;
 class Species
 {
 	public:
-        string species;
-        vector<Element> elements;
+		string species;
+		vector<Element> elements;
 		Skill uniqueSkill;
 
 		Species(string species, vector<Element> elements, const Skill& uniqueSkill);

@@ -1,13 +1,17 @@
 #ifndef ENGIMON_HPP
 #define ENGIMON_HPP
 
+#define MAX_EXP 4900
+#define EXP_PER_LEVEL 100
+
 #include "Species.hpp"
 #include "Element.hpp"
 #include "Skill.hpp"
+#include "Position.hpp"
 #include "SkillItem.hpp"
 #include <vector>
 
-class Engimon:Species {
+class Engimon:public Species {
   private:
     static int countID;
     int idEngimon;
@@ -23,11 +27,13 @@ class Engimon:Species {
     vector<Skill> skills;
 
   public:
-    Engimon(string name, string species, vector<Element> elements, const Skill& uniqueSkill, int maxExp);
-    Engimon(string name, const Species& species, int maxExp);
-    Engimon(string name, string species, int maxExp);
+    Engimon(string name, string species, vector<Element> elements, const Skill& uniqueSkill);
+    Engimon(string name, const Species& species, int level);
+    Engimon(string name, const Species& species);
+    Engimon(string name, string species);
     ~Engimon();
     int getLevel();
+    string getName();
     vector<string> getParentName();
     vector<string> getParentSpecies();
     vector<Element> getElements();
@@ -37,13 +43,6 @@ class Engimon:Species {
     void showSkills() const;
     void learnSkill(const SkillItem& skillItem);
     void breed(Engimon couple);
-};
-
-class EngimonLiar:Engimon{
-  public:
-  	// pake Position???
-    pair <int,int> Position;
-    void randomMove();
 };
 
 #endif

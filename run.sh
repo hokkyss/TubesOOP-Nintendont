@@ -1,0 +1,1 @@
+g++ -o test Species.cpp Position.cpp Skill.cpp SkillItem.cpp Element.cpp Engimon.cpp EngimonDriver.cpp
