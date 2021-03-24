@@ -25,6 +25,8 @@ class Species
 
 extern vector<Species> listOfSpecies;
 Species& getSpeciesByName(string species);
+Species& getSpeciesByElement(vector<Element> elements);
+bool isElementsSame(vector<Element> e1, vector<Element> e2);
 
 //single element
 extern Species Emberon;

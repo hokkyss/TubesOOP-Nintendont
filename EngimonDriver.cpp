@@ -15,5 +15,17 @@ int main(){
   e1->learnSkill(TM05);
   e1->showDetails();
   e1->addExp(5000);
+  cout<<getSpeciesByElement({Element::Ice, Element::Fire, Element::Ground}).getName();
+  Engimon * e2 = new Engimon("kentang", "Gustmon");
+  e2->showDetails();
+  e2->addSkill(HydroPump);
+  e2->showDetails();
+  vector<Skill> skills;
+  skills.push_back(HydroCannon);
+  skills.push_back(HydroPump);
+  skills.push_back(EarthPower);
+  e2->setSkill(skills);
+  e2->showDetails();
+  e2->addExp(5000);
   return 0;
 }

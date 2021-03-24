@@ -42,6 +42,8 @@ class Engimon:public Species {
     void showDetails() const;
     void showSkills() const;
     void learnSkill(const SkillItem& skillItem);
+    void addSkill(const Skill& skill);
+    void setSkill(const vector<Skill> skills);
     void breed(Engimon couple);
 };
 
