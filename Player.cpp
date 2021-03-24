@@ -3,8 +3,7 @@
 
 using namespace std;
 
-Player::Player(Engimon& starter){
-    this->activeEngimon = starter;
+Player::Player(const Engimon& starter) : activeEngimon(starter), pos(pos){
     pos.set(0,0);
 }
 
@@ -59,61 +58,88 @@ bool Player::compareElmtAdv(Element el1, Element el2){
     return (elmtAdv[el1][el2] > elmtAdv[el2][el1]);
 }
 
-void Player::breed(Engimon A, Engimon B){
-    if(engimonList.isExist(A) && engimonList.isExist(B) && A.getLevel() >= 30 && B.getLevel() >= 30){
-        string newName;
-        cout << "Enter your new Engimon's name: " << endl;
-        cin >> newName;
-        vector<Skill> skillA = A.getSkills();
-        vector<Skill> skillB = B.getSkills();
-        vector<Skill> inheritedSkills;
+vector<Skill> Player::inheritSkill(Engimon A, Engimon B){
+    vector<Skill> skillA = A.getSkills();
+    vector<Skill> skillB = B.getSkills();
+    vector<Skill> inheritedSkills;
 
-        // mengurutkan skillA
-        sort(skillA.begin(), skillA.end(), compareMastery);
-        // mengurutkan skillB
-        sort(skillB.begin(), skillB.end(), compareMastery);
-        
-        int i = 0, j = 0;
-        while(inheritedSkills.size() < 4 && inheritedSkills.size() < skillA.size()+skillB.size()){
-            if(compareMastery(skillB[i], skillA[j])){
-                if(std::find(inheritedSkills.begin(), inheritedSkills.end(), skillB[i]) ==  inheritedSkills.end()){
-                    inheritedSkills.push_back(skillB[i]);
-                }
-                i++;
-            } else{
-                if(std::find(inheritedSkills.begin(), inheritedSkills.end(), skillB[i]) ==  inheritedSkills.end()){
-                    inheritedSkills.push_back(skillA[j]);
-                }
-                j++;
+    // mengurutkan skillA
+    sort(skillA.begin(), skillA.end(), compareMastery);
+    // mengurutkan skillB
+    sort(skillB.begin(), skillB.end(), compareMastery);
+    
+    int i = 0, j = 0;
+    while(inheritedSkills.size() < 4 && inheritedSkills.size() < skillA.size()+skillB.size()){
+        if(compareMastery(skillB[i], skillA[j])){
+            if(std::find(inheritedSkills.begin(), inheritedSkills.end(), skillB[i]) ==  inheritedSkills.end()){
+                inheritedSkills.push_back(skillB[i]);
             }
-        }
-        std::vector<Skill>::iterator ptrA, ptrB;
-        for(Skill s : inheritedSkills){
-            ptrA = std::find(skillA.begin(), skillA.end(), s);
-            ptrB = std::find(skillB.begin(), skillB.end(), s);
-            if(ptrA != skillA.end() && ptrB != skillB.end()){
-                if(ptrA->getMasteryLevel() == ptrB->getMasteryLevel()){
-                    s.setMasteryLevel(s.getMasteryLevel()+1);
-                }
+            i++;
+        } else{
+            if(std::find(inheritedSkills.begin(), inheritedSkills.end(), skillB[i]) ==  inheritedSkills.end()){
+                inheritedSkills.push_back(skillA[j]);
             }
+            j++;
         }
-        // vector<Element> elmtA = A.getElements();
-        // vector<Element> elmtB = B.getElements();
-        Element elmtA = A.getElements()[0];
-        Element elmtB = B.getElements()[0];
-        vector<Element> inheritedElmt;
-        if(elmtA == elmtB){
-            inheritedElmt.push_back(elmtA);
-        } else if(elmtA != elmtB){
-            if(compareElmtAdv(elmtA, elmtB)){
-                inheritedElmt.push_back(elmtA);
-            } else if(compareElmtAdv(elmtB, elmtA)){
-                inheritedElmt.push_back(elmtB);
-            } else{
-                inheritedElmt.push_back(elmtA);
-                inheritedElmt.push_back(elmtB);
+    }
+    // mengatur mastery level engimon hasil breeding
+    std::vector<Skill>::iterator ptrA, ptrB;
+    for(Skill s : inheritedSkills){
+        ptrA = std::find(skillA.begin(), skillA.end(), s);
+        ptrB = std::find(skillB.begin(), skillB.end(), s);
+        if(ptrA != skillA.end() && ptrB != skillB.end()){
+            if(ptrA->getMasteryLevel() == ptrB->getMasteryLevel()){
+                s.setMasteryLevel(s.getMasteryLevel()+1);
             }
         }
     }
-    else{ throw A; }
+    return inheritedSkills;
+}
+
+vector<Element> Player::inheritElmt(Engimon A, Engimon B){
+    Element elmtA = A.getElements()[0];
+    Element elmtB = B.getElements()[0];
+    vector<Element> inheritedElmt;
+    if(elmtA == elmtB){
+        inheritedElmt.push_back(elmtA);
+    } else if(elmtA != elmtB){
+        if(compareElmtAdv(elmtA, elmtB)){
+            inheritedElmt.push_back(elmtA);
+        } else if(compareElmtAdv(elmtB, elmtA)){
+            inheritedElmt.push_back(elmtB);
+        } else{
+            inheritedElmt.push_back(elmtA);
+            inheritedElmt.push_back(elmtB);
+        }
+    }
+    return inheritedElmt;
+}
+
+void Player::breed(Engimon A, Engimon B){
+    if(engimonList.isFull()){
+        if(A.getLevel() >= 30 && B.getLevel() >= 30){
+        string childName;
+        cout << "Enter your new Engimon's name: " << endl;
+        cin >> childName;
+        
+        vector<Skill> childSkill = inheritSkill(A, B);
+        vector<Element> childElmt = inheritElmt(A, B);
+        Species childSpecies(Emberon);
+        if(isElementsSame(childElmt, A.getElements())){
+            childSpecies = getSpeciesByName(A.getSpecies());
+        } else if(isElementsSame(childElmt, B.getElements())){
+            childSpecies = getSpeciesByName(B.getSpecies());
+        } else{
+            childSpecies = getSpeciesByElement(childElmt);
+        }
+
+        Engimon *child = new Engimon(childName, childSpecies);
+        child->setSkill(childSkill);
+        engimonList.insert(*child);
+
+        cout << "Breeding successful!" << endl;
+        cout << childName << " is in inventory." << endl;
+
+        } else{ throw LevelNotEnoughException(); }
+    } else{ throw InventoryFullException(); }
 }

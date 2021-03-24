@@ -5,9 +5,18 @@
 #include "Position.hpp"
 #include "Utilities.cpp"
 #include "Engimon.hpp"
+#include "Species.hpp"
 #include <algorithm>
 
 using namespace std;
+
+class LevelNotEnoughException : exception
+{
+    const char* what() const throw()
+    {
+        return "Parent's level is not enough!";
+    }
+}
 
 class Player {
     private:
@@ -18,7 +27,13 @@ class Player {
     
     public:
         // constructor awal
-        Player(Engimon& starter);
+        Player(const Engimon& starter);
+
+        // utility function
+        bool compareMastery(Skill s1, Skill s2);
+        bool compareElmtAdv(Element el1, Element el2);
+        vector<Skill> inheritSkill(Engimon A, Engimon B);
+        vector<Element> inheritElmt(Engimon A, Engimon B);
 
         // command yang dapat dilakukan player
         void showAllEngimon();
@@ -28,8 +43,6 @@ class Player {
         void showSkillItems();
         void useItems(const SkillItem& si, Engimon e);
         void move(string command);
-        bool compareMastery(Skill s1, Skill s2);
-        bool compareElmtAdv(Element el1, Element el2);
         void breed(Engimon A, Engimon B);
 };
 

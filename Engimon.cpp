@@ -61,6 +61,10 @@ vector<Skill> Engimon::getSkills() {
   return this->skills;
 }
 
+string Engimon::getSpecies() {
+  return this->species;
+}
+
 void Engimon::addExp(int exp){
   this->cumExp += exp;
   this->exp = this->cumExp % 100;

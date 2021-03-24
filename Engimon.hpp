@@ -38,6 +38,7 @@ class Engimon:public Species {
     vector<string> getParentSpecies();
     vector<Element> getElements();
     vector<Skill> getSkills();
+    string getSpecies();
     void addExp(int exp);
     void showDetails() const;
     void showSkills() const;
