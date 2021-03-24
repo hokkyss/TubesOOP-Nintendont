@@ -138,6 +138,7 @@ extern Skill FreezeDry;
 extern Skill Electrolysis;
 extern Skill ColdRefrigerator;
 extern Skill ContradictingShock;
+extern Skill GodlyFart;
 
 extern SkillItem TM01;
 extern SkillItem TM02;
