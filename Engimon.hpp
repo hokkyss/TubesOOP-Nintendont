@@ -7,12 +7,11 @@
 #include "SkillItem.hpp"
 #include <vector>
 
-class Engimon {
+class Engimon:Species {
   private:
     static int countID;
     int idEngimon;
     string name;
-    string species;
     // parent bisa banyak
     vector<string> parentName;
     vector<string> parentSpecies;
@@ -21,11 +20,10 @@ class Engimon {
     int exp;
     int cumExp;
     int maxExp;
-    vector<Element> elements;
-    Skill uniqueSkill;
     vector<Skill> skills;
 
   public:
+    Engimon(string name, string species, vector<Element> elements, const Skill& uniqueSkill, int maxExp);
     Engimon(string name, const Species& species, int maxExp);
     Engimon(string name, string species, int maxExp);
     ~Engimon();

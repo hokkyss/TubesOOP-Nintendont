@@ -12,6 +12,12 @@ Species::Species(string species, vector<Element> elements, const Skill& uniqueSk
     this->uniqueSkill = uniqueSkill;
 }
 
+Species::Species(const Species& s): Species(s) {
+    this->species = s.species;
+    this->elements = s.elements;
+    this->uniqueSkill = s.uniqueSkill;
+}
+
 string Species::getName() const {
     return this->species;
 }

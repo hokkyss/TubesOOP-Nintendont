@@ -7,20 +7,20 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-Engimon::Engimon(string name, const Species& species, int maxExp): uniqueSkill(species.getUniqueSkill()) {
+Engimon::Engimon(string name, const Species& species, int maxExp): Species(species) {
   this->idEngimon = Engimon::countID;
   this->name = name;
-  this->species = species.getName();
-  this->elements = species.getElements();
   this->level = 1;
   this->exp = 0;
   this->cumExp = 0;
   this->maxExp = maxExp;
-  this->skills.push_back(this->uniqueSkill);
+  this->skills.push_back(species.uniqueSkill);
   Engimon::countID++;
 }
 
 Engimon::Engimon(string name, string species, int maxExp): Engimon(name, getSpeciesByName(species), maxExp) {};
+
+Engimon::Engimon(string name, string species, vector<Element> elements, const Skill& uniqueSkill, int maxExp) : Engimon(name, Species(species, elements, uniqueSkill), maxExp) {}
 
 Engimon::~Engimon(){
   cout << this->name << " is dead :(" << endl;

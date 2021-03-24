@@ -10,13 +10,14 @@ using namespace std;
 
 class Species
 {
-	private:
+	public:
         string species;
         vector<Element> elements;
 		Skill uniqueSkill;
-		
-	public:
+
 		Species(string species, vector<Element> elements, const Skill& uniqueSkill);
+		Species(const Species& s);
+		
 		string getName() const;
 		vector<Element> getElements() const;
 		Skill getUniqueSkill() const;
