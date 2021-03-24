@@ -143,3 +143,16 @@ void Engimon::learnSkill(const SkillItem& skillItem) {
     }
   }
 }
+
+void Engimon::addSkill(const Skill& skill){
+  if (this->skills.size() < 4) this->skills.push_back(skill);
+}
+
+void Engimon::setSkill(const vector<Skill> target){
+  if(target.size()<4){
+    (this->skills).clear();
+    for(int i = 0; i<target.size(); i++){
+      this->skills.push_back(target[i]);
+    }
+  }
+}

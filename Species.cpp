@@ -2,8 +2,7 @@
 #include "Skill.hpp"
 #include "Engimon.hpp"
 #include "Species.hpp"
-#include<iostream>
-#include<vector>
+#include <bits/stdc++.h>
 using namespace std;
 
 Species::Species(string species, vector<Element> elements, const Skill& uniqueSkill): uniqueSkill(uniqueSkill) {
@@ -35,6 +34,28 @@ Species& getSpeciesByName(string species)
         if (listOfSpecies[i].getName() == species) return listOfSpecies[i];
     }
     throw ItemNotFoundException();
+}
+
+Species& getSpeciesByElement(vector<Element> elements){
+    for(int i = 0; i<listOfSpecies.size(); i++){
+        if(isElementsSame(elements, listOfSpecies[i].getElements())){
+            return listOfSpecies[i];
+        }
+    }
+}
+
+bool isElementsSame(vector<Element> e1, vector<Element> e2){
+    if(e1.size()==e2.size()){
+        sort(e1.begin(), e1.end());
+        sort(e2.begin(), e2.end());
+        for(int i = 0; i<e1.size();i++){
+            if(e1[i]!=e2[i]){
+                return false;
+            }
+        }
+        return true;
+    }
+    return false;
 }
 
 //single element
