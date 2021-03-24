@@ -1,9 +1,5 @@
 /* Libraries */
-#include <fstream>
 #include <iostream>
-#include <map>
-#include <string>
-#include <vector>
 
 /* Classes */
 #include "Element.hpp"
@@ -12,11 +8,14 @@
 #include "Skill.hpp"
 #include "SkillItem.hpp"
 #include "Inventory.hpp"
+#include "Species.hpp"
 
 /* Utilities */
 #include "Utilities.cpp"
 
 using namespace std;
+
+#define RESPAWN_TURN 10
 
 double countElmtAdvPower(Engimon atk, Engimon def) {
     double res = -1;
@@ -56,12 +55,21 @@ int main() {
     /* Const Declaration */
     const string filePath = "./input/contoh.txt";
 
+    /* Var Declaration */
+    string command;
+    int turn = 0;
+
     /* Initialization Phase */
     initElmtAdv();
     initPeta(filePath);
 
     /* In Game Phase */
-    printPeta();
+    while(cin >> command){
+        if (turn % RESPAWN_TURN == 0)
+            spawnWildEngimons();
+        printPeta();
+        turn++;
+    }
 
     return 0;
 }
