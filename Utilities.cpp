@@ -8,8 +8,10 @@
 
 #include "Element.hpp"
 #include "Engimon.hpp"
+#include "EngimonLiar.hpp"
 #include "Species.hpp"
 #include "Player.hpp"
+#include "Direction.hpp"
 
 using namespace std;
 
@@ -21,7 +23,7 @@ double elmtAdv[5][5];
 // Element Advantages Table
 // Format Input & Access: elmtAdv[Element Attacker][Element Defender]
 
-vector<vector<char>> peta;
+vector<vector<char>> tabPeta;
 // Matriks Peta
 // Format Input in file.txt (no space):
 // -----ooo
@@ -32,7 +34,7 @@ vector<vector<char>> peta;
 // ---oo---
 // ---o----
 // --------
-// Access: peta[i][j] if (0 < i < peta.size() and 0 < j < peta[i].size() )
+// Access: tabPeta[i][j] if (0 < i < tabPeta.size() and 0 < j < tabPeta[i].size() )
 
 /* Dynamic Data */
 EngimonLiar wildEngimons[MAX_WILD_ENGIMON];
@@ -99,7 +101,7 @@ void initPeta(string filePath) {
             rowPeta.push_back(c);
         }
 
-        peta.push_back(rowPeta);
+        tabPeta.push_back(rowPeta);
     }
 }
 
@@ -110,10 +112,10 @@ void spawnWildEngimons() {
         Position p;
         
         do {
-            p = Position(rand() % peta[0].size(), rand() % peta.size());
+            p = Position(rand() % tabPeta[0].size(), rand() % tabPeta.size());
         } while (isCellOccupied(p));
 
-        wildEngimons[i] = EngimonLiar(s, p);
+        wildEngimons[i] = EngimonLiar(s, p, (rand() % player.getActiveEngimon().getLevel() * 2) + 1);
     }
 }
 
@@ -146,21 +148,11 @@ EngimonLiar getEngimonInCell(Position p) {
 
 void printEngimonInPeta(EngimonLiar e) {
     vector<Element> elmts = e.getElements();
-    if (find(elmts.begin(), elmts.end(), Fire) != elmts.end() && find(elmts.begin(), elmts.end(), Electric) != elmts.end()) {
-        if (e.getLevel() >= LEVEL_BIG_WILD_POKEMON)
-            cout << "L";
-        else
-            cout << "l";
-    } else if (find(elmts.begin(), elmts.end(), Water) != elmts.end() && find(elmts.begin(), elmts.end(), Ice) != elmts.end()) {
+    if (elmts.size() >= 2) {
         if (e.getLevel() >= LEVEL_BIG_WILD_POKEMON)
             cout << "S";
         else
             cout << "s";
-    } else if (find(elmts.begin(), elmts.end(), Water) != elmts.end() && find(elmts.begin(), elmts.end(), Ground) != elmts.end()) {
-        if (e.getLevel() >= LEVEL_BIG_WILD_POKEMON)
-            cout << "N";
-        else
-            cout << "n";
     } else if (find(elmts.begin(), elmts.end(), Water) != elmts.end()) {
         if (e.getLevel() >= LEVEL_BIG_WILD_POKEMON)
             cout << "W";
@@ -190,8 +182,8 @@ void printEngimonInPeta(EngimonLiar e) {
 }
 
 void printPeta() {
-    for (int i = 0; i < peta.size(); i++) {
-        for (int j = 0; j < peta[i].size(); j++) {
+    for (int i = 0; i < tabPeta.size(); i++) {
+        for (int j = 0; j < tabPeta[i].size(); j++) {
             EngimonLiar e = getEngimonInCell(Position(j, i));
 
             if (player.getPosition() == Position(j, i))
@@ -199,9 +191,56 @@ void printPeta() {
             else if (e != NULL)
                 printEngimonInPeta(e);
             else
-                cout << peta[i][j];
+                cout << tabPeta[i][j];
         }
 
         cout << endl;
+    }
+}
+
+double countElmtAdvPower(Engimon atk, Engimon def) {
+    double res = -1;
+    
+    for (Element atkElmt : atk.getElements()) {
+        for (Element defElmt : def.getElements()) {
+            if (elmtAdv[atkElmt][defElmt] > res)
+                res = elmtAdv[atkElmt][defElmt];
+        }
+    }
+
+    return res;
+}
+
+double countSkillPower(Engimon e) {
+    double res = 0;
+
+    for (Skill s : e.getSkills()) {
+        res += s.getBasePower() * s.getMasteryLevel();
+    }
+
+    return res;
+}
+
+Engimon handleBattle(Engimon e1, Engimon e2) {
+    double powerE1 = e1.getLevel() * countElmtAdvPower(e1, e2) + countSkillPower(e1);
+    double powerE2 = e2.getLevel() * countElmtAdvPower(e2, e1) + countSkillPower(e2);
+
+    cout << "Power of the e1: " << powerE1 << endl;
+    cout << "VS" << endl;
+    cout << "Power of the e2: " << powerE2 << endl;
+
+    return (powerE1 >= powerE2) ? e1 : e2;
+}
+
+template <class T>
+void move(T obj, Direction dir) {
+    if (dir == Up) {
+        obj.setPosition(obj.getPosition().getX(), obj.getPosition().getY() - 1);
+    } else if (dir == Down) {
+        obj.setPosition(obj.getPosition().getX(), obj.getPosition().getY() + 1);
+    } else if (dir == Left) {
+        obj.setPosition(obj.getPosition().getX() - 1, obj.getPosition().getY());
+    } else if (dir == Right) {
+        obj.setPosition(obj.getPosition().getX() + 1, obj.getPosition().getY());
     }
 }
