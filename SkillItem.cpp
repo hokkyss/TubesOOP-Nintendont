@@ -105,6 +105,7 @@ Skill FreezeDry("Freeze Dry", 90, Ice, Water, Ground);
 Skill Electrolysis("Electrolysis", 90, Ice, Water, Electric);
 Skill ColdRefrigerator("Cold Refrigerator", 90, Ice, Electric, Ground);
 Skill ContradictingShock("Contradicting Shock", 90, Ground, Water, Electric);
+Skill GodlyFart("GodlyFart", 90, Fire, Ice, Ground, Electric, Water);
 
 SkillItem TM01(GigaImpact, "TM01");
 SkillItem TM02(BlastBurn, "TM02");
