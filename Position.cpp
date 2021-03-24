@@ -1,5 +1,7 @@
 #include "Position.hpp"
 
+Position::Position() : x(0), y(0) {}
+
 Position::Position(int x, int y){
   this->x = x;
   this->y = y;
@@ -29,4 +31,8 @@ void Position::moveBy(int x, int y){
 void Position::set(int x, int y){
   this->x = x;
   this->y = y;
+}
+
+bool Position::operator==(Position p) {
+    return (this->x == p.getX() && this->y == p.getY());
 }
