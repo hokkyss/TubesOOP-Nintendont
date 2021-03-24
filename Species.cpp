@@ -36,7 +36,7 @@ Species& getSpeciesByName(string species)
 Species Emberon("Emberon", {Element::Fire},FlameThrower);
 Species Hailon("Hailon", {Element::Ice},IceBeam);
 Species Soliust("Soliust", {Element::Ground},DoubleEdge);
-Species Voltense("Voltense", {Element::Electric},VoltTackle);
+Species Bulbmon("Bulbmon", {Element::Electric},VoltTackle);
 Species Aquaron("Aquaron", {Element::Water},HydroPump);
 
 //double element
@@ -49,7 +49,7 @@ Species Antartic("Antartic", {Element::Ice, Element::Ground},Avalanche);
 Species Culcas("Culcas", {Element::Ice, Element::Electric},ColdRefrigerator);
 Species Labile("Labile", {Element::Ice, Element::Water},IceBeam);
 
-Species Gustmon("Gustmon", {Element::Ground,Element:Electric},TectonicRage);
+Species Gustmon("Gustmon", {Element::Ground,Element::Electric},TectonicRage);
 Species Trenchmon("Trenchmon", {Element::Ground,Element::Water},GigaImpact);
 
 Species Voltense("Voltense", {Element::Electric, Element::Water},Korslet);
@@ -66,7 +66,7 @@ Species Iglosify("Iglosify", {Element::Ice, Element::Ground, Element::Electric},
 Species Trofii("Trofii", {Element::Ice, Element::Ground, Element::Water},MuddyWater);
 Species Syverter("Syverter", {Element::Ice, Element::Electric, Element::Water},Storm);
 
-Species Oonga("Oonga", {Element::Ground,Element:Electric,Element::Water},Eruption);
+Species Oonga("Oonga", {Element::Ground,Element::Electric,Element::Water},Eruption);
 
 //4 elements
 Species Hokkien("Hokkien", {Element::Fire, Element::Ice, Element::Ground, Element::Electric},EarthPower);
@@ -87,4 +87,4 @@ vector<Species> listOfSpecies = {
     Hokkien, Arleen, Maxeew, Shijeew, Pegow,
     //5 element
     Frederon
-}
+};
