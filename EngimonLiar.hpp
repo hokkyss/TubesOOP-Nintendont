@@ -8,9 +8,12 @@
 #include <vector>
 
 class EngimonLiar:public Engimon{
-  public:
+  private:
     Position position;
-    EngimonLiar(const Species& sp, Position pos, int level);
+  public:
+    Position getPosition() const;
+    void setPosition(Position p);
+    EngimonLiar(const Species &sp, Position pos, int level);
 };
 
 #endif
