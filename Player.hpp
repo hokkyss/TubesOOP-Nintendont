@@ -20,8 +20,8 @@ class LevelNotEnoughException : exception
 
 class Player {
     private:
-        Engimon activeEngimon;
         Position pos;
+        Engimon activeEngimon;
     
     public:
         Inventory<Engimon> engimonList;
@@ -42,8 +42,8 @@ class Player {
         void switchActiveEngimon(Engimon e);
         void showSkillItems();
         void useItems(const SkillItem& si, Engimon e);
-        void move(string command);
         void breed(Engimon A, Engimon B);
+        void battle(Engimon enemy);
 };
 
 #endif

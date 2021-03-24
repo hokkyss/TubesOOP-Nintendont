@@ -56,6 +56,10 @@ class Skill
 		void setMasteryLevel(int newMasteryLevel);
 		
 		int getNumOfElements() const;
+
+		vector<Element> getElements() const;
+		
+		bool isLearntBy(Element e) const;
 		
 		// mengembalikan elemen ke-index
 		// jika index "tidak diisi", akan ngethrow exception IndexOutOfRange

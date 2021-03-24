@@ -24,6 +24,7 @@ class SkillItem
 
 extern vector<SkillItem> listOfSkillItem;
 SkillItem& getSkillItemByName(string name);
+SkillItem& randomSkillItem(vector<Element> elements);
 // harus extern?
 /*
 SkillItem TM01(GigaImpact, "TM01");

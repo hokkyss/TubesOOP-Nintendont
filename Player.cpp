@@ -4,6 +4,7 @@
 using namespace std;
 
 Player::Player(const Engimon& starter) : activeEngimon(starter), pos(pos){
+    engimonList.insert(starter);
     pos.set(0,0);
 }
 
@@ -34,20 +35,6 @@ void Player::useItems(const SkillItem& si, Engimon e){
             skillItemList.remove(si);
         }else throw e;
     }else throw si;
-}
-
-void Player::move(string command){
-    int x=pos.getX(), y=pos.getY();
-    if (command=="w"||command=="W") x+=1;
-    else if (command=="s"||command=="S") x-=1;
-    else if (command=="d"||command=="D") y+=1;
-    else if (command=="a"||command=="A") y-=1;
-
-    if ((y>tabPeta.size()||y<0)||(x>tabPeta[y].size()||x<0)) throw command;
-    else{
-        pos.setX(x);
-        pos.setY(y);
-    }
 }
 
 bool Player::compareMastery(Skill s1, Skill s2){
@@ -142,4 +129,23 @@ void Player::breed(Engimon A, Engimon B){
 
         } else{ throw LevelNotEnoughException(); }
     } else{ throw InventoryFullException(); }
+}
+
+void Player::battle(Engimon enemy){
+    int winner = handleBattle(activeEngimon,enemy);
+    int expWon = enemy.getLevel()*15;
+
+    if (winner == 2 || activeEngimon.getExp()+expWon > MAX_EXP){
+        engimonList.remove(activeEngimon);
+        if(engimonList.inventoryList.size()>0) switchActiveEngimon(engimonList.inventoryList[0]);
+        else throw enemy;
+    }else {
+        activeEngimon.addExp(expWon);
+        try {
+            engimonList.insert(enemy);
+            skillItemList.insert(randomSkillItem(enemy.getElements()));
+        }catch (InventoryFullException err){
+            throw err;
+        }
+    }
 }

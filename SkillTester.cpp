@@ -36,11 +36,20 @@ TEST_F(SkillTester, Getter)
 	EXPECT_EQ(s3.getMasteryLevel(), 0);
 	EXPECT_EQ(s3.getNumOfElements(), 2);
 }
+
 TEST_F(SkillTester, Setter)
 {
 	s1.setMasteryLevel(100);
 	EXPECT_EQ(s1.getMasteryLevel(), 100);
 }
+
+TEST_F(SkillTester, Element)
+{
+	EXPECT_EQ(true, s1.isLearntBy(Fire));
+	EXPECT_EQ(false, s2.isLearntBy(Fire));
+	EXPECT_EQ(true, s2.isLearntBy(Ground));
+}
+
 TEST_F(SkillTester, Exception)
 {
 	try
@@ -53,6 +62,7 @@ TEST_F(SkillTester, Exception)
 		EXPECT_EQ(e.what(), "Index invalid");
 	}
 }
+
 int main(int argc, char** argv)
 {
 	::testing::InitGoogleTest(&argc, argv);
