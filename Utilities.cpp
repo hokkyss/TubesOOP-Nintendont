@@ -37,7 +37,7 @@ vector<vector<char>> tabPeta;
 // Access: tabPeta[i][j] if (0 < i < tabPeta.size() and 0 < j < tabPeta[i].size() )
 
 /* Dynamic Data */
-EngimonLiar wildEngimons[MAX_WILD_ENGIMON];
+EngimonLiar* wildEngimons[MAX_WILD_ENGIMON];
 // Array of Engimon Liar
 
 Player player;
@@ -115,7 +115,7 @@ void spawnWildEngimons() {
             p = Position(rand() % tabPeta[0].size(), rand() % tabPeta.size());
         } while (isCellOccupied(p));
 
-        wildEngimons[i] = EngimonLiar(s, p, (rand() % player.getActiveEngimon().getLevel() * 2) + 1);
+        wildEngimons[i] = new EngimonLiar(s, p, (rand() % player.getActiveEngimon().getLevel() * 2) + 1);
     }
 }
 
@@ -123,10 +123,10 @@ bool isCellOccupied(Position p) {
     if (player.getPosition() == p)
         return true;
 
-    for (EngimonLiar e : wildEngimons)
+    for (EngimonLiar* e : wildEngimons)
     {
         if (e != NULL) {
-            if (e.getPosition() == p)
+            if (e->getPosition() == p)
                 return true;
         }
     }
@@ -134,11 +134,11 @@ bool isCellOccupied(Position p) {
     return false;
 }
 
-EngimonLiar getEngimonInCell(Position p) {
-    for (EngimonLiar e : wildEngimons)
+EngimonLiar* getEngimonInCell(Position p) {
+    for (EngimonLiar* e : wildEngimons)
     {
         if (e != NULL) {
-            if (e.getPosition() == p)
+            if (e->getPosition() == p)
                 return e;
         }
     }
@@ -184,12 +184,12 @@ void printEngimonInPeta(EngimonLiar e) {
 void printPeta() {
     for (int i = 0; i < tabPeta.size(); i++) {
         for (int j = 0; j < tabPeta[i].size(); j++) {
-            EngimonLiar e = getEngimonInCell(Position(j, i));
+            EngimonLiar* e = getEngimonInCell(Position(j, i));
 
             if (player.getPosition() == Position(j, i))
                 cout << "P";
             else if (e != NULL)
-                printEngimonInPeta(e);
+                printEngimonInPeta(*e);
             else
                 cout << tabPeta[i][j];
         }

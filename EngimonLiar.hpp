@@ -11,9 +11,10 @@ class EngimonLiar:public Engimon{
   private:
     Position position;
   public:
-    Position getPosition() const;
-    void setPosition(Position p);
-    EngimonLiar(const Species &sp, Position pos, int level);
+      EngimonLiar();
+      EngimonLiar(const Species &sp, Position pos, int level);
+      Position getPosition() const;
+      void setPosition(Position p);
 };
 
 #endif
