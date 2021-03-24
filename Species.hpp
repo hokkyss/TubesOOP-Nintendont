@@ -10,13 +10,14 @@ using namespace std;
 
 class Species
 {
-	private:
-        string species;
-        vector<Element> elements;
-		Skill uniqueSkill;
-		
 	public:
+		string species;
+		vector<Element> elements;
+		Skill uniqueSkill;
+
 		Species(string species, vector<Element> elements, const Skill& uniqueSkill);
+		Species(const Species& s);
+		
 		string getName() const;
 		vector<Element> getElements() const;
 		Skill getUniqueSkill() const;
@@ -24,6 +25,8 @@ class Species
 
 extern vector<Species> listOfSpecies;
 Species& getSpeciesByName(string species);
+Species& getSpeciesByElement(vector<Element> elements);
+bool isElementsSame(vector<Element> e1, vector<Element> e2);
 
 //single element
 extern Species Emberon;

@@ -7,23 +7,38 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-Engimon::Engimon(string name, const Species& species, int maxExp): uniqueSkill(species.getUniqueSkill()) {
+Engimon::Engimon(string name, string species, vector<Element> elements, const Skill& uniqueSkill) : Engimon(name, Species(species, elements, uniqueSkill)) {};
+
+Engimon::Engimon(string name, const Species& species, int level): Species(species) {
   this->idEngimon = Engimon::countID;
   this->name = name;
-  this->species = species.getName();
-  this->elements = species.getElements();
-  this->level = 1;
+  this->level = level;
   this->exp = 0;
-  this->cumExp = 0;
-  this->maxExp = maxExp;
-  this->skills.push_back(this->uniqueSkill);
+  this->cumExp = level*EXP_PER_LEVEL;
+  this->maxExp = MAX_EXP;
+  this->skills.push_back(species.uniqueSkill);
   Engimon::countID++;
 }
 
-Engimon::Engimon(string name, string species, int maxExp): Engimon(name, getSpeciesByName(species), maxExp) {};
+Engimon::Engimon(string name, const Species& species): Species(species) {
+  this->idEngimon = Engimon::countID;
+  this->name = name;
+  this->level = 1;
+  this->exp = 0;
+  this->cumExp = 0;
+  this->maxExp = MAX_EXP;
+  this->skills.push_back(species.uniqueSkill);
+  Engimon::countID++;
+}
+
+Engimon::Engimon(string name, string species): Engimon(name, getSpeciesByName(species)) {};
 
 Engimon::~Engimon(){
   cout << this->name << " is dead :(" << endl;
+}
+
+string Engimon::getName(){
+  return this->name;
 }
 
 int Engimon::getLevel() {
@@ -59,6 +74,7 @@ void Engimon::addExp(int exp){
     this->~Engimon();
   }
 }
+
 
 void Engimon::showDetails() const {
   cout << "=======ENGIMON'S DETAIL=======" << endl;
@@ -124,6 +140,19 @@ void Engimon::learnSkill(const SkillItem& skillItem) {
         this->skills.at(idToDelete - 1) = skill;
         cout << this->name << " learned " << skill.getName() << "!" << endl;
       }
+    }
+  }
+}
+
+void Engimon::addSkill(const Skill& skill){
+  if (this->skills.size() < 4) this->skills.push_back(skill);
+}
+
+void Engimon::setSkill(const vector<Skill> target){
+  if(target.size()<4){
+    (this->skills).clear();
+    for(int i = 0; i<target.size(); i++){
+      this->skills.push_back(target[i]);
     }
   }
 }
