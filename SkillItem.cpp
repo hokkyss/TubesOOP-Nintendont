@@ -2,6 +2,7 @@
 #include "Skill.hpp"
 #include "SkillItem.hpp"
 #include<iostream>
+#include<bits/stdc++.h>
 using namespace std;
 
 SkillItem :: SkillItem(const Skill& s, string itemName) : containedSkill(s)
@@ -27,14 +28,6 @@ bool SkillItem :: operator == (const SkillItem& si)
 	return (this->itemName == si.itemName) && (this->containedSkill == si.containedSkill);
 }
 
-SkillItem& getSkillItemByName(string name)
-{
-	for(int i = 0; i < listOfSkillItem.size(); i++)
-	{
-		if(listOfSkillItem[i].getItemName() == name) return listOfSkillItem[i];
-	}
-	throw ItemNotFoundException();
-}
 
 string SkillItem :: getItemName() const
 {
@@ -44,6 +37,41 @@ string SkillItem :: getItemName() const
 Skill SkillItem :: getContainedSkill() const
 {
 	return this->containedSkill;
+}
+
+SkillItem& getSkillItemByName(string name)
+{
+	for(int i = 0; i < listOfSkillItem.size(); i++)
+	{
+		if(listOfSkillItem[i].getItemName() == name) return listOfSkillItem[i];
+	}
+	throw ItemNotFoundException();
+}
+
+SkillItem& randomSkillItem(vector<Element> elements)
+{
+	vector<SkillItem> candidates;
+	int listOfSkillItemSize = listOfSkillItem.size();
+	
+	bool isCandidate;
+	for(int i = 0; i < listOfSkillItemSize; i++)
+	{
+		isCandidate = true;
+		for(int j = 0; j < elements.size(); j++)
+		{
+			if(listOfSkillItem[i].getContainedSkill().isLearntBy(elements[j])) continue;
+			
+			isCandidate = false;
+		}
+		
+		if(isCandidate)
+		{
+			candidates.push_back(listOfSkillItem[i]);
+		}
+	}
+	
+	int randomIndex = rand() % candidates.size();
+	return candidates[randomIndex];
 }
 
 vector<Skill> listOfSkill;

@@ -57,6 +57,8 @@ class Skill
 		
 		int getNumOfElements() const;
 		
+		bool isLearntBy(Element e) const;
+		
 		// mengembalikan elemen ke-index
 		// jika index "tidak diisi", akan ngethrow exception IndexOutOfRange
 		Element getElement(int index) const;

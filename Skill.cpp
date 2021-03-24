@@ -147,7 +147,16 @@ int Skill :: getNumOfElements() const
 {
 	return this->numOfElements;
 }
-		
+
+bool Skill :: isLearntBy(Element e) const
+{
+	for(int i = 0; i < this->numOfElements; i++)
+	{
+		if(this->elements[i] == e) return true;
+	}
+	return false;
+}
+
 Element Skill :: getElement(int index) const
 {
 	if(index >= this->numOfElements || index < 0)
