@@ -36,3 +36,7 @@ void Position::set(int x, int y){
 bool Position::operator==(Position p) {
     return (this->x == p.getX() && this->y == p.getY());
 }
+
+bool Position::operator!=(Position p) {
+    return !(this->x == p.getX() && this->y == p.getY());
+}

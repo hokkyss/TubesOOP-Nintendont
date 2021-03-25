@@ -1,11 +1,10 @@
-#include "Utilities.hpp"
 #include "Engimon.hpp"
-#include "Element.hpp"
-#include "Skill.hpp"
-#include "SkillItem.hpp"
-#include <string.h>
-#include <bits/stdc++.h>
+
 using namespace std;
+
+int Engimon::countID = 0;
+
+double elmtAdv[5][5] = {{0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}};
 
 Engimon::Engimon(string name, string species, vector<Element> elements, const Skill& uniqueSkill) : Engimon(name, Species(species, elements, uniqueSkill)) {};
 
@@ -33,9 +32,7 @@ Engimon::Engimon(string name, const Species& species): Species(species) {
 
 Engimon::Engimon(string name, string species): Engimon(name, getSpeciesByName(species)) {};
 
-Engimon::~Engimon(){
-  cout << this->name << " is dead :(" << endl;
-}
+Engimon::~Engimon(){}
 
 string Engimon::getName(){
   return this->name;
@@ -82,7 +79,6 @@ void Engimon::addExp(int exp){
     this->~Engimon();
   }
 }
-
 
 void Engimon::showDetails() const {
   cout << "=======ENGIMON'S DETAIL=======" << endl;
@@ -176,4 +172,56 @@ void Engimon::setSkill(const vector<Skill> target){
       this->skills.push_back(target[i]);
     }
   }
+}
+
+void Engimon::setLevel(int level){
+  this->level = level;
+  this->exp = (level-1) * 100;
+}
+
+double Engimon::countElmtAdvPower(Engimon def) {
+    double res = -1;
+    
+    for (Element atkElmt : this->getElements()) {
+        for (Element defElmt : def.getElements()) {
+            if (elmtAdv[atkElmt][defElmt] > res)
+                res = elmtAdv[atkElmt][defElmt];
+        }
+    }
+
+    return res;
+}
+
+double Engimon::countSkillPower() {
+    double res = 0;
+
+    for (Skill s : skills) {
+        res += s.getBasePower() * s.getMasteryLevel();
+    }
+
+    return res;
+}
+
+int Engimon::handleBattle(Engimon enemy) {
+    double powerMyEngimon = this->getLevel() * this->countElmtAdvPower(enemy) + this->countSkillPower();
+    double powerEnemy = enemy.getLevel() * enemy.countElmtAdvPower(*this) + enemy.countSkillPower();
+
+    cout << "Power of the MyEngimon: " << powerMyEngimon << endl;
+    cout << "VS" << endl;
+    cout << "Power of the Enemy: " << powerEnemy << endl;
+
+    return (powerMyEngimon >= powerEnemy) ? 1 : 2;
+}
+
+EngimonLiar::EngimonLiar(const Species& sp, Position pos, int level) : Engimon(sp.getName(), sp, level), position(pos){}
+
+Position EngimonLiar::getPosition() const { return position; }
+
+void EngimonLiar::setPosition(Position p) {
+    this->position.setX(p.getX());
+    this->position.setY(p.getY());
+}
+
+bool Engimon::operator == (Engimon e) {
+  return (this->name == e.name && this->species == e.species && this->level == e.level);
 }

@@ -3,9 +3,8 @@
 
 #include "Element.hpp"
 #include "Skill.hpp"
-#include "Engimon.hpp"
-#include<iostream>
-#include<vector>
+#include <algorithm>
+
 using namespace std;
 
 class Species

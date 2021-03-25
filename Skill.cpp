@@ -1,9 +1,5 @@
 #include "Skill.hpp"
-#include "Element.hpp"
-#include<iostream>
-#include<vector>
-#include<map>
-#include<exception>
+
 using namespace std;
 
 Skill :: Skill(string name, int basePower)

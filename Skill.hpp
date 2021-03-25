@@ -1,11 +1,11 @@
 #ifndef SKILL_HPP
 #define SKILL_HPP
 
-#include<iostream>
-#include<vector>
-#include<exception>
-#include<map>
+#include <vector>
+#include <string.h>
+#include <exception>
 #include "Element.hpp"
+
 using namespace std;
 
 class IndexInvalidException : exception

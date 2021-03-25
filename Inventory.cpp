@@ -1,19 +1,19 @@
 #include "Inventory.hpp"
-#include <iostream>
+#include "Engimon.hpp"
+#include "SkillItem.hpp"
 
 using namespace std;
 
-int FullInventory::currentCapacity = 0;
+template <class T>
+Inventory<T>::Inventory() : FullInventory(){}
 
 template <class T>
-Inventory<T>::Inventory(){
-    maxCapacity = MAX_CAPACITY;
-}
+Inventory<T>::~Inventory(){}
 
 template <class T>
 void Inventory<T>::remove(T el){
     inventoryList.erase(find(inventoryList.begin(),inventoryList.end(),el));
-}
+} 
 
 template <class T>
 bool Inventory<T>::isFull(){
@@ -21,9 +21,19 @@ bool Inventory<T>::isFull(){
 }
 
 template <class T>
+int Inventory<T>::findItem(T el){
+    for (int i=0; i<inventoryList.size(); i++){
+        if (inventoryList[i]==el){
+            return i;
+        }
+    }
+    return -1;
+}
+
+template <class T>
 bool Inventory<T>::isExist(T el){
-    T elTemp = find(inventoryList.begin(),inventoryList.end(),el);
-    if (elTemp != inventoryList.end()) return true;
+    int idx = findItem(el);
+    if (idx != -1) return true;
     return false;
 }
 
@@ -33,6 +43,7 @@ void Inventory<T>::insert(T in){
         if ((is_same<SkillItem,T>::value&&!isExist(in)) || is_same<Engimon,T>::value){
             inventoryList.push_back(in);
             currentCapacity++;
+            cout << "Jumlah inventory " << currentCapacity << "<" << maxCapacity << endl;
         }else throw ItemAlreadyExistedException();
     }
     else throw InventoryFullException();
@@ -42,12 +53,23 @@ template <class T>
 void Inventory<T>::showInventory(){
     cout << "Inventory ";
     if (is_same<Engimon,T>::value) cout << "Engimon ";
-    else if (is_same<SkillItem,T>::value) cout << "Skill Item ";
+    else if (is_same<SkillItem,T>::value) cout << "Skill Item "; 
     cout << ":" << endl;
 
     for(int i=0;i<inventoryList.size();i++){
         cout << i+1 << ". ";
-        if (is_same<SkillItem,T>::value) cout << inventoryList[i].getItemName() << endl;
-        else if (is_same<Engimon,T>::value) cout << inventoryList[i].getName() << endl;
+        cout << inventoryList[i].getName() << endl;
     }
 }
+
+/* int main (){
+    Inventory<Engimon> engimonList;
+    Inventory<SkillItem> skillList;
+    Engimon *e = new Engimon("Emberon","Emberon");
+
+    engimonList.insert(*e);
+    skillList.insert(TM01);
+
+    engimonList.showInventory();
+    skillList.showInventory();
+} */

@@ -2,8 +2,8 @@
 #define SKILL_ITEM_HPP
 
 #include "Skill.hpp"
-#include<iostream>
-#include<vector>
+#include <stdlib.h>
+#include <iostream>
 using namespace std;
 
 class SkillItem
@@ -16,7 +16,7 @@ class SkillItem
 		SkillItem(const Skill& s, string itemName);
 		SkillItem(const SkillItem& si);
 		
-		string getItemName() const;
+		string getName() const;
 		Skill getContainedSkill() const;
 		friend ostream& operator << (ostream& out, const SkillItem& si);
 		bool operator==(const SkillItem& si);

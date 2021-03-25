@@ -1,8 +1,5 @@
-#include "Element.hpp"
-#include "Skill.hpp"
 #include "SkillItem.hpp"
-#include<iostream>
-#include<bits/stdc++.h>
+
 using namespace std;
 
 SkillItem :: SkillItem(const Skill& s, string itemName) : containedSkill(s)
@@ -13,7 +10,7 @@ SkillItem :: SkillItem(const Skill& s, string itemName) : containedSkill(s)
 
 SkillItem :: SkillItem(const SkillItem& si) : containedSkill(si.getContainedSkill())
 {
-	this->itemName = si.getItemName();
+	this->itemName = si.getName();
 }
 
 ostream& operator << (ostream& out, const SkillItem& si)
@@ -29,7 +26,7 @@ bool SkillItem :: operator == (const SkillItem& si)
 }
 
 
-string SkillItem :: getItemName() const
+string SkillItem :: getName() const
 {
 	return this->itemName;
 }
@@ -43,7 +40,7 @@ SkillItem& getSkillItemByName(string name)
 {
 	for(int i = 0; i < listOfSkillItem.size(); i++)
 	{
-		if(listOfSkillItem[i].getItemName() == name) return listOfSkillItem[i];
+		if(listOfSkillItem[i].getName() == name) return listOfSkillItem[i];
 	}
 	throw ItemNotFoundException();
 }

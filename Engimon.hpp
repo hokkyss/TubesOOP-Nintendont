@@ -4,12 +4,14 @@
 #define MAX_EXP 4900
 #define EXP_PER_LEVEL 100
 
-#include "Species.hpp"
 #include "Element.hpp"
+#include "Species.hpp"
 #include "Skill.hpp"
-#include "Position.hpp"
 #include "SkillItem.hpp"
-#include <exception>
+#include "Utilities.hpp"
+#include "Position.hpp"
+
+#include <string>
 #include <vector>
 
 class SkillNotCompatibleException : exception
@@ -20,7 +22,7 @@ class SkillNotCompatibleException : exception
 	}
 };
 
-class Engimon:public Species {
+class Engimon : public Species {
   private:
     static int countID;
     int idEngimon;
@@ -41,6 +43,8 @@ class Engimon:public Species {
     Engimon(string name, const Species& species);
     Engimon(string name, string species);
     ~Engimon();
+
+    //getter
     int getLevel();
     int getExp();
     string getName();
@@ -49,14 +53,33 @@ class Engimon:public Species {
     vector<Element> getElements();
     vector<Skill> getSkills();
     string getSpecies();
+
+    //setter
+    void setSkill(const vector<Skill> skills);
+    void setLevel(int level);
+
     void addExp(int exp);
     void showDetails() const;
     void showSkills() const;
     bool isSkillCompatible(const Skill& skill) const;
     void learnSkill(const SkillItem& skillItem);
     void addSkill(const Skill& skill);
-    void setSkill(const vector<Skill> skills);
     void breed(Engimon couple);
+    double countElmtAdvPower(Engimon def);
+    double countSkillPower();
+    int handleBattle(Engimon enemy);
+    bool operator== (Engimon e);
 };
+
+class EngimonLiar : public Engimon{
+  private:
+    Position position;
+  public:
+      EngimonLiar();
+      EngimonLiar(const Species &sp, Position pos, int level);
+      Position getPosition() const;
+      void setPosition(Position p);
+};
+
 
 #endif

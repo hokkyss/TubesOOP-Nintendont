@@ -1,15 +1,13 @@
 #ifndef INVENTORY_HPP
 #define INVENTORY_HPP
 
-#include <iostream>
 #include <exception>
-#include "Engimon.hpp"
-#include "SkillItem.hpp"
-#include "Skill.hpp"
-
-using namespace std;
+#include <iostream>
+#include <vector>
 
 #define MAX_CAPACITY 15
+
+using namespace std;
 
 class ItemAlreadyExistedException : exception
 {
@@ -38,7 +36,7 @@ class EngimonNotFoundException : exception
 class FullInventory{
     public:
         static int currentCapacity;
-        int maxCapacity;
+        const int maxCapacity = MAX_CAPACITY;
 
         FullInventory(){}
         ~FullInventory(){}
@@ -50,10 +48,12 @@ class Inventory : public FullInventory{
         vector<T> inventoryList;
         //ctor
         Inventory();
+        ~Inventory();
 
         //method
         bool isFull();
         void remove(T el);
+        int findItem(T el);
         bool isExist(T el);
         void insert(T in);
         void showInventory();

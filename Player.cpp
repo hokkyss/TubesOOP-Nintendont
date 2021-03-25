@@ -1,11 +1,11 @@
 #include "Player.hpp"
-#include <iostream>
 
 using namespace std;
 
-Player::Player(const Engimon& starter) : activeEngimon(starter), pos(pos){
+int FullInventory::currentCapacity = 0;
+
+Player::Player(const Engimon& starter) : activeEngimon(starter), pos(initX,initY){
     engimonList.insert(starter);
-    pos.set(0,0);
 }
 
 void Player::showAllEngimon(){
@@ -18,6 +18,10 @@ Engimon Player::getActiveEngimon() const{
 
 Position Player::getPosition(){
     return pos;
+}
+
+void Player::setPosition(Position p){
+    this->pos.set(p.getX(), p.getY());
 }
 
 void Player::showEngimon(Engimon e){
@@ -41,7 +45,7 @@ void Player::useItems(const SkillItem& si, Engimon e){
     }else throw si;
 }
 
-vector<Skill> Player::inheritSkill(Engimon A, Engimon B){
+vector<Skill> inheritSkill(Engimon A, Engimon B){
     vector<Skill> skillA = A.getSkills();
     vector<Skill> skillB = B.getSkills();
     vector<Skill> inheritedSkills;
@@ -79,7 +83,7 @@ vector<Skill> Player::inheritSkill(Engimon A, Engimon B){
     return inheritedSkills;
 }
 
-vector<Element> Player::inheritElmt(Engimon A, Engimon B){
+vector<Element> inheritElmt(Engimon A, Engimon B){
     Element elmtA = A.getElements()[0];
     Element elmtB = B.getElements()[0];
     vector<Element> inheritedElmt;
@@ -98,9 +102,9 @@ vector<Element> Player::inheritElmt(Engimon A, Engimon B){
     return inheritedElmt;
 }
 
-void Player::breed(Engimon A, Engimon B){
-    if(engimonList.isFull()){
-        if(A.getLevel() >= 30 && B.getLevel() >= 30){
+void Player::breed(Engimon& A, Engimon& B){
+    if(!engimonList.isFull()){
+        if(A.getLevel() > 30 && B.getLevel() > 30){
         string childName;
         cout << "Enter your new Engimon's name: " << endl;
         cin >> childName;
@@ -120,6 +124,9 @@ void Player::breed(Engimon A, Engimon B){
         child->setSkill(childSkill);
         engimonList.insert(*child);
 
+        A.setLevel(A.getLevel()-30);
+        B.setLevel(B.getLevel()-30);
+
         cout << "Breeding successful!" << endl;
         cout << childName << " is in inventory." << endl;
 
@@ -128,14 +135,22 @@ void Player::breed(Engimon A, Engimon B){
 }
 
 void Player::battle(Engimon enemy){
-    int winner = handleBattle(activeEngimon,enemy);
-    int expWon = enemy.getLevel()*15;
+    int winner = activeEngimon.handleBattle(enemy);
+    int expWon = enemy.getLevel()*EXP_MULT;
 
     if (winner == 2 || activeEngimon.getExp()+expWon > MAX_EXP){
+        if (winner == 2) cout << activeEngimon.getName() << " has lost the battle and fainted..." << endl;
+        else cout << activeEngimon.getName() << " just got max level and has to be released" << endl;
+        
         engimonList.remove(activeEngimon);
+
         if(engimonList.inventoryList.size()>0) switchActiveEngimon(engimonList.inventoryList[0]);
-        else throw enemy;
+        else throw RunOutOfEngimonException();
+
+        cout << activeEngimon.getName() << " is the new active Engimon" << endl;
     }else {
+        cout << "Congratulations! " << activeEngimon.getName() << " won the battle!" << endl;
+        cout << activeEngimon.getName() << " gain " << expWon << " Exp" << endl;
         activeEngimon.addExp(expWon);
         try {
             engimonList.insert(enemy);
@@ -161,3 +176,12 @@ int findV(vector<T> v, T el){
     }
     return -1;
 }
+
+/* int main (){
+    Engimon *e = new Engimon("Emberon","Emberon");
+    Player p(*e);
+    p.showEngimon(*e);
+    e = new Engimon("Hailon","Hailon");
+    p.battle(*e);
+    p.showAllEngimon();
+} */

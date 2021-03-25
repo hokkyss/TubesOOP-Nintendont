@@ -1,6 +1,4 @@
 #include "Element.hpp"
-#include<iostream>
-using namespace std;
 
 ostream& operator << (ostream& out, Element e)
 {

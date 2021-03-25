@@ -15,6 +15,7 @@ class Position{
     void moveBy(int x, int y);
     void set(int x, int y);
     bool operator==(Position p);
+    bool operator!=(Position p);
 };
 
 #endif
