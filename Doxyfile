@@ -2622,4 +2622,4 @@ GENERATE_LEGEND        = YES
 # plantuml temporary files.
 # The default value is: YES.
 
-DOT_CLEANUP            = YES
+DOT_CLEANUP            = NO
