@@ -16,6 +16,10 @@ Engimon Player::getActiveEngimon() const{
     return this->activeEngimon;
 }
 
+Position Player::getPosition(){
+    return pos;
+}
+
 void Player::showEngimon(Engimon e){
     return e.showDetails();
 }
@@ -37,14 +41,6 @@ void Player::useItems(const SkillItem& si, Engimon e){
     }else throw si;
 }
 
-bool Player::compareMastery(Skill s1, Skill s2){
-    return (s1.getMasteryLevel() > s2.getMasteryLevel());
-}
-
-bool Player::compareElmtAdv(Element el1, Element el2){
-    return (elmtAdv[el1][el2] > elmtAdv[el2][el1]);
-}
-
 vector<Skill> Player::inheritSkill(Engimon A, Engimon B){
     vector<Skill> skillA = A.getSkills();
     vector<Skill> skillB = B.getSkills();
@@ -58,24 +54,24 @@ vector<Skill> Player::inheritSkill(Engimon A, Engimon B){
     int i = 0, j = 0;
     while(inheritedSkills.size() < 4 && inheritedSkills.size() < skillA.size()+skillB.size()){
         if(compareMastery(skillB[i], skillA[j])){
-            if(std::find(inheritedSkills.begin(), inheritedSkills.end(), skillB[i]) ==  inheritedSkills.end()){
+            if(findV(inheritedSkills,skillB[i]) ==  -1){
                 inheritedSkills.push_back(skillB[i]);
             }
             i++;
         } else{
-            if(std::find(inheritedSkills.begin(), inheritedSkills.end(), skillB[i]) ==  inheritedSkills.end()){
+            if(findV(inheritedSkills, skillA[j]) ==  -1){
                 inheritedSkills.push_back(skillA[j]);
             }
             j++;
         }
     }
     // mengatur mastery level engimon hasil breeding
-    std::vector<Skill>::iterator ptrA, ptrB;
+    int ptrA, ptrB;
     for(Skill s : inheritedSkills){
-        ptrA = std::find(skillA.begin(), skillA.end(), s);
-        ptrB = std::find(skillB.begin(), skillB.end(), s);
-        if(ptrA != skillA.end() && ptrB != skillB.end()){
-            if(ptrA->getMasteryLevel() == ptrB->getMasteryLevel()){
+        ptrA = findV(skillA, s);
+        ptrB = findV(skillB, s);
+        if(ptrA != -1 && ptrB != -1){
+            if(skillA[ptrA].getMasteryLevel() == skillB[ptrB].getMasteryLevel()){
                 s.setMasteryLevel(s.getMasteryLevel()+1);
             }
         }
@@ -148,4 +144,20 @@ void Player::battle(Engimon enemy){
             throw err;
         }
     }
+}
+
+bool compareMastery(const Skill& s1,const Skill& s2){
+    return (s1.getMasteryLevel() > s2.getMasteryLevel());
+}
+
+bool compareElmtAdv(const Element& el1,const Element& el2){
+    return (elmtAdv[el1][el2] > elmtAdv[el2][el1]);
+}
+
+template <class T>
+int findV(vector<T> v, T el){
+    for(int i=0;i<v.size();i++){
+        if(v[i]==el) return i;
+    }
+    return -1;
 }

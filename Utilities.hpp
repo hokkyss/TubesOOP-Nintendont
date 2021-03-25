@@ -42,7 +42,6 @@ vector<vector<char>> tabPeta;
 EngimonLiar* wildEngimons[MAX_WILD_ENGIMON];
 // Array of Engimon Liar
 
-// Player player;
 // The player
 
 /* Global Functions */

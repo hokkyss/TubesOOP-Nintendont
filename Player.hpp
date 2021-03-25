@@ -30,14 +30,13 @@ class Player {
         Player(const Engimon& starter);
 
         // utility function
-        bool compareMastery(Skill s1, Skill s2);
-        bool compareElmtAdv(Element el1, Element el2);
         vector<Skill> inheritSkill(Engimon A, Engimon B);
         vector<Element> inheritElmt(Engimon A, Engimon B);
 
         // command yang dapat dilakukan player
         void showAllEngimon();
         Engimon getActiveEngimon() const;
+        Position getPosition();
         void showEngimon(Engimon e);
         void switchActiveEngimon(Engimon e);
         void showSkillItems();
@@ -45,5 +44,10 @@ class Player {
         void breed(Engimon A, Engimon B);
         void battle(Engimon enemy);
 };
+
+bool compareMastery(const Skill& s1,const Skill& s2);
+    bool compareElmtAdv(const Element& el1,const Element& el2);
+template <class T>
+int findV(vector<T> v, T el);
 
 #endif

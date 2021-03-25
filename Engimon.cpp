@@ -121,7 +121,7 @@ void Engimon::showSkills() const {
 
 bool Engimon::isSkillCompatible(const Skill& skill) const {
   for(int i = 0; i < skill.getElements().size(); i++) {
-    if (find(this->skills.begin(), this->skills.end(), skill.getElement(i)) == this->skills.end()) {
+    if (find(this->elements.begin(), this->elements.end(), skill.getElement(i)) == this->elements.end()) {
       return false;
     }
   }

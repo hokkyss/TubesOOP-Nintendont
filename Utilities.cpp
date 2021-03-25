@@ -39,7 +39,7 @@ using namespace std;
 // EngimonLiar* wildEngimons[MAX_WILD_ENGIMON];
 // Array of Engimon Liar
 
-// Player player;
+//Player player;
 // The player
 
 /* Global Functions */
@@ -104,7 +104,7 @@ void initPeta(string filePath) {
     }
 }
 
-void spawnWildEngimons() {
+void spawnWildEngimons(Player player) {
     srand(time(NULL));
     for (int i = 0; i < MAX_WILD_ENGIMON; i++) {
         Species s = listOfSpecies[rand() % listOfSpecies.size()];
@@ -118,7 +118,7 @@ void spawnWildEngimons() {
     }
 }
 
-bool isCellOccupied(Position p) {
+bool isCellOccupied(Position p, Player player) {
     if (player.getPosition() == p)
         return true;
 
@@ -180,7 +180,7 @@ void printEngimonInPeta(EngimonLiar e) {
     }
 }
 
-void printPeta() {
+void printPeta(Player player) {
     for (int i = 0; i < tabPeta.size(); i++) {
         for (int j = 0; j < tabPeta[i].size(); j++) {
             EngimonLiar* e = getEngimonInCell(Position(j, i));
