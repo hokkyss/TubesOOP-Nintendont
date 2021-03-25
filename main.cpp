@@ -185,8 +185,10 @@ void printHelp(){
     cout << "Comman    | Usage" << endl;
     cout << "w,a,s,d   | Movement" << endl;
     cout << "show      | Show Active Engimon Stats" << endl;
+    cout << "change    | Change Active Engimon" << endl;
     cout << "inventory | Access Inventory" << endl;
-    cout << "battle    | Battle Nearby Wild Pokemon" << endl;
+    cout << "use       | Use Skill Item To Teach Engimon" << endl;
+    cout << "battle    | Battle Nearby Wild Engimon" << endl;
 }
 
 template <class T>
@@ -285,6 +287,15 @@ Engimon* pickStarterEngimon(){
     return new Engimon(starterName, "Emberon");
 }
 
+int pickEngimon(Player player){
+    int opt;
+    player.showAllEngimon();
+    cout << "Choose Engimon(1-" << player.engimonList.inventoryList.size() << ") $";
+    cin >> opt;
+
+    return opt;
+}
+
 int main() {
     /* Const Declaration */
     const string filePath = "./input/contoh.txt";
@@ -299,6 +310,7 @@ int main() {
     Engimon *starter = pickStarterEngimon();
 
     Player player(*starter);
+    player.skillItemList.insert(TM02);
     /* In Game Phase */
     do {
         Position prev(player.getPosition().getX(),player.getPosition().getY());
@@ -321,39 +333,83 @@ int main() {
 
                 cout << "1. Engimon" << endl;
                 cout << "2. Skill Item" << endl;
-                cout << "Choose a number (1-2): "; 
+                cout << "Choose a number (1-2) $ "; 
                 cin >> opt;
                 
                 cout << endl;
                 if(opt=="1") player.showAllEngimon();
                 else player.showSkillItems();
+            } else if (command == "use"){
+                int opt;
+                player.showSkillItems();
+
+                cout << "Choose an item(1-" << player.skillItemList.inventoryList.size() << ") $";
+                cin >> opt;
+
+                if(opt<1 || opt>player.skillItemList.inventoryList.size()){
+                    throw opt;
+                } 
+                SkillItem& skillChosen = player.skillItemList.inventoryList[opt-1]; 
+
+                cout << "Choose Engimon to give the " << skillChosen.getName()<< endl;
+                cout << "Make sure the skills elements are compatible." << endl;
+                opt = pickEngimon(player);
+
+                if(opt<1 || opt>player.engimonList.inventoryList.size()){
+                    throw opt;
+                }
+                Engimon& engiChosen = player.engimonList.inventoryList[opt-1];
+                engiChosen.showDetails();
+                player.engimonList.inventoryList[opt-1].showDetails();
+                player.useItems(skillChosen, engiChosen);
+                engiChosen.showDetails();
+                player.engimonList.inventoryList[opt-1].showDetails();
+            } else if (command == "change") {
+                int opt;
+                cout << "Choose new Active Engimon " << endl;
+
+                opt = pickEngimon(player);
+
+                if(opt<1 || opt>player.engimonList.inventoryList.size()){
+                    throw opt;
+                }
+
+                player.switchActiveEngimon(player.engimonList.inventoryList[opt-1]);
+                cout << "Successfully switched " << player.getActiveEngimon().getName() << " into active!" << endl;
             } else if (command == "battle") {
                 //buat ganti initial posisi player ada di player.h nya kok
                 int x = player.getPosition().getX();
                 int y = player.getPosition().getY();
+                
 
                 EngimonLiar* enemy = NULL;
-                 for (int i = y - 1; i <= y + 1; i++){
-                    for (int j = x - 1; j <= x + 1; j++) {
-                        if (i != x && j != y) {
+                bool found = false;
+                for (int i = y - 1; i <= y + 1 && !found; i++) {
+                    for (int j = x - 1; j <= x + 1 && !found; j++) {
+                        if ((i == y || j == x) && !(i == y && j == x)) {
                             enemy = getEngimonInCell(Position(j, i));
-
-                            if (enemy != NULL)
-                                break;
+                            if (enemy != NULL){
+                                found = true;
+                            }
                         }
                     }
                 }
 
-                player.battle(*enemy);
+                if (enemy == NULL)
+                    throw "enemy does not exist";
+
+                enemy->printSummary();
 
                 removeWildEngimon(enemy);
+
+                player.battle(*enemy);
             } else if (command == "breed") {
                 int opt1,opt2;
                 player.showAllEngimon();
                 cout << "Choose 2 Engimon to breed" << endl;
-                cout << "First Engimon(1-" << player.engimonList.inventoryList.size() << "): ";
+                cout << "First Engimon(1-" << player.engimonList.inventoryList.size() << ")$ ";
                 cin >> opt1;
-                cout << "Second Engimon(1-" << player.engimonList.inventoryList.size() << "): ";
+                cout << "Second Engimon(1-" << player.engimonList.inventoryList.size() << ")$ ";
                 cin >> opt2;
                 if(opt1==opt2 || opt1<1 || opt1>player.engimonList.inventoryList.size() || opt2<1 || opt2>player.engimonList.inventoryList.size()){
                     throw opt1;
@@ -373,6 +429,12 @@ int main() {
             cout << "\nYou have run out of Engimon!" << endl;
             cout << "\n***********\n GAME OVER\n***********" << endl;
             break;
+        }catch (ItemAlreadyExistedException errExisted){
+            cout << "\nYou have this Skill Item already!" << endl;
+        }catch (string errBattle){
+            cout << "\nYou don't have enemy nearby!" << endl;
+        }catch (SkillNotCompatibleException errUseSkill){
+            cout << "\nEngimon element not compatible!" << endl;
         }
 
         if (turn % RESPAWN_TURN == 0) {
