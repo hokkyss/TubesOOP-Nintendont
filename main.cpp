@@ -2,6 +2,7 @@
 #include <iostream>
 #include <algorithm>
 #include <array>
+#include <time.h>
 
 /* Classes */
 #include "Element.hpp"
@@ -87,12 +88,12 @@ void spawnWildEngimons(Player player, Position prev) {
             find(elements.begin(), elements.end(), Electric) != elements.end() ||
             find(elements.begin(), elements.end(), Fire) != elements.end());
         
-        do {
-            p = Position(rand() % tabPeta[0].size(), rand() % tabPeta.size());
-        } while (isCellOccupied(p, player, prev) && 
-                !(seaEngimon && tabPeta[p.getY()][p.getX()] == 'o') || !(groundEngimon && tabPeta[p.getY()][p.getX()] == '-'));
+        p = Position(rand() % tabPeta[0].size(), rand() % tabPeta.size());
 
-        wildEngimons[i] = new EngimonLiar(s, p, (rand() % player.getActiveEngimon().getLevel() * 2) + 1);
+        if (!isCellOccupied(p, player, prev) && 
+            (seaEngimon && tabPeta[p.getY()][p.getX()] == 'o') || 
+            (groundEngimon && tabPeta[p.getY()][p.getX()] == '-'))
+            wildEngimons[i] = new EngimonLiar(s, p, (rand() % player.getActiveEngimon().getLevel() * 2) + 1);
     }
 }
 
@@ -242,9 +243,12 @@ void moveWildEngimon(Player player, Position prev){
             find(elements.begin(), elements.end(), Electric) != elements.end() ||
             find(elements.begin(), elements.end(), Fire) != elements.end());
 
+
         try {
-            if (tabPeta[tempY][tempX] == 'o' && seaEngimon) move(*eL, dir, player, prev);
-            else if (tabPeta[tempY][tempX] == '-' && groundEngimon) move(*eL, dir, player, prev);
+            if (tempY > 0 && tempX > 0 && tempY < tabPeta.size() && tempX < tabPeta[0].size()) {
+                if (tabPeta[tempY][tempX] == 'o' && seaEngimon) move(*eL, dir, player, prev);
+                else if (tabPeta[tempY][tempX] == '-' && groundEngimon) move(*eL, dir, player, prev);
+            }
         } catch (Direction errDir) {}
     }
 }
