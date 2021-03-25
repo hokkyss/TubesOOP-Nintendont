@@ -217,39 +217,41 @@ Position move(T& obj, Direction dir, Player player, Position prev) {
 void moveWildEngimon(Player player, Position prev){
     srand(time(NULL));
     for (EngimonLiar* eL : wildEngimons) {
-        vector<Element> elements = eL->getElements();
-        Position p = eL->getPosition();
-        Direction dir;
-        Position dummy = p;
+        if (eL != NULL) {
+            vector<Element> elements = eL->getElements();
+            Position p = eL->getPosition();
+            Direction dir;
+            Position dummy = p;
 
-        int tempX=p.getX(),tempY=p.getY();
-        int randomizer = rand() % 4;
-        if (randomizer == 0) {
-            dir = Up;
-            tempY--;
-        }else if(randomizer == 1) {
-            dir = Down;
-            tempY++;
-        }else if(randomizer == 2){
-            dir = Left;
-            tempX--;
-        } else {
-            dir = Right;
-            tempX++;
-        }
-        
-        bool seaEngimon = (find(elements.begin(), elements.end(), Water) != elements.end() || find(elements.begin(), elements.end(), Ice) != elements.end() );
-        bool groundEngimon = (find(elements.begin(), elements.end(), Ground) != elements.end() ||
-            find(elements.begin(), elements.end(), Electric) != elements.end() ||
-            find(elements.begin(), elements.end(), Fire) != elements.end());
-
-
-        try {
-            if (tempY > 0 && tempX > 0 && tempY < tabPeta.size() && tempX < tabPeta[0].size()) {
-                if (tabPeta[tempY][tempX] == 'o' && seaEngimon) move(*eL, dir, player, prev);
-                else if (tabPeta[tempY][tempX] == '-' && groundEngimon) move(*eL, dir, player, prev);
+            int tempX=p.getX(),tempY=p.getY();
+            int randomizer = rand() % 4;
+            if (randomizer == 0) {
+                dir = Up;
+                tempY--;
+            }else if(randomizer == 1) {
+                dir = Down;
+                tempY++;
+            }else if(randomizer == 2){
+                dir = Left;
+                tempX--;
+            } else {
+                dir = Right;
+                tempX++;
             }
-        } catch (Direction errDir) {}
+            
+            bool seaEngimon = (find(elements.begin(), elements.end(), Water) != elements.end() || find(elements.begin(), elements.end(), Ice) != elements.end() );
+            bool groundEngimon = (find(elements.begin(), elements.end(), Ground) != elements.end() ||
+                find(elements.begin(), elements.end(), Electric) != elements.end() ||
+                find(elements.begin(), elements.end(), Fire) != elements.end());
+
+
+            try {
+                if (tempY > 0 && tempX > 0 && tempY < tabPeta.size() && tempX < tabPeta[0].size()) {
+                    if (tabPeta[tempY][tempX] == 'o' && seaEngimon) move(*eL, dir, player, prev);
+                    else if (tabPeta[tempY][tempX] == '-' && groundEngimon) move(*eL, dir, player, prev);
+                }
+            } catch (Direction errDir) {}
+        }
     }
 }
 
