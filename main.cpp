@@ -11,7 +11,7 @@
 #include "Species.hpp"
 
 /* Utilities */
-#include "Utilities.cpp"
+#include "Utilities.hpp"
 
 using namespace std;
 

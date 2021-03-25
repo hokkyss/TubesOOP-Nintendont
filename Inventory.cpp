@@ -16,8 +16,8 @@ void Inventory<T>::remove(T el){
 }
 
 template <class T>
-bool Inventory<T>::isExist(T el){
-    return currentCapacity<maxCapacity;
+bool Inventory<T>::isFull(){
+    return currentCapacity>=maxCapacity;
 }
 
 template <class T>
