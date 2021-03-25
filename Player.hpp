@@ -34,7 +34,7 @@ class RunOutOfEngimonException : exception
 class Player {
     private:
         Position pos;
-        Engimon activeEngimon;
+        int activeEngimonIdx;
     
     public:
         Inventory<Engimon> engimonList;
@@ -44,15 +44,15 @@ class Player {
 
         // command yang dapat dilakukan player
         void showAllEngimon();
-        Engimon getActiveEngimon() const;
-        Position getPosition();
+        Engimon& getActiveEngimon();
+        Position& getPosition();
         void setPosition(Position p);
         void showEngimon(Engimon e);
         void switchActiveEngimon(Engimon e);
         void showSkillItems();
-        void useItems(const SkillItem& si, Engimon e);
+        void useItems(const SkillItem& si, Engimon& e);
         void breed(Engimon& A, Engimon& B);
-        void battle(Engimon enemy);
+        void battle(EngimonLiar enemy);
 };
 
 

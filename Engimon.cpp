@@ -4,11 +4,11 @@ using namespace std;
 
 int Engimon::countID = 0;
 
-double elmtAdv[5][5] = {{0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}, {0, 0, 0, 0, 0}};
+double elmtAdv[5][5] = {{1, 2, 0.5, 1, 0}, {0, 1, 2, 0.5, 1}, {1.5, 0, 1, 2, 1}, {1, 1.5, 0, 1, 2}, {2, 1, 1, 0, 1}};
 
 Engimon::Engimon(string name, string species, vector<Element> elements, const Skill& uniqueSkill) : Engimon(name, Species(species, elements, uniqueSkill)) {};
 
-Engimon::Engimon(string name, const Species& species, int level): Species(species) {
+Engimon::Engimon(string name, Species species, int level): Species(species) {
   this->idEngimon = Engimon::countID;
   this->name = name;
   this->level = level;
@@ -19,7 +19,7 @@ Engimon::Engimon(string name, const Species& species, int level): Species(specie
   Engimon::countID++;
 }
 
-Engimon::Engimon(string name, const Species& species): Species(species) {
+Engimon::Engimon(string name, Species species): Species(species) {
   this->idEngimon = Engimon::countID;
   this->name = name;
   this->level = 1;
@@ -116,12 +116,10 @@ void Engimon::showSkills() const {
 }
 
 bool Engimon::isSkillCompatible(const Skill& skill) const {
-  for(int i = 0; i < skill.getElements().size(); i++) {
-    if (find(this->elements.begin(), this->elements.end(), skill.getElement(i)) == this->elements.end()) {
-      return false;
-    }
+  for(int i = 0; i < this->elements.size(); i++) {
+    if(skill.isLearntBy(this->elements[i])) return true;
   }
-  return true;
+  return false;
 }
 
 void Engimon::learnSkill(const SkillItem& skillItem) {
@@ -220,6 +218,16 @@ Position EngimonLiar::getPosition() const { return position; }
 void EngimonLiar::setPosition(Position p) {
     this->position.setX(p.getX());
     this->position.setY(p.getY());
+}
+
+void EngimonLiar::printSummary() {
+  cout << "\n========ENEMY DETAIL=======" << endl;
+  cout << "Spesies : " << this->species << endl;
+  cout << "Elements : ";
+  printVector<Element>(this->elements, ", ", false, false);
+  cout << endl;
+  cout << "Level : " << this->getLevel() << endl;
+  cout <<  "=======ENEMY DETAIL=======" << endl;
 }
 
 bool Engimon::operator == (Engimon e) {

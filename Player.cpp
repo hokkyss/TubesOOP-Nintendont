@@ -4,7 +4,7 @@ using namespace std;
 
 int FullInventory::currentCapacity = 0;
 
-Player::Player(const Engimon& starter) : activeEngimon(starter), pos(initX,initY){
+Player::Player(const Engimon& starter) : activeEngimonIdx(0), pos(initX,initY){
     engimonList.insert(starter);
 }
 
@@ -12,11 +12,12 @@ void Player::showAllEngimon(){
     this->engimonList.showInventory();
 }
 
-Engimon Player::getActiveEngimon() const{
-    return this->activeEngimon;
+Engimon& Player::getActiveEngimon() {
+    // return this->activeEngimon;
+    return this->engimonList.inventoryList[activeEngimonIdx];
 }
 
-Position Player::getPosition(){
+Position& Player::getPosition(){
     return pos;
 }
 
@@ -28,18 +29,18 @@ void Player::showEngimon(Engimon e){
     return e.showDetails();
 }
 
-void Player::switchActiveEngimon(Engimon e){
-    this->activeEngimon = e;
+void Player::switchActiveEngimon(Engimon el){
+    this->activeEngimonIdx = engimonList.findItem(el);
 }
 
 void Player::showSkillItems(){
     this->skillItemList.showInventory();
 }
 
-void Player::useItems(const SkillItem& si, Engimon e){
+void Player::useItems(const SkillItem& si, Engimon& e){
     if(skillItemList.isExist(si)){
         if(engimonList.isExist(e)){
-            //e.learn(si);
+            e.learnSkill(si);
             skillItemList.remove(si);
         }else throw e;
     }else throw si;
@@ -134,29 +135,36 @@ void Player::breed(Engimon& A, Engimon& B){
     } else{ throw InventoryFullException(); }
 }
 
-void Player::battle(Engimon enemy){
+void Player::battle(EngimonLiar enemy){
+    Engimon& activeEngimon = engimonList.inventoryList[this->activeEngimonIdx];
     int winner = activeEngimon.handleBattle(enemy);
     int expWon = enemy.getLevel()*EXP_MULT;
-
     if (winner == 2 || activeEngimon.getExp()+expWon > MAX_EXP){
         if (winner == 2) cout << activeEngimon.getName() << " has lost the battle and fainted..." << endl;
         else cout << activeEngimon.getName() << " just got max level and has to be released" << endl;
-        
         engimonList.remove(activeEngimon);
-
         if(engimonList.inventoryList.size()>0) switchActiveEngimon(engimonList.inventoryList[0]);
         else throw RunOutOfEngimonException();
-
         cout << activeEngimon.getName() << " is the new active Engimon" << endl;
     }else {
+        
         cout << "Congratulations! " << activeEngimon.getName() << " won the battle!" << endl;
         cout << activeEngimon.getName() << " gain " << expWon << " Exp" << endl;
         activeEngimon.addExp(expWon);
+        
         try {
-            engimonList.insert(enemy);
-            skillItemList.insert(randomSkillItem(enemy.getElements()));
-        }catch (InventoryFullException err){
-            throw err;
+            cout<<"MASUK INSERT ENGIMON\n";
+            Engimon rewardEngimon(enemy.getName(),enemy.getSpecies());
+            engimonList.insert(rewardEngimon);
+            cout<<"MASUK INSERT ITEM\n";
+            SkillItem siTemp = randomSkillItem(enemy.getElements());
+            cout<<siTemp<<endl;
+            skillItemList.insert(siTemp);
+            skillItemList.showInventory();
+        }catch (InventoryFullException errFull){
+            throw errFull;
+        }catch (ItemAlreadyExistedException errExisted){
+            throw errExisted;
         }
     }
 }

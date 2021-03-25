@@ -39,8 +39,8 @@ class Engimon : public Species {
 
   public:
     Engimon(string name, string species, vector<Element> elements, const Skill& uniqueSkill);
-    Engimon(string name, const Species& species, int level);
-    Engimon(string name, const Species& species);
+    Engimon(string name, Species species, int level);
+    Engimon(string name, Species species);
     Engimon(string name, string species);
     ~Engimon();
 
@@ -79,7 +79,7 @@ class EngimonLiar : public Engimon{
       EngimonLiar(const Species &sp, Position pos, int level);
       Position getPosition() const;
       void setPosition(Position p);
+      void printSummary();
 };
-
 
 #endif

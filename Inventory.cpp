@@ -13,6 +13,7 @@ Inventory<T>::~Inventory(){}
 template <class T>
 void Inventory<T>::remove(T el){
     inventoryList.erase(find(inventoryList.begin(),inventoryList.end(),el));
+    currentCapacity--;
 } 
 
 template <class T>
@@ -39,14 +40,21 @@ bool Inventory<T>::isExist(T el){
 
 template <class T>
 void Inventory<T>::insert(T in){
-    if (currentCapacity < maxCapacity){ 
+    cout<<"INSERT 1\n";
+    if (currentCapacity < maxCapacity){
+        cout<<"INSERT 2\n";
         if ((is_same<SkillItem,T>::value&&!isExist(in)) || is_same<Engimon,T>::value){
+            cout<<"INSERT 3\n";
             inventoryList.push_back(in);
             currentCapacity++;
-            cout << "Jumlah inventory " << currentCapacity << "<" << maxCapacity << endl;
-        }else throw ItemAlreadyExistedException();
+        }else {
+            throw ItemAlreadyExistedException();
+        }
     }
-    else throw InventoryFullException();
+    else{
+        cout<<"INSERT 5\n";
+        throw InventoryFullException();
+    }
 }
 
 template <class T>

@@ -20,6 +20,7 @@ class Species
 		string getName() const;
 		vector<Element> getElements() const;
 		Skill getUniqueSkill() const;
+		void operator=(const Species& s);
 };
 
 extern vector<Species> listOfSpecies;
@@ -33,6 +34,12 @@ extern Species Hailon;
 extern Species Soliust;
 extern Species Bulbmon;
 extern Species Aquaron;
+
+extern Species Sparkymon;
+extern Species Icypicy;
+extern Species CacingAlaska;
+extern Species Chupika;
+extern Species Flooduf;
 
 //double element
 extern Species Coldhell;

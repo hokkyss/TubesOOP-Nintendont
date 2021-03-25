@@ -5,7 +5,6 @@ using namespace std;
 Species::Species(string species, vector<Element> elements, const Skill& uniqueSkill): uniqueSkill(uniqueSkill) {
     this->species = species;
     this->elements = elements;
-    this->uniqueSkill = uniqueSkill;
 }
 
 Species::Species(const Species& s) : uniqueSkill(s.uniqueSkill) {
@@ -58,6 +57,13 @@ bool isElementsSame(vector<Element> e1, vector<Element> e2){
     return false;
 }
 
+void Species :: operator=(const Species& s)
+{
+	this->species = s.species;
+    this->elements = s.elements;
+    this->uniqueSkill = s.uniqueSkill;
+}
+
 //single element
 Species Emberon("Emberon", {Element::Fire},FlameThrower);
 Species Hailon("Hailon", {Element::Ice},IceBeam);
@@ -65,6 +71,11 @@ Species Soliust("Soliust", {Element::Ground},DoubleEdge);
 Species Bulbmon("Bulbmon", {Element::Electric},VoltTackle);
 Species Aquaron("Aquaron", {Element::Water},HydroPump);
 
+Species Sparkymon("Sparkymon", {Element::Fire},FireBlast);
+Species Icypicy("Icypicy", {Element::Ice},IceHammer);
+Species CacingAlaska("CacingAlaska", {Element::Ground},BullDoze);
+Species Chupika("Chupika", {Element::Electric},ShockWave);
+Species Flooduf("Flooduf", {Element::Water},Liquidation);
 //double element
 Species Coldhell("Coldhell", {Element::Fire, Element::Ice},FreezingFlame);
 Species Magmatuar("Magmatuar", {Element::Fire, Element::Ground},FireBlast);
