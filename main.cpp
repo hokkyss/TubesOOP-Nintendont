@@ -253,18 +253,9 @@ void moveWildEngimon(Player player, Position prev){
     }
 }
 
-int main() {
-    /* Const Declaration */
-    const string filePath = "./input/contoh.txt";
-
-    /* Var Declaration */
+Engimon* pickStarterEngimon(){
     string command;
     string starterName;
-    int turn = 0;
-
-    /* Initialization Phase */
-    initPeta(filePath);
-
     cout << "<<< Welcome to the World of Engimon! Ready to Catch 'em All? >>>" << endl;
     cout << "Here's a list for your starter: " << endl;
     cout << "1. Emberon (Fire)" << endl;
@@ -277,18 +268,33 @@ int main() {
     cin >> command;
     cout << "Give it a name: ";
     cin >> starterName;
-    Engimon *starter = new Engimon(starterName, "Emberon");
+
     if (command == "1") {
-        starter = new Engimon(starterName, "Emberon");
+        return new Engimon(starterName, "Emberon");
     } else if (command == "2") {
-        starter = new Engimon(starterName, "Hailon");
+        return new Engimon(starterName, "Hailon");
     } else if (command == "3") {
-        starter = new Engimon(starterName, "Soliust");
+        return new Engimon(starterName, "Soliust");
     } else if (command == "4") {
-        starter = new Engimon(starterName, "Bulbmon");
+        return new Engimon(starterName, "Bulbmon");
     } else if (command == "5") {
-        starter = new Engimon(starterName, "Aquamon");
+        return new Engimon(starterName, "Aquamon");
     } 
+    return new Engimon(starterName, "Emberon");
+}
+
+int main() {
+    /* Const Declaration */
+    const string filePath = "./input/contoh.txt";
+
+    /* Var Declaration */
+    string command;
+    int turn = 0;
+
+    /* Initialization Phase */
+    initPeta(filePath);
+
+    Engimon *starter = pickStarterEngimon();
 
     Player player(*starter);
     /* In Game Phase */
