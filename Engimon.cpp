@@ -174,7 +174,7 @@ void Engimon::setSkill(const vector<Skill> target){
 
 void Engimon::setLevel(int level){
   this->level = level;
-  this->exp = (level-1) * 100;
+  this->cumExp = (level-1) * 100;
 }
 
 double Engimon::countElmtAdvPower(Engimon def) {

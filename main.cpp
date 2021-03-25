@@ -1,7 +1,6 @@
 /* Libraries */
 #include <iostream>
 #include <algorithm>
-#include <array>
 #include <time.h>
 
 /* Classes */
@@ -296,6 +295,14 @@ int pickEngimon(Player player){
     return opt;
 }
 
+void cheatEngimon(Player& player){
+    Engimon cheat1("CheatOne",Emberon,31);
+    Engimon cheat2("CheatTwo",Bulbmon,31);
+
+    player.engimonList.insert(cheat1);
+    player.engimonList.insert(cheat2);
+}
+
 int main() {
     /* Const Declaration */
     const string filePath = "./input/contoh.txt";
@@ -311,6 +318,7 @@ int main() {
 
     Player player(*starter);
     player.skillItemList.insert(TM02);
+    cheatEngimon(player);
     /* In Game Phase */
     do {
         Position prev(player.getPosition().getX(),player.getPosition().getY());
