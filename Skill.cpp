@@ -184,7 +184,7 @@ Skill BodySlam("Body Slam", 90, Fire, Ice, Ground, Electric, Water);
 Skill DoubleEdge("Double Edge", 120, Fire, Ice, Ground, Electric, Water);
 Skill GigaImpact("Giga Impact", 150, Fire, Ice, Ground, Electric, Water);
 Skill FirePledge("Fire Pledge", 50, Fire);
-Skill FlameThrower("Flamethrower", 200, Fire);
+Skill FlameThrower("Flamethrower", 90, Fire);
 Skill FireBlast("Fire Blast", 120, Fire);
 Skill BlastBurn("Blast Burn", 150, Fire);
 Skill Avalanche("Avalanche", 60, Ice);
