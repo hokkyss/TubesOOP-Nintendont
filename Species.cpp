@@ -11,6 +11,7 @@ Species::Species(string species, vector<Element> elements, const Skill& uniqueSk
 Species::Species(const Species& s) : uniqueSkill(s.uniqueSkill) {
     this->species = s.species;
     this->elements = s.elements;
+    this->response = s.response;
 }
 
 string Species::getName() const {
@@ -72,11 +73,11 @@ void Species::interact(){
 }
 
 //single element
-Species Emberon("Emberon", {Element::Fire},FlameThrower,{"Brrr..","Ron! Ron!!"});
-Species Hailon("Hailon", {Element::Ice},IceBeam),{"Hail! Hail!!", "Loon.."};
-Species Soliust("Soliust", {Element::Ground},DoubleEdge,{"Grust..", "Louuust"});
-Species Bulbmon("Bulbmon", {Element::Electric},VoltTackle,{"Bulbo, bulbo!","I need electricity"});
-Species Aquaron("Aquaron", {Element::Water},HydroPump, {"Aqua qua qua", "Quda quda quda"});
+Species Emberon("Emberon", {Element::Fire},FirePledge,{"Brrr..","Ron! Ron!!"});
+Species Hailon("Hailon", {Element::Ice},IceBeam,{"Hail! Hail!!", "Loon.."});
+Species Soliust("Soliust", {Element::Ground},BodySlam,{"Grust..", "Louuust"});
+Species Bulbmon("Bulbmon", {Element::Electric},Thunderbolt,{"Bulbo, bulbo!","I need electricity"});
+Species Aquaron("Aquaron", {Element::Water},WaterPledge, {"Aqua qua qua", "Quda quda quda"});
 
 Species Sparkymon("Sparkymon", {Element::Fire},FireBlast,{"Sparky parky!","Party parky!"});
 Species Icypicy("Icypicy", {Element::Ice},IceHammer, {"cyp cyp", "icy icy"});

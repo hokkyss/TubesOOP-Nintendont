@@ -13,11 +13,11 @@ Inventory<T>::~Inventory(){}
 template <class T>
 void Inventory<T>::remove(T el){
     int idx = findItem(el);
-    if(countSkillitem[idx]==1){
-        inventoryList.erase(inventoryList[idx]);
-        countSkillitem.erase(countSkillItem.begin()+idx);
+    if(countSkillItem[idx]==1){
+        inventoryList.erase(inventoryList.begin()+idx);
+        countSkillItem.erase(countSkillItem.begin()+idx);
     }else {
-        countSkillitem[idx]--;
+        countSkillItem[idx]--;
     }
     currentCapacity--;
 } 
@@ -54,8 +54,6 @@ void Inventory<T>::insert(T in){
         } else if (is_same<SkillItem,T>::value&&isExist(in)){
             int idx = findItem(in);
             countSkillItem[idx]++;
-        } else {
-            throw ItemAlreadyExistedException();
         }
     }
     else{

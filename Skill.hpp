@@ -3,26 +3,10 @@
 
 #include <vector>
 #include <string.h>
-#include <exception>
+#include "Exception.hpp"
 #include "Element.hpp"
 
 using namespace std;
-
-class IndexInvalidException : exception
-{
-	const char* what() const throw()
-	{
-		return "Index invalid";
-	}
-};
-
-class ItemNotFoundException : exception
-{
-	const char* what() const throw()
-	{
-		return "Item not found!";
-	}
-};
 
 class Skill
 {

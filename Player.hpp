@@ -7,6 +7,7 @@
 #include "SkillItem.hpp"
 #include "Inventory.hpp"
 #include "Inventory.cpp"
+#include "Exception.hpp"
 #include <iostream>
 
 #define initX 0
@@ -14,22 +15,6 @@
 #define EXP_MULT 15
 
 using namespace std;
-
-class LevelNotEnoughException : exception
-{
-    const char* what() const throw()
-    {
-        return "Parent's level is not enough!";
-    }
-};
-
-class RunOutOfEngimonException : exception
-{
-    const char* what() const throw()
-    {
-        return "You have run out of Engimon to use!";
-    }
-};
 
 class Player {
     private:

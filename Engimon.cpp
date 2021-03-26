@@ -6,7 +6,7 @@ int Engimon::countID = 0;
 
 double elmtAdv[5][5] = {{1, 2, 0.5, 1, 0}, {0, 1, 2, 0.5, 1}, {1.5, 0, 1, 2, 1}, {1, 1.5, 0, 1, 2}, {2, 1, 1, 0, 1}};
 
-Engimon::Engimon(string name, string species, vector<Element> elements, const Skill& uniqueSkill) : Engimon(name, Species(species, elements, uniqueSkill)) {};
+Engimon::Engimon(string name, string species, vector<Element> elements, const Skill& uniqueSkill, vector<string> response) : Engimon(name, Species(species, elements, uniqueSkill, response)) {};
 
 Engimon::Engimon(string name, Species species, int level): Engimon(name, Species(species)) {
   this->level = level;
@@ -147,7 +147,7 @@ void Engimon::learnSkill(const SkillItem& skillItem) {
     throw SkillNotCompatibleException();
   }
 
-  if (!this->hasLearnt(skill)) {
+  if (this->hasLearnt(skill)) {
     throw SkillExistException();
   }
 
@@ -256,7 +256,7 @@ bool Engimon::operator == (Engimon e) {
   return (this->name == e.name && this->species == e.species && this->level == e.level);
 }
 
-void Engimon::interact(){
+void Engimon::interact() {
   cout<<this->name<<" : ";
   Species::interact();
   cout<<"\n";

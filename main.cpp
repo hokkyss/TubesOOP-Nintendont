@@ -12,6 +12,7 @@
 #include "Inventory.hpp"
 #include "Species.hpp"
 #include "Direction.hpp"
+#include "Exception.hpp"
 
 /* Utilities */
 #include "Utilities.hpp"
@@ -106,7 +107,7 @@ void spawnWildEngimons(Player player, Position prev) {
         if (!isCellOccupied(p, player, prev) && 
             (seaEngimon && tabPeta[p.getY()][p.getX()] == 'o') || 
             (groundEngimon && tabPeta[p.getY()][p.getX()] == '-'))
-            wildEngimons[i] = new EngimonLiar(s, p, (rand() % player.getActiveEngimon().getLevel() * 2) + 1);
+            wildEngimons[i] = new EngimonLiar(s, p, ((rand() % player.getActiveEngimon().getLevel() * 2) + 1)%50 + 1);
     }
 }
 
@@ -344,6 +345,7 @@ int main() {
 
     Player player(*starter);
     // player.skillItemList.insert(TM02);
+    // player.skillItemList.insert(TM02);
     cheatEngimon(player);
     /* In Game Phase */
     do {
@@ -466,8 +468,8 @@ int main() {
             cout << "\nYou have run out of Engimon!" << endl;
             cout << "\n***********\n GAME OVER\n***********" << endl;
             break;
-        }catch (ItemAlreadyExistedException errExisted){
-            cout << "\nYou have this Skill Item already!" << endl;
+        }catch (SkillExistException errExisted){
+            cout << "\nThe Engimon has learn this skill already!" << endl;
         }catch (string errBattle){
             cout << "\nYou don't have enemy nearby!" << endl;
         }catch (SkillNotCompatibleException errUseSkill){

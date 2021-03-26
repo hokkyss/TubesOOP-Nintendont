@@ -148,9 +148,11 @@ void Player::battle(EngimonLiar enemy){
         if (winner == 2) cout << activeEngimon.getName() << " has lost the battle and fainted..." << endl;
         else cout << activeEngimon.getName() << " just got max level and has to be released" << endl;
         engimonList.remove(activeEngimon);
+
         if(engimonList.inventoryList.size()>0) switchActiveEngimon(engimonList.inventoryList[0]);
         else throw RunOutOfEngimonException();
-        cout << activeEngimon.getName() << " is the new active Engimon" << endl;
+
+        cout << getActiveEngimon().getName() << " is the new active Engimon" << endl;
     }else {
         
         cout << "Congratulations! " << activeEngimon.getName() << " won the battle!" << endl;
