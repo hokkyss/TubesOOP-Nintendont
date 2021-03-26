@@ -40,11 +40,8 @@ bool Inventory<T>::isExist(T el){
 
 template <class T>
 void Inventory<T>::insert(T in){
-    cout<<"INSERT 1\n";
     if (currentCapacity < maxCapacity){
-        cout<<"INSERT 2\n";
         if ((is_same<SkillItem,T>::value&&!isExist(in)) || is_same<Engimon,T>::value){
-            cout<<"INSERT 3\n";
             inventoryList.push_back(in);
             currentCapacity++;
         }else {
@@ -52,7 +49,6 @@ void Inventory<T>::insert(T in){
         }
     }
     else{
-        cout<<"INSERT 5\n";
         throw InventoryFullException();
     }
 }

@@ -47,10 +47,8 @@ SkillItem& getSkillItemByName(string name)
 
 SkillItem randomSkillItem(vector<Element> elements)
 {
-	cout<<"randSkillItem 1\n";
 	vector<SkillItem> candidates;
 	int listOfSkillItemSize = listOfSkillItem.size();
-	cout<<"randSkillItem 2\n";
 	bool isCandidate;
 	for(int i = 0; i < listOfSkillItemSize; i++)
 	{
@@ -68,11 +66,8 @@ SkillItem randomSkillItem(vector<Element> elements)
 			candidates.push_back(*temp);
 		}
 	}
-	cout<<"randSkillItem 3\n";
 	int randomIndex = rand() % candidates.size();
-	cout<<"randSkillItem 4\n";
-	cout<<"INI SIZE "<<candidates.size()<<endl;
-	cout<<"INI RANDOM IDX "<<randomIndex<<endl;
+	
 	return candidates[randomIndex];
 }
 

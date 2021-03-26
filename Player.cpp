@@ -153,14 +153,12 @@ void Player::battle(EngimonLiar enemy){
         activeEngimon.addExp(expWon);
         
         try {
-            cout<<"MASUK INSERT ENGIMON\n";
             Engimon rewardEngimon(enemy.getName(),enemy.getSpecies());
             engimonList.insert(rewardEngimon);
-            cout<<"MASUK INSERT ITEM\n";
             SkillItem siTemp = randomSkillItem(enemy.getElements());
-            cout<<siTemp<<endl;
+            cout << "\nYou got a new skill item!" << endl;
+            cout << siTemp << endl;
             skillItemList.insert(siTemp);
-            skillItemList.showInventory();
         }catch (InventoryFullException errFull){
             throw errFull;
         }catch (ItemAlreadyExistedException errExisted){

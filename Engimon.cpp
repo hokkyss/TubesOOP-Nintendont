@@ -227,7 +227,7 @@ void EngimonLiar::printSummary() {
   printVector<Element>(this->elements, ", ", false, false);
   cout << endl;
   cout << "Level : " << this->getLevel() << endl;
-  cout <<  "=======ENEMY DETAIL=======" << endl;
+  cout <<  "=======ENEMY DETAIL=======\n" << endl;
 }
 
 bool Engimon::operator == (Engimon e) {

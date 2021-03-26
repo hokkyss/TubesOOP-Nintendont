@@ -75,8 +75,22 @@ bool isCellOccupied(Position p, Player player, Position prev) {
     return false;
 }
 
+void removeWildEngimon(EngimonLiar* engi){
+    for (int i = 0; i < MAX_WILD_ENGIMON; i++){
+        if (engi == wildEngimons[i]){
+            // delete engi;
+            // if (wildEngimons[i]==NULL)cout << "test delete" << endl;
+            wildEngimons[i] = NULL;
+        }
+    }
+}
+
 void spawnWildEngimons(Player player, Position prev) {
     srand(time(NULL));
+    for (int i = 0; i < MAX_WILD_ENGIMON; i++){
+        removeWildEngimon(wildEngimons[i]);
+    }
+
     for (int i = 0; i < MAX_WILD_ENGIMON; i++) {
         Species s = listOfSpecies[rand() % listOfSpecies.size()];
         vector<Element> elements = s.getElements();
@@ -143,12 +157,6 @@ void printEngimonInPeta(EngimonLiar e) {
     }
 }
 
-void removeWildEngimon(EngimonLiar* engi){
-    for (int i = 0; i < MAX_WILD_ENGIMON; i++){
-        if (engi == wildEngimons[i]) wildEngimons[i] = NULL;  
-    }
-}
-
 void printPeta(Player player, Position prev) {
     for (int i = 0; i < tabPeta[0].size()+2; i++)
         cout << '#';
@@ -181,7 +189,7 @@ void printPeta(Player player, Position prev) {
 }
 
 void printHelp(){
-    cout << "Comman    | Usage" << endl;
+    cout << "Command   | Usage" << endl;
     cout << "w,a,s,d   | Movement" << endl;
     cout << "show      | Show Active Engimon Stats" << endl;
     cout << "change    | Change Active Engimon" << endl;
@@ -317,8 +325,8 @@ int main() {
     Engimon *starter = pickStarterEngimon();
 
     Player player(*starter);
-    player.skillItemList.insert(TM02);
-    cheatEngimon(player);
+    // player.skillItemList.insert(TM02);
+    // cheatEngimon(player);
     /* In Game Phase */
     do {
         Position prev(player.getPosition().getX(),player.getPosition().getY());
@@ -403,8 +411,10 @@ int main() {
                     }
                 }
 
-                if (enemy == NULL)
-                    throw "enemy does not exist";
+                if (enemy == NULL){
+                    string err = "No enemy nearby!";
+                    throw err;
+                }
 
                 enemy->printSummary();
 
