@@ -93,7 +93,10 @@ void spawnWildEngimons(Player player, Position prev) {
     }
 
     for (int i = 0; i < MAX_WILD_ENGIMON; i++) {
-        Species s = listOfSpecies[rand() % listOfSpecies.size()];
+        int randOne = rand() % 10;
+        int randTwo = rand() % (listOfSpecies.size()-10) + 10;
+        int randOpt = rand() % 2;
+        Species s = listOfSpecies[randOpt==0?randOne:randTwo];
         vector<Element> elements = s.getElements();
         Position p;
 
@@ -344,9 +347,12 @@ int main() {
     Engimon *starter = pickStarterEngimon();
 
     Player player(*starter);
+
+    // DEMO PURPOSES
     // player.skillItemList.insert(TM02);
     // player.skillItemList.insert(TM02);
-    cheatEngimon(player);
+    // cheatEngimon(player);
+
     /* In Game Phase */
     do {
         Position prev(player.getPosition().getX(),player.getPosition().getY());
