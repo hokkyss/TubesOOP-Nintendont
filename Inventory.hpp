@@ -46,6 +46,8 @@ template <class T>
 class Inventory : public FullInventory{
     public:
         vector<T> inventoryList;
+        vector<int> countSkillItem;
+
         //ctor
         Inventory();
         ~Inventory();

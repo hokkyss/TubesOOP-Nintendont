@@ -12,7 +12,13 @@ Inventory<T>::~Inventory(){}
 
 template <class T>
 void Inventory<T>::remove(T el){
-    inventoryList.erase(find(inventoryList.begin(),inventoryList.end(),el));
+    int idx = findItem(el);
+    if(countSkillitem[idx]==1){
+        inventoryList.erase(inventoryList[idx]);
+        countSkillitem.erase(countSkillItem.begin()+idx);
+    }else {
+        countSkillitem[idx]--;
+    }
     currentCapacity--;
 } 
 
@@ -43,8 +49,12 @@ void Inventory<T>::insert(T in){
     if (currentCapacity < maxCapacity){
         if ((is_same<SkillItem,T>::value&&!isExist(in)) || is_same<Engimon,T>::value){
             inventoryList.push_back(in);
+            countSkillItem.push_back(1);
             currentCapacity++;
-        }else {
+        } else if (is_same<SkillItem,T>::value&&isExist(in)){
+            int idx = findItem(in);
+            countSkillItem[idx]++;
+        } else {
             throw ItemAlreadyExistedException();
         }
     }
@@ -58,11 +68,13 @@ void Inventory<T>::showInventory(){
     cout << "Inventory ";
     if (is_same<Engimon,T>::value) cout << "Engimon ";
     else if (is_same<SkillItem,T>::value) cout << "Skill Item "; 
-    cout << ":" << endl;
+    cout << "(" << currentCapacity << "/" << maxCapacity << ")" << ":" << endl;
 
     for(int i=0;i<inventoryList.size();i++){
         cout << i+1 << ". ";
-        cout << inventoryList[i].getName() << endl;
+        cout << inventoryList[i].getName();
+        if (is_same<SkillItem,T>::value) cout << " - " << countSkillItem[i] << endl;
+        else cout << endl; 
     }
 }
 

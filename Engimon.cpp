@@ -8,15 +8,21 @@ double elmtAdv[5][5] = {{1, 2, 0.5, 1, 0}, {0, 1, 2, 0.5, 1}, {1.5, 0, 1, 2, 1},
 
 Engimon::Engimon(string name, string species, vector<Element> elements, const Skill& uniqueSkill) : Engimon(name, Species(species, elements, uniqueSkill)) {};
 
-Engimon::Engimon(string name, Species species, int level): Species(species) {
-  this->idEngimon = Engimon::countID;
-  this->name = name;
+Engimon::Engimon(string name, Species species, int level): Engimon(name, Species(species)) {
   this->level = level;
   this->exp = 0;
-  this->cumExp = level*EXP_PER_LEVEL;
+  this->cumExp = (level-1)*EXP_PER_LEVEL;
   this->maxExp = MAX_EXP;
-  this->skills.push_back(species.uniqueSkill);
-  Engimon::countID++;
+}
+
+Engimon::Engimon(string name, Species species, vector<Engimon> parents) : Engimon(name, Species(species)) {
+  if (parents.size() != 2) throw ParentsInvalidException();
+
+  for(int i = 0; i<parents.size(); i++){
+    this->parentName.push_back(parents[i].getName());
+    this->parentSpecies.push_back((parents[i].getSpecies()));
+  }
+  
 }
 
 Engimon::Engimon(string name, Species species): Species(species) {
@@ -31,6 +37,8 @@ Engimon::Engimon(string name, Species species): Species(species) {
 }
 
 Engimon::Engimon(string name, string species): Engimon(name, getSpeciesByName(species)) {};
+
+Engimon::Engimon(string name, string species, int level): Engimon(name, getSpeciesByName(species), level) {};
 
 Engimon::~Engimon(){}
 
@@ -101,11 +109,14 @@ void Engimon::showDetails() const {
     }
   }
   cout << endl;
-  cout << "Parents : ";
-  if (this->parentName.size() == 0 && this->parentSpecies.size() == 0) cout << "-";
+  cout << "Parents :\n";
+  if (this->parentName.size() != 2 && this->parentSpecies.size() != 2) cout << "-";
+  else {
+    for(int i=0; i<this->parentName.size(); i++){
+      cout << "> " << parentName[i] << " - " << parentSpecies[i] << endl;
+    } 
+  }
   cout << endl;
-  printVector<string>(this->parentName, ", ", false, false);
-  printVector<string>(this->parentSpecies, ", ", false, false);
   cout <<  "=======ENGIMON'S DETAIL=======" << endl;
 }
 
@@ -122,11 +133,22 @@ bool Engimon::isSkillCompatible(const Skill& skill) const {
   return false;
 }
 
+bool Engimon::hasLearnt(const Skill& skill) const {
+  for(int i = 0; i < this->skills.size(); i++) {
+    if(this->skills[i].getName() == skill.getName()) return true;
+  }
+  return false;
+}
+
 void Engimon::learnSkill(const SkillItem& skillItem) {
   // TODO: kalau beda element, bakal throw exception
   Skill skill = skillItem.getContainedSkill();
   if (!isSkillCompatible(skill)) {
     throw SkillNotCompatibleException();
+  }
+
+  if (!this->hasLearnt(skill)) {
+    throw SkillExistException();
   }
 
   if (this->skills.size() < 4) {
@@ -232,4 +254,10 @@ void EngimonLiar::printSummary() {
 
 bool Engimon::operator == (Engimon e) {
   return (this->name == e.name && this->species == e.species && this->level == e.level);
+}
+
+void Engimon::interact(){
+  cout<<this->name<<" : ";
+  Species::interact();
+  cout<<"\n";
 }

@@ -106,30 +106,35 @@ vector<Element> inheritElmt(Engimon A, Engimon B){
 void Player::breed(Engimon& A, Engimon& B){
     if(!engimonList.isFull()){
         if(A.getLevel() > 30 && B.getLevel() > 30){
-        string childName;
-        cout << "Enter your new Engimon's name: " << endl;
-        cin >> childName;
-        
-        vector<Skill> childSkill = inheritSkill(A, B);
-        vector<Element> childElmt = inheritElmt(A, B);
-        Species childSpecies(Emberon);
-        if(isElementsSame(childElmt, A.getElements())){
-            childSpecies = getSpeciesByName(A.getSpecies());
-        } else if(isElementsSame(childElmt, B.getElements())){
-            childSpecies = getSpeciesByName(B.getSpecies());
-        } else{
-            childSpecies = getSpeciesByElement(childElmt);
-        }
+            string childName;
+            cout << "Enter your new Engimon's name: " << endl;
+            cin >> childName;
+            
+            vector<Skill> childSkill = inheritSkill(A, B);
+            vector<Element> childElmt = inheritElmt(A, B);
+            Species childSpecies(Emberon);
+            if(isElementsSame(childElmt, A.getElements())){
+                childSpecies = getSpeciesByName(A.getSpecies());
+            } else if(isElementsSame(childElmt, B.getElements())){
+                childSpecies = getSpeciesByName(B.getSpecies());
+            } else{
+                childSpecies = getSpeciesByElement(childElmt);
+            }
 
-        Engimon *child = new Engimon(childName, childSpecies);
-        child->setSkill(childSkill);
-        engimonList.insert(*child);
+            vector<Engimon> parentVec;
+            parentVec.push_back(A);
+            parentVec.push_back(B);
 
-        A.setLevel(A.getLevel()-30);
-        B.setLevel(B.getLevel()-30);
+            Engimon *child = new Engimon(childName, childSpecies, parentVec);
+            
+            child->setSkill(childSkill);
+            engimonList.insert(*child);
 
-        cout << "Breeding successful!" << endl;
-        cout << childName << " is in inventory." << endl;
+            A.setLevel(A.getLevel()-30);
+            B.setLevel(B.getLevel()-30);
+
+            cout << "Breeding successful!" << endl;
+            cout << childName << " is in inventory." << endl;
 
         } else{ throw LevelNotEnoughException(); }
     } else{ throw InventoryFullException(); }

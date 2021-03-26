@@ -190,12 +190,14 @@ void printPeta(Player player, Position prev) {
 
 void printHelp(){
     cout << "Command   | Usage" << endl;
+    cout << "legend    | Show Map Legends" << endl;
     cout << "w,a,s,d   | Movement" << endl;
     cout << "show      | Show Active Engimon Stats" << endl;
     cout << "change    | Change Active Engimon" << endl;
     cout << "inventory | Access Inventory" << endl;
     cout << "use       | Use Skill Item To Teach Engimon" << endl;
     cout << "battle    | Battle Nearby Wild Engimon" << endl;
+    cout << "interact  | Interract With Active Engimon" << endl;
 }
 
 template <class T>
@@ -326,7 +328,7 @@ int main() {
 
     Player player(*starter);
     // player.skillItemList.insert(TM02);
-    // cheatEngimon(player);
+    cheatEngimon(player);
     /* In Game Phase */
     do {
         Position prev(player.getPosition().getX(),player.getPosition().getY());
@@ -344,7 +346,9 @@ int main() {
                 prev = move(player, Right, player, prev);
             } else if (command == "show"){ 
                 player.showEngimon(player.getActiveEngimon());
-            } else if (command == "inventory") {
+            } else if (command == "interact"){
+                player.getActiveEngimon().interact();
+            }else if (command == "inventory") {
                 string opt;
 
                 cout << "1. Engimon" << endl;
@@ -375,11 +379,7 @@ int main() {
                     throw opt;
                 }
                 Engimon& engiChosen = player.engimonList.inventoryList[opt-1];
-                engiChosen.showDetails();
-                player.engimonList.inventoryList[opt-1].showDetails();
                 player.useItems(skillChosen, engiChosen);
-                engiChosen.showDetails();
-                player.engimonList.inventoryList[opt-1].showDetails();
             } else if (command == "change") {
                 int opt;
                 cout << "Choose new Active Engimon " << endl;
@@ -437,6 +437,7 @@ int main() {
             }
         }catch (Direction errDir){
             cout << "\nMovement not valid! Your Engimon just hit you, enter a valid movement!" << endl;
+            player.getActiveEngimon().interact();
         }catch (LevelNotEnoughException errBreed){
             cout << "\nParent level not high enough to breed!" << endl;
         }catch (InventoryFullException errInven){
