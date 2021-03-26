@@ -1,7 +1,7 @@
 #include "Element.hpp"
 #include "Skill.hpp"
 #include "SkillItem.hpp"
-// #include "gtest/gtest.h"
+#include "gtest/gtest.h"
 #include<iostream>
 #include<vector>
 // #include "Element.cpp"
@@ -14,7 +14,6 @@ using namespace std;
 // atau
 // g++ Element.cpp Skill.cpp SkillItem.cpp SkillTester.cpp -o nama_exe
 
-/*
 class SkillTester : public :: testing :: Test
 {
 	protected:
@@ -68,39 +67,4 @@ int main(int argc, char** argv)
 	::testing::InitGoogleTest(&argc, argv);
 	return RUN_ALL_TESTS();
 }
-*/
-void test(const SkillItem& skillItem)
-{
-	Skill s = skillItem.getContainedSkill();
-	s.setMasteryLevel(5);
-	cout << s << endl;
-}
 
-int main()
-{
-	Skill s1 = Tackle;
-	cout << s1;
-	cout << endl;
-	Skill s2 = s1;
-	s2.setMasteryLevel(100);
-	cout << s2;
-	cout << endl;
-	/* HINDARI BAGIAN INI */
-	Skill* s3 = &Tackle;
-	s3->setMasteryLevel(150);
-	cout << Tackle << endl;
-	/* ------------------ */
-	
-	Skill s4 = getSkillByName("Electrolysis");
-	cout << s4 << endl;
-	
-	SkillItem i1 = TM03;
-	Skill s5 = TM03.getContainedSkill();
-	cout << s5 << endl;
-	
-	SkillItem i2 = getSkillItemByName("TM10");
-	cout << i2 << endl;
-	
-	test(TM05);
-	cout << TM05 << endl;
-}
