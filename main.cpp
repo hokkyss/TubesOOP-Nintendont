@@ -200,6 +200,22 @@ void printHelp(){
     cout << "interact  | Interract With Active Engimon" << endl;
 }
 
+void printLegend(){
+    cout << "Legends:" << endl;
+    cout << "W/w    | Water Engimon" << endl;
+    cout << "I/i    | Ice Engimon" << endl;
+    cout << "F/f    | FIre Engimon" << endl;
+    cout << "G/g    | Ground Engimon" << endl;
+    cout << "E/e    | Electric Engimon" << endl;
+    cout << "S/s    | Engimon with more than 1 element" << endl;
+    cout << endl;
+    cout << "P      | You" << endl;
+    cout << "X      | Your Engimon" << endl;
+    cout << endl;
+    cout << "-      | Grassland" << endl;
+    cout << "o      | Sea" << endl;
+}
+
 template <class T>
 Position move(T& obj, Direction dir, Player player, Position prev) {
     int x = obj.getPosition().getX();
@@ -434,6 +450,8 @@ int main() {
                 } else {
                     player.breed(player.engimonList.inventoryList[opt1-1],player.engimonList.inventoryList[opt2-1]);
                 }
+            } else if (command == "legend") {
+                printLegend();
             }
         }catch (Direction errDir){
             cout << "\nMovement not valid! Your Engimon just hit you, enter a valid movement!" << endl;
