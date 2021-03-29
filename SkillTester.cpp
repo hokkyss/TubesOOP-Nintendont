@@ -18,21 +18,22 @@ class SkillTester : public :: testing :: Test
 {
 	protected:
 		Skill s1 = Tackle;
-		Skill s2 = Bulldoze;
+		Skill s2 = BullDoze;
 		Skill s3 = ShockAndBurn;
-}
+};
+
 TEST_F(SkillTester, Getter)
 {
 	EXPECT_EQ(s1.getBasePower(), 50);
-	EXPECT_EQ(s1.getMasteryLevel(), 0);
+	EXPECT_EQ(s1.getMasteryLevel(), 1);
 	EXPECT_EQ(s1.getNumOfElements(), 5);
 	
 	EXPECT_EQ(s2.getBasePower(), 60);
-	EXPECT_EQ(s2.getMasteryLevel(), 0);
+	EXPECT_EQ(s2.getMasteryLevel(), 1);
 	EXPECT_EQ(s2.getNumOfElements(), 1);
 	
 	EXPECT_EQ(s3.getBasePower(), 100);
-	EXPECT_EQ(s3.getMasteryLevel(), 0);
+	EXPECT_EQ(s3.getMasteryLevel(), 1);
 	EXPECT_EQ(s3.getNumOfElements(), 2);
 }
 
