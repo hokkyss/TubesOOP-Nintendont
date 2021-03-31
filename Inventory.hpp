@@ -1,37 +1,13 @@
 #ifndef INVENTORY_HPP
 #define INVENTORY_HPP
 
-#include <exception>
+#include "Exception.hpp"
 #include <iostream>
 #include <vector>
 
 #define MAX_CAPACITY 15
 
 using namespace std;
-
-class ItemAlreadyExistedException : exception
-{
-	const char* what() const throw()
-	{
-		return "Item already owned!";
-	}
-};
-
-class InventoryFullException : exception
-{
-	const char* what() const throw()
-	{
-		return "Inventory is full!";
-	}
-};
-
-class EngimonNotFoundException : exception
-{
-	const char* what() const throw()
-	{
-		return "Engimon not found!";
-	}
-};
 
 class FullInventory{
     public:
@@ -46,6 +22,8 @@ template <class T>
 class Inventory : public FullInventory{
     public:
         vector<T> inventoryList;
+        vector<int> countSkillItem;
+
         //ctor
         Inventory();
         ~Inventory();

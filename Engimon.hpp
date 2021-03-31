@@ -10,17 +10,10 @@
 #include "SkillItem.hpp"
 #include "Utilities.hpp"
 #include "Position.hpp"
+#include "Exception.hpp"
 
 #include <string>
 #include <vector>
-
-class SkillNotCompatibleException : exception
-{
-	const char* what() const throw()
-	{
-		return "Skill not compatible!";
-	}
-};
 
 class Engimon : public Species {
   private:
@@ -38,10 +31,12 @@ class Engimon : public Species {
     vector<Skill> skills;
 
   public:
-    Engimon(string name, string species, vector<Element> elements, const Skill& uniqueSkill);
+    Engimon(string name, string species, vector<Element> elements, const Skill& uniqueSkill, vector<string> response);
     Engimon(string name, Species species, int level);
+    Engimon(string name, Species species, vector<Engimon>parents);
     Engimon(string name, Species species);
     Engimon(string name, string species);
+    Engimon(string name, string species, int level);
     ~Engimon();
 
     //getter
@@ -58,10 +53,12 @@ class Engimon : public Species {
     void setSkill(const vector<Skill> skills);
     void setLevel(int level);
 
+    void interact();
     void addExp(int exp);
     void showDetails() const;
     void showSkills() const;
     bool isSkillCompatible(const Skill& skill) const;
+    bool hasLearnt(const Skill& skill) const;
     void learnSkill(const SkillItem& skillItem);
     void addSkill(const Skill& skill);
     void breed(Engimon couple);

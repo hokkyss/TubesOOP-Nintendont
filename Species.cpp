@@ -2,14 +2,16 @@
 
 using namespace std;
 
-Species::Species(string species, vector<Element> elements, const Skill& uniqueSkill): uniqueSkill(uniqueSkill) {
+Species::Species(string species, vector<Element> elements, const Skill& uniqueSkill, vector<string> response): uniqueSkill(uniqueSkill) {
     this->species = species;
     this->elements = elements;
+    this->response =response;
 }
 
 Species::Species(const Species& s) : uniqueSkill(s.uniqueSkill) {
     this->species = s.species;
     this->elements = s.elements;
+    this->response = s.response;
 }
 
 string Species::getName() const {
@@ -62,60 +64,67 @@ void Species :: operator=(const Species& s)
 	this->species = s.species;
     this->elements = s.elements;
     this->uniqueSkill = s.uniqueSkill;
+    this->response = s.response;
+}
+
+void Species::interact(){
+    int idx = rand() % this->response.size();
+    cout<<this->response[idx]<<endl;
 }
 
 //single element
-Species Emberon("Emberon", {Element::Fire},FlameThrower);
-Species Hailon("Hailon", {Element::Ice},IceBeam);
-Species Soliust("Soliust", {Element::Ground},DoubleEdge);
-Species Bulbmon("Bulbmon", {Element::Electric},VoltTackle);
-Species Aquaron("Aquaron", {Element::Water},HydroPump);
+Species Emberon("Emberon", {Element::Fire},FirePledge,{"Brrr..","Ron! Ron!!"});
+Species Hailon("Hailon", {Element::Ice},IceBeam,{"Hail! Hail!!", "Loon.."});
+Species Soliust("Soliust", {Element::Ground},BodySlam,{"Grust..", "Louuust"});
+Species Bulbmon("Bulbmon", {Element::Electric},Thunderbolt,{"Bulbo, bulbo!","I need electricity"});
+Species Aquaron("Aquaron", {Element::Water},WaterPledge, {"Aqua qua qua", "Quda quda quda"});
 
-Species Sparkymon("Sparkymon", {Element::Fire},FireBlast);
-Species Icypicy("Icypicy", {Element::Ice},IceHammer);
-Species CacingAlaska("CacingAlaska", {Element::Ground},BullDoze);
-Species Chupika("Chupika", {Element::Electric},ShockWave);
-Species Flooduf("Flooduf", {Element::Water},Liquidation);
+Species Sparkymon("Sparkymon", {Element::Fire},FireBlast,{"Sparky parky!","Party parky!"});
+Species Icypicy("Icypicy", {Element::Ice},IceHammer, {"cyp cyp", "icy icy"});
+Species CacingAlaska("CacingAlaska", {Element::Ground},BullDoze,{"Dimana spongebob?","Saya perlu nanas laut"});
+Species Chupika("Chupika", {Element::Electric},ShockWave,{"Chupi, chupii","Piii.."});
+Species Flooduf("Flooduf", {Element::Water},Liquidation, {"loo looo", "looooduffff"});
 //double element
-Species Coldhell("Coldhell", {Element::Fire, Element::Ice},FreezingFlame);
-Species Magmatuar("Magmatuar", {Element::Fire, Element::Ground},FireBlast);
-Species Electrosion("Electrosion", {Element::Fire, Element::Electric},ThunderBlast);
-Species Sealame("Sealame", {Element::Fire, Element::Water},DoubleEdge);
+Species Coldhell("Coldhell", {Element::Fire, Element::Ice},FreezingFlame,{"The hell is freezing..","There's global warming in hell, do you even know that?"});
+Species Magmatuar("Magmatuar", {Element::Fire, Element::Ground},FireBlast,{"Magma is very hot, yet very relaxing", "Magmatuuuuaarrr!"});
+Species Electrosion("Electrosion", {Element::Fire, Element::Electric},ThunderBlast,{"Trooooo...","PAR sangat susah"});
+Species Sealame("Sealame", {Element::Fire, Element::Water},DoubleEdge,{"Siiiie..","Fire and water is not a good idea"});
 
-Species Antartic("Antartic", {Element::Ice, Element::Ground},Avalanche);
-Species Culcas("Culcas", {Element::Ice, Element::Electric},ColdRefrigerator);
-Species Labile("Labile", {Element::Ice, Element::Water},IceBeam);
+Species Antartic("Antartic", {Element::Ice, Element::Ground},Avalanche,{"Tiiic, tiii..","My homeland.. is disappearing"});
+Species Culcas("Culcas", {Element::Ice, Element::Electric},ColdRefrigerator,{"2 Pintu lebih baik dari 1 pintu","Casss... Cullcaasss!"});
+Species Labile("Labile", {Element::Ice, Element::Water},IceBeam,{"Biiii..","Bilbilbiiiiiii.."});
 
-Species Gustmon("Gustmon", {Element::Ground,Element::Electric},TectonicRage);
-Species Trenchmon("Trenchmon", {Element::Ground,Element::Water},GigaImpact);
+Species Gustmon("Gustmon", {Element::Ground,Element::Electric},TectonicRage,{"Gusti apa ini","Gust guuust!"});
+Species Trenchmon("Trenchmon", {Element::Ground,Element::Water},GigaImpact,{"Mariana trench is deeper than you think!", "Trenchy, trenchy!"});
 
-Species Voltense("Voltense", {Element::Electric, Element::Water},Korslet);
+Species Voltense("Voltense", {Element::Electric, Element::Water},Korslet,{"PLN belom bayar","Token listrik memunahkan saya"});
 
 //triple element
-Species Ficigmon("Ficigmon", {Element::Fire, Element::Ice, Element::Ground},FreezingFlame);
-Species Circogord("Circogord", {Element::Fire, Element::Ice, Element::Electric},ThunderBlast);
-Species Icify("Icify", {Element::Fire, Element::Ice, Element::Water},BurningChill);
-Species LovaMagama("LovaMagama", {Element::Fire, Element::Ground, Element::Electric},SteamBomb);
-Species Tetonicy("Tetonicy", {Element::Fire, Element::Ground, Element::Water},Mudflood);
-Species PerfectDisaster("PerfectDisaster", {Element::Fire, Element::Electric, Element::Water},ShockAndBurn);
+Species Ficigmon("Ficigmon", {Element::Fire, Element::Ice, Element::Ground},FreezingFlame,{"Ficiii","Is this digimon??"});
+Species Circogord("Circogord", {Element::Fire, Element::Ice, Element::Electric},ThunderBlast,{"Cirrr","Cooo"});
+Species Icify("Icify", {Element::Fire, Element::Ice, Element::Water},BurningChill,{"Brrrrr","BRRRR"});
+Species LovaMagama("LovaMagama", {Element::Fire, Element::Ground, Element::Electric},SteamBomb,{"Lovee some magama","who is magama"});
+Species Tetonicy("Tetonicy", {Element::Fire, Element::Ground, Element::Water},Mudflood,{"Tekto, tektoooo!","I can make the whole ground shaking, that's called tectonic!"});
+Species PerfectDisaster("PerfectDisaster", {Element::Fire, Element::Electric, Element::Water},ShockAndBurn, {"covid vid vid", "nubes tubes lagi tubes"});
 
-Species Iglosify("Iglosify", {Element::Ice, Element::Ground, Element::Electric},WeatherBall);
-Species Trofii("Trofii", {Element::Ice, Element::Ground, Element::Water},MuddyWater);
-Species Syverter("Syverter", {Element::Ice, Element::Electric, Element::Water},Storm);
+Species Iglosify("Iglosify", {Element::Ice, Element::Ground, Element::Electric},WeatherBall, {"cuaca hari ini", "terang benderang"});
+Species Trofii("Trofii", {Element::Ice, Element::Ground, Element::Water},MuddyWater, {"trolilili", "fuuuuuulingggg"});
+Species Syverter("Syverter", {Element::Ice, Element::Electric, Element::Water},Storm, {"vert vertttt", "kentut bunyinya pret"});
 
-Species Oonga("Oonga", {Element::Ground,Element::Electric,Element::Water},Eruption);
+Species Oonga("Oonga", {Element::Ground,Element::Electric,Element::Water},Eruption, {"oonga oonga", "ngaooo ngaoo"});
 
 //4 elements
-Species Hokkien("Hokkien", {Element::Fire, Element::Ice, Element::Ground, Element::Electric},EarthPower);
-Species Arleen("Arleen", {Element::Fire, Element::Ice, Element::Ground, Element::Water},MeltTheGround);
-Species Maxeew("Maxeew", {Element::Fire, Element::Ice, Element::Electric, Element::Water},FreezingFlame);
-Species Shijeew("Shijeew", {Element::Fire, Element::Ground, Element::Electric, Element::Water},LavaPlume);
-Species Pegow("Pegow", {Element::Fire, Element::Ice, Element::Ground, Element::Water},FreezeDry);
+Species Hokkien("Hokkien", {Element::Fire, Element::Ice, Element::Ground, Element::Electric},EarthPower, {"hok hok hok", "ki ki ki >.<!"});
+Species Arleen("Arleen", {Element::Fire, Element::Ice, Element::Ground, Element::Water},MeltTheGround, {"aldi is here", "arrrrrrrr...leennn"});
+Species Maxeew("Maxeew", {Element::Fire, Element::Ice, Element::Electric, Element::Water},FreezingFlame, {"aduh aduh aduh", "ez ez ez"});
+Species Shijeew("Shijeew", {Element::Fire, Element::Ground, Element::Electric, Element::Water},LavaPlume, {"jeew strongg!", "shishishi"});
+Species Pegow("Pegow", {Element::Fire, Element::Ice, Element::Ground, Element::Water},FreezeDry, {"gope gope gope", "cepe cepe cepe"});
 
-Species Frederon("Frederon", {Element::Fire, Element::Ice, Element::Ground, Element::Electric, Element::Water},GodlyFart);
+Species Frederon("Frederon", {Element::Fire, Element::Ice, Element::Ground, Element::Electric, Element::Water},GodlyFart, {"hehe haha", "hoho huhu"});
 
 vector<Species> listOfSpecies = {
     Emberon, Hailon, Soliust, Voltense, Aquaron,
+    Sparkymon, Icypicy, CacingAlaska, Chupika, Flooduf,
     //double element
     Coldhell, Magmatuar, Electrosion, Sealame, Antartic, Culcas, Labile, Gustmon, Trenchmon, Voltense,
     //triple element

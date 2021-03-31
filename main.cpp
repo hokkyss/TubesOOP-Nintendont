@@ -12,6 +12,7 @@
 #include "Inventory.hpp"
 #include "Species.hpp"
 #include "Direction.hpp"
+#include "Exception.hpp"
 
 /* Utilities */
 #include "Utilities.hpp"
@@ -92,7 +93,10 @@ void spawnWildEngimons(Player player, Position prev) {
     }
 
     for (int i = 0; i < MAX_WILD_ENGIMON; i++) {
-        Species s = listOfSpecies[rand() % listOfSpecies.size()];
+        int randOne = rand() % 10;
+        int randTwo = rand() % (listOfSpecies.size()-10) + 10;
+        int randOpt = rand() % 2;
+        Species s = listOfSpecies[randOpt==0?randOne:randTwo];
         vector<Element> elements = s.getElements();
         Position p;
 
@@ -106,7 +110,7 @@ void spawnWildEngimons(Player player, Position prev) {
         if (!isCellOccupied(p, player, prev) && 
             (seaEngimon && tabPeta[p.getY()][p.getX()] == 'o') || 
             (groundEngimon && tabPeta[p.getY()][p.getX()] == '-'))
-            wildEngimons[i] = new EngimonLiar(s, p, (rand() % player.getActiveEngimon().getLevel() * 2) + 1);
+            wildEngimons[i] = new EngimonLiar(s, p, ((rand() % player.getActiveEngimon().getLevel() * 2) + 1)%50 + 1);
     }
 }
 
@@ -190,12 +194,30 @@ void printPeta(Player player, Position prev) {
 
 void printHelp(){
     cout << "Command   | Usage" << endl;
+    cout << "legend    | Show Map Legends" << endl;
     cout << "w,a,s,d   | Movement" << endl;
     cout << "show      | Show Active Engimon Stats" << endl;
     cout << "change    | Change Active Engimon" << endl;
     cout << "inventory | Access Inventory" << endl;
     cout << "use       | Use Skill Item To Teach Engimon" << endl;
     cout << "battle    | Battle Nearby Wild Engimon" << endl;
+    cout << "interact  | Interract With Active Engimon" << endl;
+}
+
+void printLegend(){
+    cout << "Legends:" << endl;
+    cout << "W/w    | Water Engimon" << endl;
+    cout << "I/i    | Ice Engimon" << endl;
+    cout << "F/f    | FIre Engimon" << endl;
+    cout << "G/g    | Ground Engimon" << endl;
+    cout << "E/e    | Electric Engimon" << endl;
+    cout << "S/s    | Engimon with more than 1 element" << endl;
+    cout << endl;
+    cout << "P      | You" << endl;
+    cout << "X      | Your Engimon" << endl;
+    cout << endl;
+    cout << "-      | Grassland" << endl;
+    cout << "o      | Sea" << endl;
 }
 
 template <class T>
@@ -325,8 +347,12 @@ int main() {
     Engimon *starter = pickStarterEngimon();
 
     Player player(*starter);
+
+    // DEMO PURPOSES
+    // player.skillItemList.insert(TM02);
     // player.skillItemList.insert(TM02);
     // cheatEngimon(player);
+
     /* In Game Phase */
     do {
         Position prev(player.getPosition().getX(),player.getPosition().getY());
@@ -344,7 +370,9 @@ int main() {
                 prev = move(player, Right, player, prev);
             } else if (command == "show"){ 
                 player.showEngimon(player.getActiveEngimon());
-            } else if (command == "inventory") {
+            } else if (command == "interact"){
+                player.getActiveEngimon().interact();
+            }else if (command == "inventory") {
                 string opt;
 
                 cout << "1. Engimon" << endl;
@@ -375,11 +403,7 @@ int main() {
                     throw opt;
                 }
                 Engimon& engiChosen = player.engimonList.inventoryList[opt-1];
-                engiChosen.showDetails();
-                player.engimonList.inventoryList[opt-1].showDetails();
                 player.useItems(skillChosen, engiChosen);
-                engiChosen.showDetails();
-                player.engimonList.inventoryList[opt-1].showDetails();
             } else if (command == "change") {
                 int opt;
                 cout << "Choose new Active Engimon " << endl;
@@ -434,9 +458,12 @@ int main() {
                 } else {
                     player.breed(player.engimonList.inventoryList[opt1-1],player.engimonList.inventoryList[opt2-1]);
                 }
+            } else if (command == "legend") {
+                printLegend();
             }
         }catch (Direction errDir){
             cout << "\nMovement not valid! Your Engimon just hit you, enter a valid movement!" << endl;
+            player.getActiveEngimon().interact();
         }catch (LevelNotEnoughException errBreed){
             cout << "\nParent level not high enough to breed!" << endl;
         }catch (InventoryFullException errInven){
@@ -447,8 +474,8 @@ int main() {
             cout << "\nYou have run out of Engimon!" << endl;
             cout << "\n***********\n GAME OVER\n***********" << endl;
             break;
-        }catch (ItemAlreadyExistedException errExisted){
-            cout << "\nYou have this Skill Item already!" << endl;
+        }catch (SkillExistException errExisted){
+            cout << "\nThe Engimon has learn this skill already!" << endl;
         }catch (string errBattle){
             cout << "\nYou don't have enemy nearby!" << endl;
         }catch (SkillNotCompatibleException errUseSkill){

@@ -16,7 +16,7 @@
 #include "Utilities.hpp"
 
 int main(){
-  Engimon e1("bambang", "Frederon");
+  Engimon e1("bambang", Frederon, 30);
   // Engimon * e1 = new Engimon("bambang", "Frederon");
   // cout<<"INI SKILL\n";
   // cout<<Emberon.getUniqueSkill();

@@ -12,15 +12,17 @@ class Species
 	public:
 		string species;
 		vector<Element> elements;
+		vector<string> response;
 		Skill uniqueSkill;
 
-		Species(string species, vector<Element> elements, const Skill& uniqueSkill);
+		Species(string species, vector<Element> elements, const Skill& uniqueSkill, vector<string> response);
 		Species(const Species& s);
 		
 		string getName() const;
 		vector<Element> getElements() const;
 		Skill getUniqueSkill() const;
 		void operator=(const Species& s);
+		virtual void interact();
 };
 
 extern vector<Species> listOfSpecies;
