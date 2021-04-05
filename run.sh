@@ -1,1 +1,0 @@
-g++ -o test Position.cpp Skill.cpp SkillItem.cpp Element.cpp Species.cpp Engimon.cpp Inventory.cpp Player.cpp main.cpp
