@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Random;
 
+// learn skill belum karena bakal butuh engimon
 public class SkillItem {
     public final String itemName;
     public final Skill containedSkill;
