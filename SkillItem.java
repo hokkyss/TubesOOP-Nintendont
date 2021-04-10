@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 // learn skill belum karena bakal butuh engimon
-public class SkillItem {
+public class SkillItem implements Comparable<SkillItem> {
     public final String itemName;
     public final Skill containedSkill;
     public static ArrayList<SkillItem> listOfSkillItem = new ArrayList<>();
@@ -28,7 +28,15 @@ public class SkillItem {
         return null;
     }
 
-    public int compare(SkillItem si) {
-        return this.containedSkill.compare(si.containedSkill);
+    public int compareTo(SkillItem si) {
+        return this.containedSkill.compareTo(si.containedSkill);
+    }
+
+    public String toString() {
+        String s = "";
+        s = s + this.itemName + ": ";
+        s = s + this.containedSkill.toString() + "\n";
+        s = s + "Learnable by: " + this.containedSkill.learnableBy.toString();
+        return s;
     }
 }

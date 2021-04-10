@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Skill {
+public class Skill implements Comparable<Skill> {
     public final String skillName;
     public final int basePower;
     private byte masteryLevel;
@@ -74,9 +74,9 @@ public class Skill {
 
     public String toString() {
         String s = "";
+        s = s + this.skillName + "\n";
         s = s + "Power : " + this.basePower + "\n";
-        s = s + "Level : " + this.basePower + "\n";
-        s = s + "Learnable by: \n" + this.learnableBy.toString();
+        s = s + "Mastery : " + this.masteryLevel;
         return s;
     }
 
@@ -92,7 +92,7 @@ public class Skill {
         return null;
     }
 
-    public int compare(Skill s) {
+    public int compareTo(Skill s) {
         int res = 0;
         if (this.basePower < s.basePower)
             res = -1;
