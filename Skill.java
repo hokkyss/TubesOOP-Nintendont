@@ -128,8 +128,8 @@ public class Skill implements Comparable<Skill> {
     public static final Skill FLAMETHROWER = new Skill("Flamethrower", 90, Element.FIRE);
     public static final Skill FIREBLAST = new Skill("Fire Blast", 120, Element.FIRE);
     public static final Skill BLASTBURN = new Skill("Blast Burn", 150, Element.FIRE);
-    public static final Skill AVALANCHE = new Skill("Avalanche", 80, Element.ICE);
-    public static final Skill ICEBEAM = new Skill("Ice Beam", 50, Element.ICE);
+    public static final Skill AVALANCHE = new Skill("Avalanche", 60, Element.ICE);
+    public static final Skill ICEBEAM = new Skill("Ice Beam", 90, Element.ICE);
     public static final Skill BLIZZARD = new Skill("Blizzard", 120, Element.ICE);
     public static final Skill SUBZEROSLAMMER = new Skill("Subzero Slammer", 140, Element.ICE);
     public static final Skill BULLDOZE = new Skill("BullDoze", 60, Element.GROUND);
@@ -139,7 +139,7 @@ public class Skill implements Comparable<Skill> {
     public static final Skill SHOCKWAVE = new Skill("Shock Wave", 60, Element.ELECTRIC);
     public static final Skill THUNDERBOLT = new Skill("Thunderbolt", 90, Element.ELECTRIC);
     public static final Skill VOLTTACKLE = new Skill("Volt Tackle", 120, Element.ELECTRIC);
-    public static final Skill GIGAVOLTHAVOC = new Skill("Gigavolt Havoc", 160, Element.ELECTRIC);
+    public static final Skill GIGAVOLTHAVOC = new Skill("Gigavolt Havoc", 140, Element.ELECTRIC);
     public static final Skill WATERPLEDGE = new Skill("Water Pledge", 50, Element.WATER);
     public static final Skill SURF = new Skill("Surf", 90, Element.WATER);
     public static final Skill HYDROPUMP = new Skill("Hydro Pump", 120, Element.WATER);
