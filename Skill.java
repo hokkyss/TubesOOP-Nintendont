@@ -11,64 +11,57 @@ public class Skill implements Comparable<Skill> {
     // menampung semua Skill yang dienumerasi di bawah
     public static ArrayList<Skill> listOfSkill = new ArrayList<>();
 
-    // comparator untuk menyortir Element
-    public final static ElementComparator elementComparator = new ElementComparator();
-
-    Skill(String skillName, int basePower, Element e) {
+    // constructor di bawah ini diprivate agar tidak ada Skill baru oleh pengguna
+    private Skill(String skillName, int basePower, Element e) {
         this.skillName = skillName;
         this.basePower = basePower;
         this.masteryLevel = 1;
         this.learnableBy = new ArrayList<>(Arrays.asList(e));
-        this.learnableBy.sort(elementComparator);
+        this.learnableBy.sort(Element.comparator);
         Skill.listOfSkill.add(this);
     }
 
-    Skill(String skillName, int basePower, Element e1, Element e2) {
+    private Skill(String skillName, int basePower, Element e1, Element e2) {
         this.skillName = skillName;
         this.basePower = basePower;
         this.masteryLevel = 1;
         this.learnableBy = new ArrayList<>(Arrays.asList(e1, e2));
-        this.learnableBy.sort(elementComparator);
+        this.learnableBy.sort(Element.comparator);
         Skill.listOfSkill.add(this);
     }
 
-    Skill(String skillName, int basePower, Element e1, Element e2, Element e3) {
+    private Skill(String skillName, int basePower, Element e1, Element e2, Element e3) {
         this.skillName = skillName;
         this.basePower = basePower;
         this.masteryLevel = 1;
         this.learnableBy = new ArrayList<>(Arrays.asList(e1, e2, e3));
-        this.learnableBy.sort(elementComparator);
+        this.learnableBy.sort(Element.comparator);
         Skill.listOfSkill.add(this);
     }
+    /*
+     * private Skill(String skillName, int basePower, Element e1, Element e2,
+     * Element e3, Element e4) { this.skillName = skillName; this.basePower =
+     * basePower; this.masteryLevel = 1; this.learnableBy = new
+     * ArrayList<>(Arrays.asList(e1, e2, e3, e4));
+     * this.learnableBy.sort(Element.comparator); Skill.listOfSkill.add(this); }
+     */
 
-    Skill(String skillName, int basePower, Element e1, Element e2, Element e3, Element e4) {
-        this.skillName = skillName;
-        this.basePower = basePower;
-        this.masteryLevel = 1;
-        this.learnableBy = new ArrayList<>(Arrays.asList(e1, e2, e3, e4));
-        this.learnableBy.sort(elementComparator);
-        Skill.listOfSkill.add(this);
-    }
-
-    Skill(String skillName, int basePower, Element e1, Element e2, Element e3, Element e4, Element e5) {
+    private Skill(String skillName, int basePower, Element e1, Element e2, Element e3, Element e4, Element e5) {
         this.skillName = skillName;
         this.basePower = basePower;
         this.masteryLevel = 1;
         this.learnableBy = new ArrayList<>(Arrays.asList(e1, e2, e3, e4, e5));
-        this.learnableBy.sort(elementComparator);
+        this.learnableBy.sort(Element.comparator);
         Skill.listOfSkill.add(this);
     }
 
-    Skill(Skill s) {
+    // hanya copy constructor yang boleh dipakai
+    public Skill(Skill s) {
         this.skillName = s.skillName;
         this.basePower = s.basePower;
         this.masteryLevel = s.getMasteryLevel();
         this.learnableBy = new ArrayList<>(s.learnableBy);
-        this.learnableBy.sort(elementComparator);
-    }
-
-    public boolean contains(Element e) {
-        return this.learnableBy.contains(e);
+        this.learnableBy.sort(Element.comparator);
     }
 
     public void increaseMasteryLevel() {

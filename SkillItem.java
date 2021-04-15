@@ -13,7 +13,7 @@ public class SkillItem implements Comparable<SkillItem> {
     // random generator
     private static Random random = new Random();
 
-    SkillItem(String itemName, Skill containedSkill) {
+    private SkillItem(String itemName, Skill containedSkill) {
         this.itemName = itemName;
         this.containedSkill = containedSkill;
         SkillItem.listOfSkillItem.add(this);
@@ -28,7 +28,7 @@ public class SkillItem implements Comparable<SkillItem> {
     public static SkillItem getRandomSkillItem(Element e) {
         ArrayList<SkillItem> temp = new ArrayList<>();
         for (SkillItem si : SkillItem.listOfSkillItem) {
-            if (si.containedSkill.contains(e))
+            if (si.containedSkill.learnableBy.contains(e))
                 temp.add(si);
         }
 
