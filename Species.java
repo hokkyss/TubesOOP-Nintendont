@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Species {
     private String species;
@@ -14,6 +15,8 @@ public class Species {
         this.response = response;
     }
 
+    <<<<<<<HEAD
+
     public Species(Species target) {
         this.species = target.species;
         this.elements = target.elements;
@@ -22,6 +25,10 @@ public class Species {
     }
 
     public String getSpecies() {
+=======
+
+    public String getSpecies(){
+>>>>>>> edc43f823a1b6f18c1ab7a981427882ac9308fb3
         return this.species;
     }
 
@@ -31,6 +38,12 @@ public class Species {
 
     public Skill getUniqueSkill() {
         return this.uniqueSkill;
+    }
+
+    public String interact() {
+        Random r = new Random();
+        int target = r.nextInt(response.size());
+        return (response.get(target));
     }
 
     // enumerasi semua species pake public static final

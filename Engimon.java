@@ -20,7 +20,7 @@ public class Engimon {
         this.level = level;
         this.cumExp = level * EXP_PER_LEVEL;
         this.life = 3;
-        this.learnSkill(species.getUniqueSkill());
+        learnSkill(species.getUniqueSkill());
         EngimonID++;
     }
 
