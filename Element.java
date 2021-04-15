@@ -3,7 +3,11 @@ public enum Element {
 
     public final int idx;
 
-    Element(int i) {
+    private Element(int i) {
         this.idx = i;
+    }
+
+    public int compare(Element e1, Element e2) {
+        return e1.idx - e2.idx;
     }
 }
