@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Random;
 
 // learn skill belum karena bakal butuh engimon
 public class SkillItem implements Comparable<SkillItem> {
@@ -10,9 +9,6 @@ public class SkillItem implements Comparable<SkillItem> {
     // daftar SkillItem
     public static ArrayList<SkillItem> listOfSkillItem = new ArrayList<>();
 
-    // random generator
-    private static Random random = new Random();
-
     private SkillItem(String itemName, Skill containedSkill) {
         this.itemName = itemName;
         this.containedSkill = containedSkill;
@@ -21,7 +17,7 @@ public class SkillItem implements Comparable<SkillItem> {
 
     public static SkillItem getRandomSkillItem() {
         // 0 sampai dengan size - 1
-        int i = random.nextInt(SkillItem.listOfSkillItem.size());
+        int i = Logger.randomize.nextInt(SkillItem.listOfSkillItem.size());
         return listOfSkillItem.get(i);
     }
 
@@ -32,7 +28,7 @@ public class SkillItem implements Comparable<SkillItem> {
                 temp.add(si);
         }
 
-        int i = random.nextInt(temp.size());
+        int i = Logger.randomize.nextInt(temp.size());
         return temp.get(i);
     }
 

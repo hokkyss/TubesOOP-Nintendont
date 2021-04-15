@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Random;
 
 public class Species {
     private String species;
@@ -35,8 +34,7 @@ public class Species {
     }
 
     public String interact() {
-        Random r = new Random();
-        int target = r.nextInt(response.size());
+        int target = Logger.randomize.nextInt(response.size());
         return (response.get(target));
     }
 
