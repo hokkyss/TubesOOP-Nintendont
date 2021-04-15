@@ -15,8 +15,6 @@ public class Species {
         this.response = response;
     }
 
-    <<<<<<<HEAD
-
     public Species(Species target) {
         this.species = target.species;
         this.elements = target.elements;
@@ -25,10 +23,6 @@ public class Species {
     }
 
     public String getSpecies() {
-=======
-
-    public String getSpecies(){
->>>>>>> edc43f823a1b6f18c1ab7a981427882ac9308fb3
         return this.species;
     }
 
