@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Species {
     private String species;
@@ -14,13 +15,6 @@ public class Species {
         this.response = response;
     }
 
-    Species(Species target){
-        this.species = target.species;
-        this.elements = target.elements;
-        this.uniqueSkill = target.uniqueSkill;
-        this.response = target.response;
-    }
-
     public String getSpecies(){
         return this.species;
     }
@@ -31,5 +25,11 @@ public class Species {
 
     public Skill getUniqueSkill(){
         return this.uniqueSkill;
+    }
+
+    public String interact(){
+        Random r = new Random();
+        int target = r.nextInt(response.size());
+        return(response.get(target));
     }
 }
