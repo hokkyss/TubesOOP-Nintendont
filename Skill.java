@@ -12,14 +12,14 @@ public class Skill implements Comparable<Skill> {
     public static ArrayList<Skill> listOfSkill = new ArrayList<>();
 
     // comparator untuk menyortir Element
-    public final static ElementComparator c = new ElementComparator();
+    public final static ElementComparator elementComparator = new ElementComparator();
 
     Skill(String skillName, int basePower, Element e) {
         this.skillName = skillName;
         this.basePower = basePower;
         this.masteryLevel = 1;
         this.learnableBy = new ArrayList<>(Arrays.asList(e));
-        this.learnableBy.sort(c);
+        this.learnableBy.sort(elementComparator);
         Skill.listOfSkill.add(this);
     }
 
@@ -28,7 +28,7 @@ public class Skill implements Comparable<Skill> {
         this.basePower = basePower;
         this.masteryLevel = 1;
         this.learnableBy = new ArrayList<>(Arrays.asList(e1, e2));
-        this.learnableBy.sort(c);
+        this.learnableBy.sort(elementComparator);
         Skill.listOfSkill.add(this);
     }
 
@@ -37,7 +37,7 @@ public class Skill implements Comparable<Skill> {
         this.basePower = basePower;
         this.masteryLevel = 1;
         this.learnableBy = new ArrayList<>(Arrays.asList(e1, e2, e3));
-        this.learnableBy.sort(c);
+        this.learnableBy.sort(elementComparator);
         Skill.listOfSkill.add(this);
     }
 
@@ -46,7 +46,7 @@ public class Skill implements Comparable<Skill> {
         this.basePower = basePower;
         this.masteryLevel = 1;
         this.learnableBy = new ArrayList<>(Arrays.asList(e1, e2, e3, e4));
-        this.learnableBy.sort(c);
+        this.learnableBy.sort(elementComparator);
         Skill.listOfSkill.add(this);
     }
 
@@ -55,7 +55,7 @@ public class Skill implements Comparable<Skill> {
         this.basePower = basePower;
         this.masteryLevel = 1;
         this.learnableBy = new ArrayList<>(Arrays.asList(e1, e2, e3, e4, e5));
-        this.learnableBy.sort(c);
+        this.learnableBy.sort(elementComparator);
         Skill.listOfSkill.add(this);
     }
 
@@ -64,7 +64,7 @@ public class Skill implements Comparable<Skill> {
         this.basePower = s.basePower;
         this.masteryLevel = s.getMasteryLevel();
         this.learnableBy = new ArrayList<>(s.learnableBy);
-        this.learnableBy.sort(c);
+        this.learnableBy.sort(elementComparator);
     }
 
     public boolean contains(Element e) {
