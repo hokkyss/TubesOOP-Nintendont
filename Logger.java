@@ -8,9 +8,9 @@ public class Logger {
     }
 
     public static void EngimonLevelUp(Engimon e, int exp) {
-        int changeLevel = exp / Engimon.EXP_PER_LEVEL;
+        int changeLevel = (exp / Engimon.EXP_PER_LEVEL);
         print("Congratulations!!");
-        print(e.getName() + "has leveled up to level : " + e.getLevel() + changeLevel);
+        print(e.getName() + " has leveled up to level : " + (e.getLevel() + changeLevel));
     }
 
     public static void EngimonLoseLife(Engimon e) {
@@ -21,5 +21,10 @@ public class Logger {
     public static void EngimonDead(Engimon e) {
         print("Too bad!");
         print(e.getName() + " has lost all it's life! It will be removed from your inventory");
+    }
+
+    public static void EngimonDeadByLevel(Engimon e) {
+        print("Too bad!");
+        print(e.getName() + " has reached its peak level! It will be removed from your inventory");
     }
 }

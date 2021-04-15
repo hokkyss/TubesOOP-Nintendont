@@ -10,8 +10,14 @@ public class MainEngimon {
         r1.add("KENTANG");
         Species x = Species.EMBERON;
 
+        HashMap<String, String> parents = new HashMap<String, String>();
+        parents.put("Pege", "Emberon");
+        parents.put("Stella", "Pege");
+
         // Species mirip dengan SkillItem
-        Engimon eng1 = new Engimon("Nama1", x, 1);
+        Engimon eng1 = new Engimon("Nama1", x, 5, parents);
         eng1.addExp(200);
+        eng1.learnSkill(Skill.EARTHPOWER);
+        eng1.showDetails();
     }
 }

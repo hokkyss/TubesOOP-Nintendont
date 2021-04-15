@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.ArrayList;
 
 public class Species {
@@ -39,6 +40,7 @@ public class Species {
     }
 
     // enumerasi semua species pake public static final
-    public static final Species EMBERON = new Species("Emberon", new ArrayList<Element>(), Skill.FLAMETHROWER,
+    public static final Species EMBERON = new Species("Emberon",
+            new ArrayList<>(Arrays.asList(Element.FIRE, Element.ELECTRIC)), Skill.FLAMETHROWER,
             new ArrayList<String>());
 }
