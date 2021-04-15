@@ -12,7 +12,7 @@ public class Skill implements Comparable<Skill> {
     public static ArrayList<Skill> listOfSkill = new ArrayList<>();
 
     // comparator untuk menyortir Element
-    private final static ElementComparator c = new ElementComparator();
+    public final static ElementComparator c = new ElementComparator();
 
     Skill(String skillName, int basePower, Element e) {
         this.skillName = skillName;
