@@ -27,7 +27,5 @@ hs_err_pid*
 *.vs
 
 # intelliJ
-*.idea
-
 !/lib/*.jar
 /out/*

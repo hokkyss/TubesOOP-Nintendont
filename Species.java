@@ -1,8 +1,4 @@
-import java.util.List;
-import java.util.Arrays;
 import java.util.ArrayList;
-import java.io.FileInputStream;
-import org.apache.poi.ss.usermodel.*;
 
 public class Species {
     private String species;
