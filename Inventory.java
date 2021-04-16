@@ -22,28 +22,11 @@ public class Inventory<T> {
     }
 
     // setter
-    public void setCount(T el, int n) {
-        int nPrev = countInven.get(el);
-
-        if (n == 0) {
-            nCapacity -= nPrev;
-            countInven.remove(el);
-            invenList.remove(el);
-        }
-
-        if (nPrev > n)
-            nCapacity -= (nPrev - n);
-        else
-            nCapacity += (n - nPrev);
-
-        countInven.put(el, n);
-    }
-
-    public void insert(T el) {
+    public void insert(T el) throws InputTooLargeException{
         try {
             insert(el, 1);
         } catch (InputTooLargeException err) {
-            // ....
+            throw err;
         }
     }
 
@@ -62,7 +45,11 @@ public class Inventory<T> {
     }
 
     public void remove(T el) throws InputTooLargeException, ItemNotFoundException {
-        remove(el, 1);
+        try{
+            remove(el, 1);
+        }catch (Exception err){
+            throw err;
+        }
     }
 
     public void remove(T el, int count) throws InputTooLargeException, ItemNotFoundException {
@@ -80,6 +67,10 @@ public class Inventory<T> {
         } else {
             throw new ItemNotFoundException();
         }
+    }
+
+    public boolean isFull(){
+        return nCapacity==maxCapacity;
     }
 
     public String toString() {
