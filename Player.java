@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Player {
     private int activeEngimonIdx;
     public Inventory<Engimon> engimonList;
@@ -5,7 +7,8 @@ public class Player {
     private Position pos;
 
     public Player(Engimon starter){
-        this.activeEngimon = starter;
+        this.activeEngimonIdx = 0;
+        engimonList.insert(starter);
     }
 
     public void showAllEngimon(){
@@ -55,5 +58,16 @@ public class Player {
         s += "pos: " + this.pos.toString();
 
         return s;
+    }
+
+    public ArrayList<Element> inheritElmt(Engimon A, Engimon B){
+        Element elmtA = A.getElements().get(0);
+        Element elmtB = B.getElements().get(0);
+        ArrayList<Element> inheritedElmt = new ArrayList<Element>();
+        if(elmtA == elmtB){
+            inheritedElmt.add(elmtA);
+        } else if(elmtA != elmtB){
+            if
+        }
     }
 }
