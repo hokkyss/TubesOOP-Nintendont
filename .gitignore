@@ -26,5 +26,8 @@ hs_err_pid*
 *.vscode
 *.vs
 
+# intelliJ
+*.idea
+
 !/lib/*.jar
 /out/*

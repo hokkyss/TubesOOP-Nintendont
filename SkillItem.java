@@ -21,13 +21,14 @@ public class SkillItem implements Comparable<SkillItem> {
         return listOfSkillItem.get(i);
     }
 
-    public static SkillItem getRandomSkillItem(Element e) {
+    public static SkillItem getRandomSkillItem(ArrayList<Element> e) {
         ArrayList<SkillItem> temp = new ArrayList<>();
         for (SkillItem si : SkillItem.listOfSkillItem) {
-            if (si.containedSkill.learnableBy.contains(e))
-                temp.add(si);
+            for (Element elements : si.containedSkill.learnableBy) {
+                if (e.contains(elements))
+                    temp.add(si);
+            }
         }
-
         int i = Logger.randomize.nextInt(temp.size());
         return temp.get(i);
     }
