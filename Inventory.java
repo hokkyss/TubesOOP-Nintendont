@@ -1,14 +1,40 @@
 import java.util.*;
 
 public class Inventory<T> {
+    // atribut Inventory
+    public final int maxCapacity = 20;
+    public static int nCapacity = 0;
     public ArrayList<T> invenList;
     public Map<T, Integer> countInven;
-    public static int nCapacity = 0;
-    final public int maxCapacity = 20;
 
     public Inventory() {
         invenList = new ArrayList<T>();
         countInven = new HashMap<T, Integer>();
+    }
+
+    // getter
+    public T get(int i){
+        return invenList.get(i);
+    }
+
+    public int getCount(T el){
+        return countInven.get(el);
+    }
+
+    // setter
+    public void setCount(T el, int n){
+        int nPrev = countInven.get(el);
+        
+        if (n == 0){ 
+            nCapacity -= nPrev;
+            countInven.remove(el);
+            invenList.remove(el);
+        }
+
+        if (nPrev>n) nCapacity -= (nPrev-n); 
+        else nCapacity += (n-nPrev);
+
+        countInven.put(el, n);
     }
 
     public void insert(T el) {
@@ -36,20 +62,29 @@ public class Inventory<T> {
         nCapacity--;
     }
 
-    public static void printInventory(Inventory<SkillItem> al, boolean type) {
-        PriorityQueue<SkillItem> sortedList = new PriorityQueue<SkillItem>(new SkillItemComparator());
+    public String toString(){
+        String s = "";
 
-        al.invenList.stream().forEach(el -> sortedList.add(el));
+        for (T el : invenList){
+            s += ("{\nelement:{\n" + el.toString() + "\n},\ncount:" + countInven.get(el) + "\n}");
+            
+            if (! el.equals(invenList.get(invenList.size()-1))) s += ",\n";
+            else s += "\n"; 
+        }
 
-        sortedList.stream().forEach(el -> Logger
+        return s;
+    }
+
+    public static void sortInventory(Inventory<SkillItem> al, boolean type) {
+        al.invenList.sort(new SkillItemComparator());
+
+        al.invenList.stream().forEach(el -> Logger
                 .print(el.containedSkill.skillName + "-" + el.containedSkill.basePower + "-" + al.countInven.get(el)));
     }
 
-    public static void printInventory(Inventory<Engimon> al) {
-        PriorityQueue<Engimon> sortedList = new PriorityQueue<Engimon>(new EngimonComparator());
+    public static void sortInventory(Inventory<Engimon> al) {
+        al.invenList.sort(new EngimonComparator());
 
-        al.invenList.stream().forEach(el -> sortedList.add(el));
-
-        sortedList.stream().forEach(el -> Logger.print(el.getName()));
+        al.invenList.stream().forEach(el -> Logger.print(el.getName()));
     }
 }
