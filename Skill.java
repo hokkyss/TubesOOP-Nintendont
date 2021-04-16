@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Skill implements Comparable<Skill> {
     // atribut Skill
@@ -12,46 +11,11 @@ public class Skill implements Comparable<Skill> {
     public static ArrayList<Skill> listOfSkill = new ArrayList<>();
 
     // constructor di bawah ini diprivate agar tidak ada Skill baru oleh pengguna
-    private Skill(String skillName, int basePower, Element e) {
+    private Skill(String skillName, int basePower, ArrayList<Element> e) {
         this.skillName = skillName;
         this.basePower = basePower;
         this.masteryLevel = 1;
-        this.learnableBy = new ArrayList<>(Arrays.asList(e));
-        this.learnableBy.sort(Element.comparator);
-        Skill.listOfSkill.add(this);
-    }
-
-    private Skill(String skillName, int basePower, Element e1, Element e2) {
-        this.skillName = skillName;
-        this.basePower = basePower;
-        this.masteryLevel = 1;
-        this.learnableBy = new ArrayList<>(Arrays.asList(e1, e2));
-        this.learnableBy.sort(Element.comparator);
-        Skill.listOfSkill.add(this);
-    }
-
-    private Skill(String skillName, int basePower, Element e1, Element e2, Element e3) {
-        this.skillName = skillName;
-        this.basePower = basePower;
-        this.masteryLevel = 1;
-        this.learnableBy = new ArrayList<>(Arrays.asList(e1, e2, e3));
-        this.learnableBy.sort(Element.comparator);
-        Skill.listOfSkill.add(this);
-    }
-    /*
-     * private Skill(String skillName, int basePower, Element e1, Element e2,
-     * Element e3, Element e4) { this.skillName = skillName; this.basePower =
-     * basePower; this.masteryLevel = 1; this.learnableBy = new
-     * ArrayList<>(Arrays.asList(e1, e2, e3, e4));
-     * this.learnableBy.sort(Element.comparator); Skill.listOfSkill.add(this); }
-     */
-
-    private Skill(String skillName, int basePower, Element e1, Element e2, Element e3, Element e4, Element e5) {
-        this.skillName = skillName;
-        this.basePower = basePower;
-        this.masteryLevel = 1;
-        this.learnableBy = new ArrayList<>(Arrays.asList(e1, e2, e3, e4, e5));
-        this.learnableBy.sort(Element.comparator);
+        this.learnableBy = e;
         Skill.listOfSkill.add(this);
     }
 
@@ -104,82 +68,81 @@ public class Skill implements Comparable<Skill> {
     }
 
     public int compareTo(Skill s) {
-        int res = 0;
-        if (this.basePower < s.basePower)
-            res = -1;
-        else if (this.basePower == s.basePower)
-            res = 0;
-        else if (this.basePower > s.basePower)
-            res = 1;
-
-        return res;
+        return this.basePower - s.basePower;
     }
 
     // daftar Skill (dienumerasi)
-    public static final Skill TACKLE = new Skill("Tackle", 50, Element.FIRE, Element.ICE, Element.GROUND,
-            Element.ELECTRIC, Element.WATER);
-    public static final Skill BODYSLAM = new Skill("Body Slam", 90, Element.FIRE, Element.ICE, Element.GROUND,
-            Element.ELECTRIC, Element.WATER);
-    public static final Skill DOUBLEEDGE = new Skill("Double Edge", 120, Element.FIRE, Element.ICE, Element.GROUND,
-            Element.ELECTRIC, Element.WATER);
-    public static final Skill GIGAIMPACT = new Skill("Giga Impact", 150, Element.FIRE, Element.ICE, Element.GROUND,
-            Element.ELECTRIC, Element.WATER);
-    public static final Skill FIREPLEDGE = new Skill("Fire Pledge", 50, Element.FIRE);
-    public static final Skill FLAMETHROWER = new Skill("Flamethrower", 90, Element.FIRE);
-    public static final Skill FIREBLAST = new Skill("Fire Blast", 120, Element.FIRE);
-    public static final Skill BLASTBURN = new Skill("Blast Burn", 150, Element.FIRE);
-    public static final Skill AVALANCHE = new Skill("Avalanche", 60, Element.ICE);
-    public static final Skill ICEBEAM = new Skill("Ice Beam", 90, Element.ICE);
-    public static final Skill BLIZZARD = new Skill("Blizzard", 120, Element.ICE);
-    public static final Skill SUBZEROSLAMMER = new Skill("Subzero Slammer", 140, Element.ICE);
-    public static final Skill BULLDOZE = new Skill("BullDoze", 60, Element.GROUND);
-    public static final Skill THOUSANDARROWS = new Skill("Thousand Arrows", 90, Element.GROUND);
-    public static final Skill EARTHQUAKE = new Skill("Earthquake", 100, Element.GROUND);
-    public static final Skill TECTONICRAGE = new Skill("Tectonic Rage", 160, Element.GROUND);
-    public static final Skill SHOCKWAVE = new Skill("Shock Wave", 60, Element.ELECTRIC);
-    public static final Skill THUNDERBOLT = new Skill("Thunderbolt", 90, Element.ELECTRIC);
-    public static final Skill VOLTTACKLE = new Skill("Volt Tackle", 120, Element.ELECTRIC);
-    public static final Skill GIGAVOLTHAVOC = new Skill("Gigavolt Havoc", 140, Element.ELECTRIC);
-    public static final Skill WATERPLEDGE = new Skill("Water Pledge", 50, Element.WATER);
-    public static final Skill SURF = new Skill("Surf", 90, Element.WATER);
-    public static final Skill HYDROPUMP = new Skill("Hydro Pump", 120, Element.WATER);
-    public static final Skill HYDROCANNON = new Skill("Hydro Cannon", 150, Element.WATER);
-    public static final Skill LIQUIDATION = new Skill("Liquidation", 85, Element.WATER, Element.ICE);
-    public static final Skill ICEHAMMER = new Skill("Ice Hammer", 100, Element.ICE, Element.WATER);
-    public static final Skill MAXHAILSTORM = new Skill("Max Hailstorm", 110, Element.GROUND, Element.ICE);
-    public static final Skill ICICLESPEAR = new Skill("Icicle Spear", 75, Element.ICE, Element.GROUND);
-    public static final Skill FREEZEJOLT = new Skill("Freeze Jolt", 105, Element.ICE, Element.ELECTRIC);
-    public static final Skill QUADRUPLEAXEL = new Skill("Quadruple Axel", 80, Element.ELECTRIC, Element.ICE);
-    public static final Skill FREEZINGFLAME = new Skill("Freezing Flame", 110, Element.ICE, Element.FIRE);
-    public static final Skill BURNINGCHILL = new Skill("Burning Chill", 75, Element.FIRE, Element.ICE);
-    public static final Skill THUNDER = new Skill("Thunder", 110, Element.ELECTRIC, Element.WATER);
-    public static final Skill STORM = new Skill("Storm", 75, Element.WATER, Element.ELECTRIC);
-    public static final Skill MUDFLOOD = new Skill("Mudflood", 95, Element.GROUND, Element.WATER);
-    public static final Skill MUDDYWATER = new Skill("Muddy Water", 90, Element.WATER, Element.GROUND);
-    public static final Skill STEAMBLAST = new Skill("Steam Blast", 105, Element.WATER, Element.FIRE);
-    public static final Skill STEAMBOMB = new Skill("Steam Bomb", 80, Element.FIRE, Element.WATER);
-    public static final Skill THUNDERBLAST = new Skill("Thunder Blast", 110, Element.ELECTRIC, Element.GROUND);
-    public static final Skill EARTHYSHOCK = new Skill("Earthy Shock", 75, Element.GROUND, Element.ELECTRIC);
-    public static final Skill SHOCKANDBURN = new Skill("Shock and Burn", 100, Element.ELECTRIC, Element.FIRE);
-    public static final Skill BURNANDSHOCK = new Skill("Burn and Shock", 85, Element.FIRE, Element.ELECTRIC);
-    public static final Skill ERUPTION = new Skill("Eruption", 100, Element.FIRE, Element.GROUND);
-    public static final Skill LAVAPLUME = new Skill("Lava Plume", 85, Element.FIRE, Element.GROUND);
-    public static final Skill WEATHERBALL = new Skill("Weather Ball", 90, Element.FIRE, Element.WATER, Element.ICE);
-    public static final Skill TRIATTACK = new Skill("Tri Attack", 90, Element.FIRE, Element.ICE, Element.ELECTRIC);
-    public static final Skill EARTHPOWER = new Skill("Earth Power", 90, Element.FIRE, Element.GROUND, Element.WATER);
-    public static final Skill KORSLET = new Skill("Korslet", 90, Element.FIRE, Element.ELECTRIC, Element.WATER);
-    public static final Skill MELTTHEGROUND = new Skill("Melt the Ground", 90, Element.FIRE, Element.GROUND,
-            Element.ICE);
-    public static final Skill SHOCKTHEFLAME = new Skill("Shock the Flame", 90, Element.FIRE, Element.GROUND,
-            Element.ELECTRIC);
-    public static final Skill FREEZEDRY = new Skill("Freeze Dry", 90, Element.ICE, Element.WATER, Element.GROUND);
-    public static final Skill ELECTROLYSIS = new Skill("Electrolysis", 90, Element.ICE, Element.WATER,
-            Element.ELECTRIC);
-    public static final Skill COLDREFRIGERATOR = new Skill("Cold Refrigerator", 90, Element.ICE, Element.ELECTRIC,
-            Element.GROUND);
-    public static final Skill CONTRADICTINGSHOCK = new Skill("Contradicting Shock", 90, Element.GROUND, Element.WATER,
-            Element.ELECTRIC);
-    public static final Skill GODLYFART = new Skill("GodlyFart", 90, Element.FIRE, Element.ICE, Element.GROUND,
-            Element.ELECTRIC, Element.WATER);
+    public static final Skill TACKLE = new Skill("Tackle", 50,
+            Element.constructElements("FIRE, ICE, GROUND, ELECTRIC, WATER"));
+    public static final Skill BODYSLAM = new Skill("Body Slam", 90,
+            Element.constructElements("FIRE, ICE, GROUND, ELECTRIC, WATER"));
+    public static final Skill DOUBLEEDGE = new Skill("Double Edge", 120,
+            Element.constructElements("FIRE, ICE, GROUND, ELECTRIC, WATER"));
+    public static final Skill GIGAIMPACT = new Skill("Giga Impact", 150,
+            Element.constructElements("FIRE, ICE, GROUND, ELECTRIC, WATER"));
+    public static final Skill FIREPLEDGE = new Skill("Fire Pledge", 50, Element.constructElements("FIRE"));
+    public static final Skill FLAMETHROWER = new Skill("Flamethrower", 90, Element.constructElements("FIRE"));
+    public static final Skill FIREBLAST = new Skill("Fire Blast", 120, Element.constructElements("FIRE"));
+    public static final Skill BLASTBURN = new Skill("Blast Burn", 150, Element.constructElements("FIRE"));
+    public static final Skill AVALANCHE = new Skill("Avalanche", 60, Element.constructElements("ICE"));
+    public static final Skill ICEBEAM = new Skill("Ice Beam", 90, Element.constructElements("ICE"));
+    public static final Skill BLIZZARD = new Skill("Blizzard", 120, Element.constructElements("ICE"));
+    public static final Skill SUBZEROSLAMMER = new Skill("Subzero Slammer", 140, Element.constructElements("ICE"));
+    public static final Skill BULLDOZE = new Skill("BullDoze", 60, Element.constructElements("GROUND"));
+    public static final Skill THOUSANDARROWS = new Skill("Thousand Arrows", 90, Element.constructElements("GROUND"));
+    public static final Skill EARTHQUAKE = new Skill("Earthquake", 100, Element.constructElements("GROUND"));
+    public static final Skill TECTONICRAGE = new Skill("Tectonic Rage", 160, Element.constructElements("GROUND"));
+    public static final Skill SHOCKWAVE = new Skill("Shock Wave", 60, Element.constructElements("ELECTRIC"));
+    public static final Skill THUNDERBOLT = new Skill("Thunderbolt", 90, Element.constructElements("ELECTRIC"));
+    public static final Skill VOLTTACKLE = new Skill("Volt Tackle", 120, Element.constructElements("ELECTRIC"));
+    public static final Skill GIGAVOLTHAVOC = new Skill("Gigavolt Havoc", 140, Element.constructElements("ELECTRIC"));
+    public static final Skill WATERPLEDGE = new Skill("Water Pledge", 50, Element.constructElements("WATER"));
+    public static final Skill SURF = new Skill("Surf", 90, Element.constructElements("WATER"));
+    public static final Skill HYDROPUMP = new Skill("Hydro Pump", 120, Element.constructElements("WATER"));
+    public static final Skill HYDROCANNON = new Skill("Hydro Cannon", 150, Element.constructElements("WATER"));
+    public static final Skill LIQUIDATION = new Skill("Liquidation", 85, Element.constructElements("WATER, ICE"));
+    public static final Skill ICEHAMMER = new Skill("Ice Hammer", 100, Element.constructElements("ICE, WATER"));
+    public static final Skill MAXHAILSTORM = new Skill("Max Hailstorm", 110, Element.constructElements("GROUND, ICE"));
+    public static final Skill ICICLESPEAR = new Skill("Icicle Spear", 75, Element.constructElements("ICE, GROUND"));
+    public static final Skill FREEZEJOLT = new Skill("Freeze Jolt", 105, Element.constructElements("ICE, ELECTRIC"));
+    public static final Skill QUADRUPLEAXEL = new Skill("Quadruple Axel", 80,
+            Element.constructElements("ELECTRIC, ICE"));
+    public static final Skill FREEZINGFLAME = new Skill("Freezing Flame", 110, Element.constructElements("ICE, FIRE"));
+    public static final Skill BURNINGCHILL = new Skill("Burning Chill", 75, Element.constructElements("FIRE, ICE"));
+    public static final Skill THUNDER = new Skill("Thunder", 110, Element.constructElements("ELECTRIC, WATER"));
+    public static final Skill STORM = new Skill("Storm", 75, Element.constructElements("WATER, ELECTRIC"));
+    public static final Skill MUDFLOOD = new Skill("Mudflood", 95, Element.constructElements("GROUND, WATER"));
+    public static final Skill MUDDYWATER = new Skill("Muddy Water", 90, Element.constructElements("WATER. GROUND"));
+    public static final Skill STEAMBLAST = new Skill("Steam Blast", 105, Element.constructElements("WATER, WATER"));
+    public static final Skill STEAMBOMB = new Skill("Steam Bomb", 80, Element.constructElements("FIRE, WATER"));
+    public static final Skill THUNDERBLAST = new Skill("Thunder Blast", 110,
+            Element.constructElements("ELECTRIC, GROUND"));
+    public static final Skill EARTHYSHOCK = new Skill("Earthy Shock", 75,
+            Element.constructElements("GROUND, ELECTRIC"));
+    public static final Skill SHOCKANDBURN = new Skill("Shock and Burn", 100,
+            Element.constructElements("ELECTRIC, FIRE"));
+    public static final Skill BURNANDSHOCK = new Skill("Burn and Shock", 85,
+            Element.constructElements("FIRE, ELECTRIC"));
+    public static final Skill ERUPTION = new Skill("Eruption", 100, Element.constructElements("FIRE, GROUND"));
+    public static final Skill LAVAPLUME = new Skill("Lava Plume", 85, Element.constructElements("FIRE, GROUND"));
+    public static final Skill WEATHERBALL = new Skill("Weather Ball", 90,
+            Element.constructElements("FIRE, WATER, ICE"));
+    public static final Skill TRIATTACK = new Skill("Tri Attack", 90, Element.constructElements("FIRE, ICE, ELECTRIC"));
+    public static final Skill EARTHPOWER = new Skill("Earth Power", 90,
+            Element.constructElements("FIRE, GROUND, WATER"));
+    public static final Skill KORSLET = new Skill("Korslet", 90, Element.constructElements("FIRE, ELECTRIC, WATER"));
+    public static final Skill MELTTHEGROUND = new Skill("Melt the Ground", 90,
+            Element.constructElements("FIRE, GROUND, ICE"));
+    public static final Skill SHOCKTHEFLAME = new Skill("Shock the Flame", 90,
+            Element.constructElements("FIRE, GROUND, ELECTRIC"));
+    public static final Skill FREEZEDRY = new Skill("Freeze Dry", 90, Element.constructElements("ICE, WATER, GROUND"));
+    public static final Skill ELECTROLYSIS = new Skill("Electrolysis", 90,
+            Element.constructElements("ICE, WATER, ELECTRIC"));
+    public static final Skill COLDREFRIGERATOR = new Skill("Cold Refrigerator", 90,
+            Element.constructElements("ICE, ELECTRIC, GROUND"));
+    public static final Skill CONTRADICTINGSHOCK = new Skill("Contradicting Shock", 90,
+            Element.constructElements("GROUND, WATER, ELECTRIC"));
+    public static final Skill GODLYFART = new Skill("GodlyFart", 90,
+            Element.constructElements("FIRE, ICE, GROUND, ELECTRIC, WATER"));
 
 }

@@ -19,6 +19,7 @@ public enum Element {
         } catch (Exception e) {
             System.out.println("Element not found");
         }
+        res.sort(comparator);
         return res;
     }
 }

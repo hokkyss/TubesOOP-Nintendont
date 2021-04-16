@@ -41,7 +41,7 @@ public class SkillItem implements Comparable<SkillItem> {
     }
 
     public int compareTo(SkillItem si) {
-        return (this.containedSkill.basePower - si.containedSkill.basePower);
+        return this.containedSkill.compareTo(si.containedSkill);
     }
 
     public String toString() {
