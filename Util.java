@@ -50,4 +50,27 @@ public class Util {
 
         workbook.close();
     }
+
+    // Get element advantage
+    public static double getElmtAdv(ArrayList<Element> elmtList1, ArrayList<Element> elmtList2){
+        double res = -1;
+        for (Element e1 : elmtList1){
+            for (Element e2 : elmtList2){
+                res = Element.getAdvantage(e1,e2)>res ? Element.getAdvantage(e1,e2):res;
+            }
+        }
+        
+        return res;
+    }
+
+    // Handle battle between Engimon and Wild Engimon
+    public static int handleBattle(Engimon e1, EngimonLiar e2){
+        double e1Power = e1.getLevel() * getElmtAdv(e1.getElements(),e2.getElements()) + e1.getSkillPower();
+        double e2Power = e2.getLevel() * getElmtAdv(e2.getElements(),e1.getElements()) + e2.getSkillPower();
+
+        Logger.print(e1.getName() + " power = " + e1Power);
+        Logger.print(e2.getName() + " power = " + e2Power);
+
+        return e1Power>=e2Power ? 1 : 2; 
+    }
 }
