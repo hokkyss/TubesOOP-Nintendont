@@ -1,4 +1,3 @@
-import java.lang.reflect.Array;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -81,11 +80,11 @@ public class Engimon {
         this.skills = skills;
     }
 
-    public int getSkillPower(){
+    public int getSkillPower() {
         int pow = 0;
 
-        for(Skill s:this.skills){
-            pow += s.basePower*s.getMasteryLevel();
+        for (Skill s : this.skills) {
+            pow += s.basePower * s.getMasteryLevel();
         }
 
         return pow;
@@ -113,29 +112,28 @@ public class Engimon {
     }
 
     public void showDetails() {
-        System.out.println("=======ENGIMON'S DETAIL=======");
-        System.out.println("ID Engimon : " + this.idEngimon);
-        System.out.println("Nama : " + this.name);
-        System.out.println("Species : " + this.species.getSpecies());
-        System.out.println("Elements : "
+        Logger.print("=======ENGIMON'S DETAIL=======");
+        Logger.print("ID Engimon : " + this.idEngimon);
+        Logger.print("Nama : " + this.name);
+        Logger.print("Species : " + this.species.getSpecies());
+        Logger.print("Elements : "
                 + this.species.getElements().stream().map(e -> e.name()).collect(Collectors.joining(", ")));
-        System.out.println("Level : " + this.level);
-        System.out.println("EXP : (" + this.exp + "/100)");
-        System.out.println("Total EXP : " + this.cumExp);
-        System.out.println("Unique Skill : " + this.species.getUniqueSkill().skillName);
+        Logger.print("Level : " + this.level);
+        Logger.print("EXP : (" + this.exp + "/100)");
+        Logger.print("Total EXP : " + this.cumExp);
+        Logger.print("Unique Skill : " + this.species.getUniqueSkill().skillName);
 
         // TODO: Print skill level, mastery level, etc.
-        System.out.println(
-                "Skills : " + this.getSkills().stream().map(s -> s.skillName).collect(Collectors.joining(", ")));
+        Logger.print("Skills : " + this.getSkills().stream().map(s -> s.skillName).collect(Collectors.joining(", ")));
 
         if (this.parents != null && this.parents.size() == 2) {
-            System.out.println("Parents : " + this.parents.entrySet().stream()
+            Logger.print("Parents : " + this.parents.entrySet().stream()
                     .map(entry -> entry.getKey() + " - " + entry.getValue()).collect(Collectors.joining(" <3 ")));
         } else {
-            System.out.println("Parents : -");
+            Logger.print("Parents : -");
         }
 
-        System.out.println("==============================");
+        Logger.print("==============================");
     }
 
     public void faint() {
@@ -168,7 +166,7 @@ public class Engimon {
             // cek MainSkill untuk lebih detail.
             this.skills.add(new Skill(s));
         } else {
-            System.out.println("Skill not compatible or engimon has learnt the skill");
+            Logger.print("Skill not compatible or engimon has learnt the skill");
             throw new SkillNotCompatibleException();
         }
     }
