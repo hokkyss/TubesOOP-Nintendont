@@ -3,21 +3,26 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 public class Player {
+    private final int EXP_MULT = 15;
+
     private int activeEngimonIdx;
     public Inventory<Engimon> engimonList;
     public Inventory<SkillItem> skillItemList;
     private Position pos;
 
     public Player(Engimon starter){
-        this.activeEngimonIdx = starter.getID();
-    }
-
-    public void showAllEngimon() {
-        Inventory.sortInventory(engimonList);
+        this.activeEngimonIdx = 0;
+        this.engimonList.insert(starter);
     }
 
     public Engimon getActiveEngimon() {
         return this.engimonList.get(this.activeEngimonIdx);
+    }
+
+    public void showAllEngimon() {
+        Engimon currActive = this.getActiveEngimon();
+        Inventory.sortInventory(engimonList);
+        this.activeEngimonIdx = engimonList.find(currActive);
     }
 
     public void showSkillItem() {
@@ -29,7 +34,7 @@ public class Player {
             e1.learnSkill(si);
             skillItemList.remove(si);
         } catch (Exception err) {
-            Logger.print(err.getMessage());
+            throw err;
         }
     }
 
@@ -37,15 +42,24 @@ public class Player {
         try{
             this.skillItemList.remove(si, amount);
         } catch (Exception err){
-            Logger.print(err.getMessage());
+            throw err;
         }
     }
 
     public void releaseEngimon(Engimon e) throws InputTooLargeException, ItemNotFoundException {
         try{
+            if(engimonList.size()==1){ 
+                Logger.print("You only have 1 Engimon! Release failed");
+                return;
+            }
+
+            if(engimonList.find(e) == this.activeEngimonIdx){
+                this.activeEngimonIdx = 0;
+            }
+
             engimonList.remove(e);
         } catch (Exception err){
-            Logger.print(err.getMessage());
+            throw err;
         }
     }
 
@@ -94,7 +108,7 @@ public class Player {
     }
 
     public void breed(Engimon A, Engimon B){
-        if(!engimonList.isFull()){
+        try{
             if(A.getLevel() >= 4 && B.getLevel() >= 4){
                 Scanner input = new Scanner(System.in);
                 System.out.println("Enter your new Engimon's name: ");
@@ -102,12 +116,12 @@ public class Player {
                 
                 ArrayList<Element> childElmt = inheritElmt(A, B);
                 Species childSpecies = new Species(A.getSpecies());
-                if(isElementSame(childElmt, A.getElements())){
-                    childSpecies = getSpeciesByName(A.getSpecies());
-                } else if(isElementSame(childElmt, B.getElements())){
-                    childSpecies = getSpeciesByName(B.getSpecies());
+                if(Util.isElementSame(childElmt, A.getElements())){
+                    childSpecies = Species.getSpeciesByName(A.getSpecies());
+                } else if(Util.isElementSame(childElmt, B.getElements())){
+                    childSpecies = Species.getSpeciesByName(B.getSpecies());
                 } else{
-                    childSpecies = getSpeciesByElement(childElmt);
+                    childSpecies = Species.getSpeciesByElement(childElmt);
                 }
 
                 Skill childUniqueSkill = childSpecies.getUniqueSkill();
@@ -127,7 +141,50 @@ public class Player {
 
                 System.out.println("Breeding successful!");
                 System.out.println(childName + " is in inventory.");
+            }else throw new ParentLevelException();
+        }catch(Exception err){
+            throw err;
+        }
+    }
+
+    public void battle(EngimonLiar enemy) throws InputTooLargeException, EngimonRanOutException{
+        Engimon myEngimon = this.getActiveEngimon();
+        int winner =  Util.handleBattle(myEngimon, enemy);
+        
+        Logger.print(myEngimon.getName()+" VS "+enemy.getName());
+
+        if(winner==1){
+            Logger.print(myEngimon.getName()+" Won the battle!");
+            int expWon = enemy.getLevel() * EXP_MULT;
+            myEngimon.addExp(expWon);
+
+            try{
+                if(myEngimon.isDead()){
+                    Logger.EngimonDeadByLevel(myEngimon);
+                    this.releaseEngimon(myEngimon);
+                }else{
+                    Logger.print("You get new Engimon: " + enemy.getName());
+                    Engimon rewardEngimon = new Engimon(enemy.getName(),enemy.getSpecies(),enemy.getLevel());
+                    this.engimonList.insert(rewardEngimon);
+
+                    SkillItem rewardSkillItem = SkillItem.getRandomSkillItem(enemy.getElements());
+                    this.skillItemList.insert(rewardSkillItem);
+                    Logger.print("You get new SkillItem: \n" + rewardSkillItem);
+                }
+            }catch(Exception err){
+                throw err;
             }
+        }else {
+            Logger.print(myEngimon.getName()+" Lost the battle!");
+            myEngimon.faint();
+
+            if(myEngimon.getLife()==0){
+                this.releaseEngimon(myEngimon);
+            }
+        }
+
+        if(engimonList.size()==0){
+            throw new EngimonRanOutException();
         }
     }
 }

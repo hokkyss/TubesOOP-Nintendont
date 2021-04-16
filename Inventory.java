@@ -3,6 +3,7 @@ import java.util.*;
 public class Inventory<T> {
     // atribut Inventory
     public final int maxCapacity = 20;
+    
     public static int nCapacity = 0;
     public ArrayList<T> invenList;
     public Map<T, Integer> countInven;
@@ -71,6 +72,14 @@ public class Inventory<T> {
 
     public boolean isFull(){
         return nCapacity==maxCapacity;
+    }
+
+    public int find(T el){
+        return invenList.indexOf(el);
+    }
+
+    public int size(){
+        return invenList.size();
     }
 
     public String toString() {
