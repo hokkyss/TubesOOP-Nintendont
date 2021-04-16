@@ -134,7 +134,7 @@ public class Engimon {
         return this.skills.contains(s);
     }
 
-    public void learnSkill(Skill s) {
+    public void learnSkill(Skill s) throws SkillNotCompatibleException {
         if (isSkillCompatible(s) && !hasLearnt(s)) {
             // jangan langsung add(s).
             // ntar kalau masterynya naik, itu naiknya dari enumerasinya.
@@ -142,10 +142,11 @@ public class Engimon {
             this.skills.add(new Skill(s));
         } else {
             System.out.println("Skill not compatible or engimon has learnt the skill");
+            throw new SkillNotCompatibleException();
         }
     }
 
-    public void learnSkill(SkillItem si) {
+    public void learnSkill(SkillItem si) throws SkillNotCompatibleException {
         learnSkill(si.containedSkill);
     }
 }

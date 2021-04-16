@@ -17,7 +17,7 @@ public enum Element {
                 res.add(Element.valueOf(el.toUpperCase().trim()));
             }
         } catch (Exception e) {
-            System.out.println("Element not found");
+            Logger.print("Element not found");
         }
         res.sort(comparator);
         return res;
