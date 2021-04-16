@@ -31,12 +31,8 @@ public class Player {
         }
     }
 
-    public void throwSkillItem(int amount, SkillItem si) /* throws InputTooLargeException */ {
-        int n = skillItemList.getCount(si);
-        if (n >= amount)
-            skillItemList.setCount(si, n - amount); // bagusnya buat reduceCount yang ngethrow Exception ini
-        // else
-        // throw new InputTooLargeException();
+    public void throwSkillItem(int amount, SkillItem si) throws InputTooLargeException, ItemNotFoundException {
+        this.skillItemList.remove(si, amount);
     }
 
     public void releaseEngimon(Engimon e) {

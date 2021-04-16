@@ -25,3 +25,6 @@ hs_err_pid*
 # visual studio
 *.vscode
 *.vs
+
+!/lib/*.jar
+/out/*
