@@ -1,4 +1,4 @@
-public class EngimonLiar extends Engimon {
+public class EngimonLiar extends Engimon implements Creature {
     private Position position;
 
     EngimonLiar(String name, Species species, int level, Position p) {
@@ -6,8 +6,10 @@ public class EngimonLiar extends Engimon {
         this.position = p;
     }
 
+    @Override
     public Position getPosition() { return position; }
 
+    @Override
     public void setPosition(Position p) {
         this.position = p;
     }

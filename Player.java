@@ -2,13 +2,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
-public class Player {
+public class Player implements Creature{
     private final int EXP_MULT = 15;
 
     private int activeEngimonIdx;
     public Inventory<Engimon> engimonList;
     public Inventory<SkillItem> skillItemList;
     private Position pos;
+    public Position activeEngimonPos;
 
     public Player(Engimon starter) throws InputTooLargeException {
         this.activeEngimonIdx = 0;
@@ -19,8 +20,10 @@ public class Player {
         }
     }
     
+    @Override
     public Position getPosition() { return pos; }
     
+    @Override
     public void setPosition(Position p) { pos = p; }
 
     public Engimon getActiveEngimon() {
