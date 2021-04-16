@@ -75,7 +75,7 @@ public class Engimon {
             pow += s.basePower*s.getMasteryLevel();
         }
 
-        return pow;is
+        return pow;
     }
 
     public void addExp(int exp) {

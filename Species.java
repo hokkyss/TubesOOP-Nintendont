@@ -9,6 +9,7 @@ public class Species {
     private ArrayList<Element> elements;
     private Skill uniqueSkill;
     private ArrayList<String> response;
+
     public static ArrayList<Species> listOfSpecies = new ArrayList<Species>();
 
     public Species(String species, ArrayList<Element> elements, Skill uniqueSkill, ArrayList<String> response) {
@@ -42,7 +43,12 @@ public class Species {
         return (response.get(target));
     }
 
-    // enumerasi semua species pake public static final
-    public static final Species EMBERON = new Species("Emberon", Element.constructElements("FIRE, WATER"),
-            Skill.FLAMETHROWER, new ArrayList<String>());
+    public static Species get(String name) {
+        for(Species s : Species.listOfSpecies) {
+            if (name.equalsIgnoreCase(s.getSpecies())) {
+                return s;
+            }
+        }
+        return null;
+    }
 }

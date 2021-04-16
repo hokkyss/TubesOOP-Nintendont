@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class Player {
@@ -77,14 +78,46 @@ public class Player {
         return inheritedElmt;
     }
 
+    public ArrayList<Skill> inheritSkill(Engimon A, Engimon B, Skill uniqueSkill){
+        ArrayList<Skill> inheritedSkill = new ArrayList<Skill>();
+        inheritedSkill.add(uniqueSkill);
+
+        ArrayList<Skill> parentSkills = new ArrayList<Skill>(A.getSkills());
+        parentSkills.addAll(B.getSkills());
+        parentSkills.sort(new SkillComparator());
+        for(int i = 0; inheritedSkill.size() < 4; i++){
+            if(!inheritedSkill.contains(parentSkills.get(i))){
+                inheritedSkill.add(parentSkills.get(i));
+            }
+        }
+        return inheritedSkill;
+    }
+
     public void breed(Engimon A, Engimon B){
         if(!engimonList.isFull()){
             if(A.getLevel() >= 4 && B.getLevel() >= 4){
                 Scanner input = new Scanner(System.in);
                 System.out.println("Enter your new Engimon's name: ");
-                String childname = input.nextLine();
+                String childName = input.nextLine();
                 
                 ArrayList<Element> childElmt = inheritElmt(A, B);
+                Species childSpecies = new Species(A.getSpecies());
+                if(isElementSame(childElmt, A.getElements())){
+                    childSpecies = getSpeciesByName(A.getSpecies());
+                } else if(isElementSame(childElmt, B.getElements())){
+                    childSpecies = getSpeciesByName(B.getSpecies());
+                } else{
+                    childSpecies = getSpeciesByElement(childElmt);
+                }
+
+                Skill childUniqueSkill = childSpecies.getUniqueSkill();
+                ArrayList<Skill> childSkill = inheritSkill(A, B, childUniqueSkill);
+
+                HashMap<String, String> parents = new HashMap<String, String>();
+                parents.put(A.getName(), A.getSpecies().getSpecies());
+                parents.put(B.getName(), B.getSpecies().getSpecies());
+
+                
             }
         }
     }
