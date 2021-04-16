@@ -1,4 +1,8 @@
+import java.util.List;
+import java.util.Arrays;
 import java.util.ArrayList;
+import java.io.FileInputStream;
+import org.apache.poi.ss.usermodel.*;
 
 public class Species {
     private String species;
@@ -7,7 +11,7 @@ public class Species {
     private ArrayList<String> response;
     public static ArrayList<Species> listOfSpecies = new ArrayList<Species>();
 
-    private Species(String species, ArrayList<Element> elements, Skill uniqueSkill, ArrayList<String> response) {
+    public Species(String species, ArrayList<Element> elements, Skill uniqueSkill, ArrayList<String> response) {
         this.species = species;
         this.elements = elements;
         this.uniqueSkill = uniqueSkill;
