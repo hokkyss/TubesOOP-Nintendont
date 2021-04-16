@@ -60,7 +60,24 @@ public class Player {
         if(elmtA == elmtB){
             inheritedElmt.add(elmtA);
         } else if(elmtA != elmtB){
-            if
+            if(Element.getAdvantage(elmtA, elmtB) > Element.getAdvantage(elmtB, elmtA)){
+                inheritedElmt.add(elmtA);
+            } else if(Element.getAdvantage(elmtA, elmtB) < Element.getAdvantage(elmtB, elmtA)){
+                inheritedElmt.add(elmtB);
+            } else{
+                inheritedElmt.add(elmtA);
+                inheritedElmt.add(elmtB);
+            }
+        }
+        return inheritedElmt;
+    }
+
+    public void breed(Engimon A, Engimon B){
+        if(!engimonList.isFull()){
+            if(A.getLevel() >= 4 && B.getLevel() >= 4){
+                String childname;
+                
+            }
         }
     }
 }
