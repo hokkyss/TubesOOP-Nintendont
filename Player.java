@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Player {
     private int activeEngimonIdx;
@@ -32,11 +33,19 @@ public class Player {
     }
 
     public void throwSkillItem(int amount, SkillItem si) throws InputTooLargeException, ItemNotFoundException {
-        this.skillItemList.remove(si, amount);
+        try{
+            this.skillItemList.remove(si, amount);
+        } catch (Exception err){
+            Logger.print(err.getMessage());
+        }
     }
 
-    public void releaseEngimon(Engimon e) {
-        engimonList.remove(e);
+    public void releaseEngimon(Engimon e) throws InputTooLargeException, ItemNotFoundException {
+        try{
+            engimonList.remove(e);
+        } catch (Exception err){
+            Logger.print(err.getMessage());
+        }
     }
 
     public String toString() {
@@ -71,8 +80,11 @@ public class Player {
     public void breed(Engimon A, Engimon B){
         if(!engimonList.isFull()){
             if(A.getLevel() >= 4 && B.getLevel() >= 4){
-                String childname;
+                Scanner input = new Scanner(System.in);
+                System.out.println("Enter your new Engimon's name: ");
+                String childname = input.nextLine();
                 
+                ArrayList<Element> childElmt = inheritElmt(A, B);
             }
         }
     }
