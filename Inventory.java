@@ -13,63 +13,85 @@ public class Inventory<T> {
     }
 
     // getter
-    public T get(int i){
+    public T get(int i) {
         return invenList.get(i);
     }
 
-    public int getCount(T el){
+    public int getCount(T el) {
         return countInven.get(el);
     }
 
     // setter
-    public void setCount(T el, int n){
+    public void setCount(T el, int n) {
         int nPrev = countInven.get(el);
-        
-        if (n == 0){ 
+
+        if (n == 0) {
             nCapacity -= nPrev;
             countInven.remove(el);
             invenList.remove(el);
         }
 
-        if (nPrev>n) nCapacity -= (nPrev-n); 
-        else nCapacity += (n-nPrev);
+        if (nPrev > n)
+            nCapacity -= (nPrev - n);
+        else
+            nCapacity += (n - nPrev);
 
         countInven.put(el, n);
     }
 
     public void insert(T el) {
-        if (nCapacity < maxCapacity) {
+        try {
+            insert(el, 1);
+        } catch (InputTooLargeException err) {
+            // ....
+        }
+    }
+
+    public void insert(T el, int count) throws InputTooLargeException {
+        if (nCapacity + count <= maxCapacity) {
             if (countInven.containsKey(el)) {
-                int newCount = countInven.get(el) + 1;
-                countInven.put(el, newCount);
+                countInven.put(el, countInven.get(el) + count);
             } else {
                 invenList.add(el);
-                countInven.put(el, 1);
+                countInven.put(el, count);
             }
-
-            nCapacity++;
-        }
-    }
-
-    public void remove(T el) {
-        if (countInven.get(el) == 1) {
-            countInven.remove(el);
-            invenList.remove(el);
+            nCapacity += count;
         } else {
-            int newCount = countInven.get(el) - 1;
-            countInven.put(el, newCount);
+            throw new InputTooLargeException();
         }
-        nCapacity--;
     }
 
-    public String toString(){
+    public void remove(T el) throws InputTooLargeException, ItemNotFoundException {
+        remove(el, 1);
+    }
+
+    public void remove(T el, int count) throws InputTooLargeException, ItemNotFoundException {
+        if (countInven.containsKey(el)) {
+            if (countInven.get(el) >= count) {
+                if (countInven.get(el) == count) {
+                    countInven.remove(el);
+                    invenList.remove(el);
+                } else {
+                    countInven.put(el, countInven.get(el) - count);
+                }
+            } else {
+                throw new InputTooLargeException();
+            }
+        } else {
+            throw new ItemNotFoundException();
+        }
+    }
+
+    public String toString() {
         String s = "";
 
-        for (T el : invenList){
+        for (T el : invenList) {
             s += ("{\nelement:{\n" + el.toString() + "\n},\ncount:" + countInven.get(el) + "\n}");
-            
-            if (! el.equals(invenList.get(invenList.size()-1))) s += ",\n";
-            else s += "\n"; 
+
+            if (!el.equals(invenList.get(invenList.size() - 1)))
+                s += ",\n";
+            else
+                s += "\n";
         }
 
         return s;
