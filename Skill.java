@@ -112,7 +112,7 @@ public class Skill implements Comparable<Skill> {
     public static final Skill THUNDER = new Skill("Thunder", 110, Element.constructElements("ELECTRIC, WATER"));
     public static final Skill STORM = new Skill("Storm", 75, Element.constructElements("WATER, ELECTRIC"));
     public static final Skill MUDFLOOD = new Skill("Mudflood", 95, Element.constructElements("GROUND, WATER"));
-    public static final Skill MUDDYWATER = new Skill("Muddy Water", 90, Element.constructElements("WATER. GROUND"));
+    public static final Skill MUDDYWATER = new Skill("Muddy Water", 90, Element.constructElements("WATER, GROUND"));
     public static final Skill STEAMBLAST = new Skill("Steam Blast", 105, Element.constructElements("WATER, WATER"));
     public static final Skill STEAMBOMB = new Skill("Steam Bomb", 80, Element.constructElements("FIRE, WATER"));
     public static final Skill THUNDERBLAST = new Skill("Thunder Blast", 110,

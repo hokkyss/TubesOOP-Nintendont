@@ -5,7 +5,7 @@ public class Player {
     private Position pos;
 
     public Player(Engimon starter) {
-        this.activeEngimon = starter;
+        this.activeEngimonIdx = starter.getID();
     }
 
     public void showAllEngimon() {
@@ -34,7 +34,12 @@ public class Player {
     }
 
     public void releaseEngimon(Engimon e) {
-        engimonList.remove(e);
+        try {
+            engimonList.remove(e);
+        } catch (Exception err) {
+            // do something
+        }
+
     }
 
     public String toString() {

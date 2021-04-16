@@ -9,7 +9,15 @@ public class MainEngimon {
         ArrayList<String> r1 = new ArrayList<>();
         r1.add("BAMBANG");
         r1.add("KENTANG");
-        Species x = Species.EMBERON;
+
+        try {
+            Util.loadSpecies();
+        } catch (Exception err) {
+            System.out.println("Failed to load engimon");
+        }
+
+
+        Species x = Species.get("Emberon");
 
         HashMap<String, String> parents = new HashMap<String, String>();
         parents.put("Pege", "Emberon");
@@ -18,7 +26,12 @@ public class MainEngimon {
         // Species mirip dengan SkillItem
         Engimon eng1 = new Engimon("Nama1", x, 5, parents);
         eng1.addExp(200);
-        eng1.learnSkill(Skill.EARTHPOWER);
+        try {
+            eng1.learnSkill(Skill.EARTHPOWER);
+        } catch (SkillNotCompatibleException err) {
+            System.out.println("not compatible");
+        }
+
         eng1.showDetails();
     }
 }
