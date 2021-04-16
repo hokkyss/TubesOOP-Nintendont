@@ -10,14 +10,18 @@ public class Player {
     public Inventory<SkillItem> skillItemList;
     private Position pos;
 
-    public Player(Engimon starter) throws InputTooLargeException{
+    public Player(Engimon starter) throws InputTooLargeException {
         this.activeEngimonIdx = 0;
-        try{
+        try {
             this.engimonList.insert(starter);
-        }catch(Exception err){
+        } catch (Exception err) {
             throw err;
         }
     }
+    
+    public Position getPosition() { return pos; }
+    
+    public void setPosition(Position p) { pos = p; }
 
     public Engimon getActiveEngimon() {
         return this.engimonList.get(this.activeEngimonIdx);

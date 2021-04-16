@@ -6,6 +6,8 @@ public class EngimonLiar extends Engimon {
         this.position = p;
     }
 
+    public Position getPosition() { return position; }
+
     public void setPosition(Position p) {
         this.position = p;
     }
