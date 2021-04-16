@@ -10,8 +10,12 @@ public enum Element {
         this.idx = i;
     }
 
-    public static final double[][] advantage = { { 1, 0, 1, 0.5, 2 }, { 2, 1, 0, 1, 1 }, { 1, 2, 1, 0, 1.5 },
+    private static final double[][] advantage = { { 1, 0, 1, 0.5, 2 }, { 2, 1, 0, 1, 1 }, { 1, 2, 1, 0, 1.5 },
             { 1.5, 1, 2, 1, 0 }, { 0, 1, 0.5, 2, 1 } };
+
+    public static double getAdvantage(Element e1, Element e2) {
+        return Element.advantage[e1.idx][e2.idx];
+    }
 
     public static ArrayList<Element> constructElements(String elements) {
         ArrayList<Element> res = new ArrayList<Element>();
