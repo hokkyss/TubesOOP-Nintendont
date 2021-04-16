@@ -9,7 +9,7 @@ public class Player {
     private Position pos;
 
     public Player(Engimon starter){
-        this.activeEngimon = starter;
+        this.activeEngimonIdx = starter.getID();
     }
 
     public void showAllEngimon() {
@@ -117,7 +117,16 @@ public class Player {
                 parents.put(A.getName(), A.getSpecies().getSpecies());
                 parents.put(B.getName(), B.getSpecies().getSpecies());
 
-                
+                Engimon child = new Engimon(childName, childSpecies, 0, parents);
+
+                child.setSkill(childSkill);
+                engimonList.insert(child);
+
+                A.setLevel(A.getLevel()-3);
+                B.setLevel(B.getLevel()-3);
+
+                System.out.println("Breeding successful!");
+                System.out.println(childName + " is in inventory.");
             }
         }
     }
