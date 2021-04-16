@@ -133,7 +133,7 @@ public class Player {
 
                 Engimon child = new Engimon(childName, childSpecies, 0, parents);
 
-                child.setSkill(childSkill);
+                child.setSkills(childSkill);
                 engimonList.insert(child);
 
                 A.setLevel(A.getLevel()-3);

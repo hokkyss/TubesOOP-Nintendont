@@ -1,3 +1,4 @@
+import java.lang.reflect.Array;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -52,6 +53,14 @@ public class Engimon {
         return this.level;
     }
 
+    public void setLevel(int targetLevel) {
+        if (this.level != targetLevel) {
+            this.level = targetLevel;
+            this.exp = 0;
+            this.cumExp = EXP_PER_LEVEL * (targetLevel - 1);
+        }
+    }
+
     public int getLife() {
         return this.life;
     }
@@ -66,6 +75,10 @@ public class Engimon {
 
     public ArrayList<Skill> getSkills() {
         return this.skills;
+    }
+
+    public void setSkills(ArrayList<Skill> skills) {
+        this.skills = skills;
     }
 
     public int getSkillPower(){

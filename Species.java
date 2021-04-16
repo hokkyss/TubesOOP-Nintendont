@@ -47,4 +47,24 @@ public class Species {
         }
         return null;
     }
+
+    public static Species getSpeciesByName(Species s) {
+        return Species.get(s.getSpecies());
+    }
+
+    public static Species getSpeciesByElement(ArrayList<Element> elements) {
+        for(Species s : Species.listOfSpecies) {
+            boolean haveAllElements = true;
+            for (Element el : elements) {
+                if (!s.elements.contains(el)) {
+                    haveAllElements = false;
+                }
+            }
+
+            if (haveAllElements) {
+                return s;
+            }
+        }
+        return null;
+    }
 }
