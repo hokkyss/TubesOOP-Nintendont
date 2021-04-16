@@ -142,7 +142,7 @@ public class Skill implements Comparable<Skill> {
             Element.constructElements("ICE, ELECTRIC, GROUND"));
     public static final Skill CONTRADICTINGSHOCK = new Skill("Contradicting Shock", 90,
             Element.constructElements("GROUND, WATER, ELECTRIC"));
-    public static final Skill GODLYFART = new Skill("GodlyFart", 90,
+    public static final Skill GODLYFART = new Skill("Godly Fart", 90,
             Element.constructElements("FIRE, ICE, GROUND, ELECTRIC, WATER"));
 
 }
