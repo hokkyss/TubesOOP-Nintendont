@@ -14,6 +14,10 @@ public class Player implements Creature{
     public Player(Engimon starter) throws InputTooLargeException {
         this.activeEngimonIdx = 0;
         try {
+            engimonList = new Inventory<Engimon>();
+            skillItemList = new Inventory<SkillItem>();
+            pos = new Position(0, 0);
+            activeEngimonPos = new Position(0, 0);
             this.engimonList.insert(starter);
         } catch (Exception err) {
             throw err;
@@ -30,9 +34,13 @@ public class Player implements Creature{
         return this.engimonList.get(this.activeEngimonIdx);
     }
 
+    public void switchActiveEngimon(int idx) {
+        this.activeEngimonIdx = idx;
+    }
+
     public void showAllEngimon() {
         Engimon currActive = this.getActiveEngimon();
-        Inventory.sortInventory(engimonList);
+        Inventory.sortInventory(this.engimonList);
         this.activeEngimonIdx = engimonList.find(currActive);
     }
 
@@ -111,7 +119,7 @@ public class Player implements Creature{
         ArrayList<Skill> parentSkills = new ArrayList<Skill>(A.getSkills());
         parentSkills.addAll(B.getSkills());
         parentSkills.sort(new SkillComparator());
-        for(int i = 0; inheritedSkill.size() < 4; i++){
+        for(int i = 0; i < parentSkills.size() && inheritedSkill.size() < 4; i++){
             if(!inheritedSkill.contains(parentSkills.get(i))){
                 inheritedSkill.add(parentSkills.get(i));
             }
@@ -124,7 +132,7 @@ public class Player implements Creature{
         try{
             if(A.getLevel() >= 4 && B.getLevel() >= 4){
                 Scanner input = new Scanner(System.in);
-                System.out.println("Enter your new Engimon's name: ");
+                Logger.print("Enter your new Engimon's name: ");
                 String childName = input.nextLine();
                 
                 ArrayList<Element> childElmt = inheritElmt(A, B);
@@ -144,7 +152,7 @@ public class Player implements Creature{
                 parents.put(A.getName(), A.getSpecies().getSpecies());
                 parents.put(B.getName(), B.getSpecies().getSpecies());
 
-                Engimon child = new Engimon(childName, childSpecies, 0, parents);
+                Engimon child = new Engimon(childName, childSpecies, 1, parents);
 
                 child.setSkills(childSkill);
                 engimonList.insert(child);
@@ -152,8 +160,8 @@ public class Player implements Creature{
                 A.setLevel(A.getLevel()-3);
                 B.setLevel(B.getLevel()-3);
 
-                System.out.println("Breeding successful!");
-                System.out.println(childName + " is in inventory.");
+                Logger.print("Breeding successful!");
+                Logger.print(childName + " is in inventory.");
             }else throw new ParentLevelException();
         }catch(Exception err){
             throw err;
@@ -175,7 +183,7 @@ public class Player implements Creature{
             try{
                 if(myEngimon.isDead()){
                     Logger.EngimonDeadByLevel(myEngimon);
-                    this.releaseEngimon(myEngimon);
+                    this.engimonList.remove(myEngimon);
                 }else{
                     Logger.print("You get new Engimon: " + enemy.getName());
                     Engimon rewardEngimon = new Engimon(enemy.getName(),enemy.getSpecies(),enemy.getLevel());
@@ -193,7 +201,7 @@ public class Player implements Creature{
             myEngimon.faint();
 
             if(myEngimon.getLife()==0){
-                this.releaseEngimon(myEngimon);
+                this.engimonList.remove(myEngimon);
             }
         }
 

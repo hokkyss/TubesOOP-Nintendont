@@ -3,6 +3,10 @@ import java.util.Random;
 public class Logger {
     public static Random randomize = new Random();
 
+    public static void print()
+    {
+        System.out.println();
+    }
     public static void print(Object s) {
         System.out.println(s.toString());
     }

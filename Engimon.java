@@ -108,6 +108,10 @@ public class Engimon {
         return isDead;
     }
 
+    public void interact(){
+        Logger.print(this.species.interact());
+    }
+
     public void showDetails() {
         System.out.println("=======ENGIMON'S DETAIL=======");
         System.out.println("ID Engimon : " + this.idEngimon);
