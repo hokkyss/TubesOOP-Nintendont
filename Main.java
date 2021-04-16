@@ -1,45 +1,55 @@
-import java.nio.file.*;
-import java.util.List;
-import java.io.IOException;
-import java.nio.charset.Charset;
+import java.util.*;
 
 public class Main {
-    // Attributes
-    private static char[][] arrPeta;
+    public static void main(String[] args) {
+        /* Var */
+        Scanner scanner = new Scanner(System.in);
+        String command;
+        int turn = 0;
+        boolean inited = false;
 
-    public static void initPeta(String filePath) {
+        /* Init Phase */
         try {
-            final List<String> lines = Files.readAllLines(Paths.get(filePath), Charset.defaultCharset());
-            int rows = lines.size(), columns = lines.get(0).length();   
-            
-            arrPeta = new char[rows][columns];
+            Util.loadSpecies();
+            Util.initPeta("input/contoh.txt");
+            Util.initPlayer(scanner);
 
-            for (int i = 0; i < rows; i++) {
-                for (int j = 0; j < columns; j++) {
-                    arrPeta[i][j] = lines.get(i).charAt(j);
-                }
-            }
-        } catch (IOException e) {
-            System.out.println("An error occurred.");
+            inited = true;
+        } catch (Exception e) {
+            System.out.println("An error occured!");
             e.printStackTrace();
         }
-    }
 
-    public static void printPeta() {
-        for (int i = -1; i <= arrPeta.length; i++) {
-            for (int j = -1; j <= arrPeta[0].length; j++) {
-                if (i == -1 || j == -1 || i == arrPeta.length || j == arrPeta[0].length)
-                    System.out.print("#");
-                else
-                    System.out.print(arrPeta[i][j]);
+        /* In Game Phase */
+        while (inited) {
+            Util.player.activeEngimonPos = Util.player.getPosition();
+            command = scanner.next();
+
+            switch (command) {
+            case "w":
+
+                break;
+            case "exit":
+                System.out.println("Thank you for playing!");
+                scanner.close();
+                return;
+            default:
+                System.out.println("Invalid Command!");
+                System.out.println("Type \'help\' to show all available commands\n");
+                break;
+            }
+            
+            if (turn % Util.RESPAWN_TURN == 0) {
+                Util.spawnWildEngimons();
+                System.out.println("The Wild Engimons have respawned!\n");
+            } else if (turn % Util.WILD_ENGIMON_MOVE_TURN == 0) {
+
+                System.out.println("The Wild Engimons have moved!\n");
             }
 
-            System.out.println();
+            Util.printPeta();
+            
+            turn++;
         }
-    }
-
-    public static void main(String[] args) {
-        initPeta("input/contoh.txt");
-        printPeta();
     }
 }
