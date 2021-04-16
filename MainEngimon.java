@@ -5,6 +5,7 @@ public class MainEngimon {
         ArrayList<Element> e1 = new ArrayList<>();
         e1.add(Element.FIRE);
         e1.add(Element.WATER);
+
         ArrayList<String> r1 = new ArrayList<>();
         r1.add("BAMBANG");
         r1.add("KENTANG");

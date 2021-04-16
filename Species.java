@@ -40,7 +40,6 @@ public class Species {
     }
 
     // enumerasi semua species pake public static final
-    public static final Species EMBERON = new Species("Emberon",
-            new ArrayList<>(Arrays.asList(Element.FIRE, Element.ELECTRIC)), Skill.FLAMETHROWER,
-            new ArrayList<String>());
+    public static final Species EMBERON = new Species("Emberon", Element.constructElements("FIRE, WATER"),
+            Skill.FLAMETHROWER, new ArrayList<String>());
 }

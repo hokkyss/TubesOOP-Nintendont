@@ -24,8 +24,10 @@ public class Engimon {
         this.exp = 0;
         this.cumExp = (level - 1) * EXP_PER_LEVEL;
         this.life = 3;
+
         this.skills = new ArrayList<Skill>();
-        this.skills.add(species.getUniqueSkill());
+        this.skills.add(new Skill(species.getUniqueSkill()));
+
         this.parents = parents;
         EngimonCount++;
     }
