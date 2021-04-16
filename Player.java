@@ -10,9 +10,13 @@ public class Player {
     public Inventory<SkillItem> skillItemList;
     private Position pos;
 
-    public Player(Engimon starter){
+    public Player(Engimon starter) throws InputTooLargeException{
         this.activeEngimonIdx = 0;
-        this.engimonList.insert(starter);
+        try{
+            this.engimonList.insert(starter);
+        }catch(Exception err){
+            throw err;
+        }
     }
 
     public Engimon getActiveEngimon() {
@@ -29,7 +33,8 @@ public class Player {
         Inventory.sortInventory(skillItemList, true);
     }
 
-    public void useSkillItem(Engimon e1, SkillItem si) throws SkillNotCompatibleException, ItemNotFoundException {
+    public void useSkillItem(Engimon e1, SkillItem si) throws 
+        InputTooLargeException, SkillNotCompatibleException, ItemNotFoundException {
         try {
             e1.learnSkill(si);
             skillItemList.remove(si);
@@ -107,7 +112,8 @@ public class Player {
         return inheritedSkill;
     }
 
-    public void breed(Engimon A, Engimon B){
+    public void breed(Engimon A, Engimon B) throws 
+        InputTooLargeException, ParentLevelException{
         try{
             if(A.getLevel() >= 4 && B.getLevel() >= 4){
                 Scanner input = new Scanner(System.in);
@@ -147,7 +153,8 @@ public class Player {
         }
     }
 
-    public void battle(EngimonLiar enemy) throws InputTooLargeException, EngimonRanOutException{
+    public void battle(EngimonLiar enemy) throws 
+        ItemNotFoundException, InputTooLargeException, EngimonRanOutException{
         Engimon myEngimon = this.getActiveEngimon();
         int winner =  Util.handleBattle(myEngimon, enemy);
         
