@@ -68,6 +68,16 @@ public class Engimon {
         return this.skills;
     }
 
+    public int getSkillPower(){
+        int pow = 0;
+
+        for(Skill s:this.skills){
+            pow += s.basePower*s.getMasteryLevel();
+        }
+
+        return pow;is
+    }
+
     public void addExp(int exp) {
         if (this.exp + exp >= EXP_PER_LEVEL && !(this instanceof EngimonLiar)) {
             Logger.EngimonLevelUp(this, this.exp + exp);
