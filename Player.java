@@ -7,50 +7,43 @@ public class Player {
     private Position pos;
 
     public Player(Engimon starter){
-        this.activeEngimonIdx = 0;
-        engimonList.insert(starter);
+        this.activeEngimon = starter;
     }
 
-    public void showAllEngimon(){
+    public void showAllEngimon() {
         Inventory.sortInventory(engimonList);
     }
 
-    public Engimon getActiveEngimon(){
+    public Engimon getActiveEngimon() {
         return this.engimonList.get(this.activeEngimonIdx);
     }
 
-    public void showSkillItem(){
+    public void showSkillItem() {
         Inventory.sortInventory(skillItemList, true);
     }
 
-    public void useSkillItem(Engimon e1, SkillItem si){
-        try{
-            e1.learnSkill(s1);
+    public void useSkillItem(Engimon e1, SkillItem si) throws SkillNotCompatibleException, ItemNotFoundException {
+        try {
+            e1.learnSkill(si);
             skillItemList.remove(si);
-        }catch(SkillNotCompatible err){
-            // throw err;
-            Logger.print("Skill not compatible!");
-        }catch(ItemNotFound err){
-            // throw err;
-            Logger.print("Skill Item not found!");
+        } catch (Exception err) {
+            Logger.print(err.getMessage());
         }
     }
 
-    public void throwSkillItem(int amount, SkillItem si){
-        try{
-            int n = skillItemList.getCount(si);
-            if(n >= amount) skillItemList.setCount(si,n-amount);
-            // else throw new InputTooLarge();
-        }catch(InputTooLarge err){
-            Logger.print("Thrown Item too much!");
-        }
+    public void throwSkillItem(int amount, SkillItem si) /* throws InputTooLargeException */ {
+        int n = skillItemList.getCount(si);
+        if (n >= amount)
+            skillItemList.setCount(si, n - amount); // bagusnya buat reduceCount yang ngethrow Exception ini
+        // else
+        // throw new InputTooLargeException();
     }
 
-    public void releaseEngimon(Engimon e){
+    public void releaseEngimon(Engimon e) {
         engimonList.remove(e);
     }
 
-    public String toString(){
+    public String toString() {
         String s = "";
         s += "activeEngimonIdx: " + this.activeEngimonIdx + "\n";
         s += "engimonList: " + this.engimonList.toString() + "\n";
