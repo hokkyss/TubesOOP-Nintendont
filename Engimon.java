@@ -76,7 +76,7 @@ public class Engimon {
     }
 
     public boolean isDead() {
-        boolean isDead = this.cumExp >= EXP_PER_LEVEL * MAX_LEVEL;
+        boolean isDead = this.cumExp >= EXP_PER_LEVEL * (MAX_LEVEL - 1);
         if (isDead) {
             Logger.EngimonDeadByLevel(this);
         }
