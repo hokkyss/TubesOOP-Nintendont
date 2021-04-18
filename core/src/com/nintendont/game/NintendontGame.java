@@ -14,6 +14,13 @@ public class NintendontGame extends ApplicationAdapter {
 	public void create () {
 		batch = new SpriteBatch();
 		img = new Texture("badlogic.jpg");
+
+		// testing load species
+		try {
+			Util.loadSpecies();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override

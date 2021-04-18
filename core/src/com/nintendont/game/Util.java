@@ -44,7 +44,7 @@ public class Util {
     }
 
     public static void loadSpecies() throws Exception {
-        String filePath = "./input/Engimon.xlsx";
+        String filePath = System.getProperty("user.dir") + "/data/Engimon.xlsx";
 
         Workbook workbook = WorkbookFactory.create(new FileInputStream(filePath));
 
