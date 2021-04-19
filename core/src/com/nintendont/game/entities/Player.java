@@ -30,9 +30,8 @@ public class Player extends Actor {
     private static final int FRAME_COLS = 4, FRAME_ROWS = 4;
     Animation<TextureRegion> walkAnimation;
     Texture walkSheet;
-    TextureRegion[] walkFrames;
-    private final static int STARTING_X = 1024;
-    private final static int STARTING_Y = 1024;
+    private final static int STARTING_X = 32;
+    private final static int STARTING_Y = 32;
     TextureRegion reg;
     float stateTime;
 
@@ -42,6 +41,8 @@ public class Player extends Actor {
 
     public Player(Engimon starter) throws InputTooLargeException {
         this.activeEngimonIdx = 0;
+
+        this.setSize(32, 32);
         this.setPosition(STARTING_X, STARTING_Y);
 
         try {
@@ -61,13 +62,13 @@ public class Player extends Actor {
     }
 
     private void createIdleAnimation() {
-        walkSheet = new Texture(Gdx.files.internal("E:/STEI/Sem4/PBO/Nintendont-Game/core/assets/Characters/boy_run.png"));
+        walkSheet = new Texture(Gdx.files.internal("Characters/boy_run.png"));
 
         TextureRegion[][] tmp = TextureRegion.split(walkSheet,
                 walkSheet.getWidth() / FRAME_COLS,
                 walkSheet.getHeight() / FRAME_ROWS);
 
-        walkFrames = new TextureRegion[FRAME_COLS * FRAME_ROWS];
+        TextureRegion[] walkFrames = new TextureRegion[FRAME_COLS * FRAME_ROWS];
         int index = 0;
         for (int i = 0; i < FRAME_ROWS; i++) {
             for (int j = 0; j < FRAME_COLS; j++) {
@@ -75,7 +76,7 @@ public class Player extends Actor {
             }
         }
 
-        walkAnimation = new Animation<TextureRegion>(0.025f, walkFrames);
+        walkAnimation = new Animation<TextureRegion>(0.1f, walkFrames);
         stateTime = 0f;
         reg=walkAnimation.getKeyFrame(0);
     }
@@ -92,8 +93,8 @@ public class Player extends Actor {
         super.draw(batch, parentAlpha);
 
         Color color = getColor();
-//        batch.setColor(color.r, color.g, color.b, color.a * parentAlpha);
-        batch.draw(walkFrames[0],getX(),getY(),getWidth()/2,getHeight()/2,getWidth(),getHeight(),getScaleX(),getScaleY(),getRotation());
+        batch.setColor(color.r, color.g, color.b, color.a * parentAlpha);
+        batch.draw(reg,getX(),getY(),0,0,32,48,getScaleX(),getScaleY(),getRotation());
     }
 
     public Engimon getActiveEngimon() {
