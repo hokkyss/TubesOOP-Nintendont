@@ -2,6 +2,7 @@ package com.nintendont.game.entities;
 
 import com.nintendont.game.Logger;
 import com.nintendont.game.exceptions.SkillNotCompatibleException;
+import com.nintendont.game.exceptions.SkillHasBeenLearntException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -119,7 +120,7 @@ public class Engimon {
         return isDead;
     }
 
-    public void interact(){
+    public void interact() {
         Logger.print(this.species.interact());
     }
 
@@ -171,19 +172,23 @@ public class Engimon {
         return this.skills.contains(s);
     }
 
-    public void learnSkill(Skill s) throws SkillNotCompatibleException {
-        if (isSkillCompatible(s) && !hasLearnt(s)) {
-            // jangan langsung add(s).
-            // ntar kalau masterynya naik, itu naiknya dari enumerasinya.
-            // cek MainSkill untuk lebih detail.
-            this.skills.add(new Skill(s));
-        } else {
+    public void learnSkill(Skill s) throws SkillNotCompatibleException, SkillHasBeenLearntException {
+        if (this.hasLearnt(s)) {
+            Logger.print("Skill not compatible or engimon has learnt the skill");
+            throw new SkillHasBeenLearntException(s, this);
+        }
+
+        if (!isSkillCompatible(s)) {
             Logger.print("Skill not compatible or engimon has learnt the skill");
             throw new SkillNotCompatibleException(s, this);
         }
+        // jangan langsung add(s).
+        // ntar kalau masterynya naik, itu naiknya dari enumerasinya.
+        // cek MainSkill untuk lebih detail.
+        this.skills.add(new Skill(s));
     }
 
-    public void learnSkill(SkillItem si) throws SkillNotCompatibleException {
+    public void learnSkill(SkillItem si) throws SkillNotCompatibleException, SkillHasBeenLearntException {
         learnSkill(si.containedSkill);
     }
 }

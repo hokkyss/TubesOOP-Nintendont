@@ -64,8 +64,7 @@ public class Player extends Actor {
     private void createIdleAnimation() {
         walkSheet = new Texture(Gdx.files.internal("Characters/boy_run.png"));
 
-        TextureRegion[][] tmp = TextureRegion.split(walkSheet,
-                walkSheet.getWidth() / FRAME_COLS,
+        TextureRegion[][] tmp = TextureRegion.split(walkSheet, walkSheet.getWidth() / FRAME_COLS,
                 walkSheet.getHeight() / FRAME_ROWS);
 
         TextureRegion[] walkFrames = new TextureRegion[FRAME_COLS * FRAME_ROWS];
@@ -78,14 +77,14 @@ public class Player extends Actor {
 
         walkAnimation = new Animation<TextureRegion>(0.1f, walkFrames);
         stateTime = 0f;
-        reg=walkAnimation.getKeyFrame(0);
+        reg = walkAnimation.getKeyFrame(0);
     }
 
     @Override
     public void act(float delta) {
         super.act(delta);
         stateTime += delta;
-        reg = walkAnimation.getKeyFrame(stateTime,true);
+        reg = walkAnimation.getKeyFrame(stateTime, true);
     }
 
     @Override
@@ -115,8 +114,8 @@ public class Player extends Actor {
         Inventory.sortInventory(skillItemList, true);
     }
 
-    public void useSkillItem(Engimon e1, SkillItem si) throws
-            InputTooLargeException, SkillNotCompatibleException, ItemNotFoundException {
+    public void useSkillItem(Engimon e1, SkillItem si) throws InputTooLargeException, SkillNotCompatibleException,
+            ItemNotFoundException, SkillHasBeenLearntException {
         try {
             e1.learnSkill(si);
             skillItemList.remove(si);
@@ -126,26 +125,26 @@ public class Player extends Actor {
     }
 
     public void throwSkillItem(int amount, SkillItem si) throws InputTooLargeException, ItemNotFoundException {
-        try{
+        try {
             this.skillItemList.remove(si, amount);
-        } catch (Exception err){
+        } catch (Exception err) {
             throw err;
         }
     }
 
     public void releaseEngimon(Engimon e) throws InputTooLargeException, ItemNotFoundException {
-        try{
-            if(engimonList.size()==1){
+        try {
+            if (engimonList.size() == 1) {
                 Logger.print("You only have 1 Engimon! Release failed");
                 return;
             }
 
-            if(engimonList.find(e) == this.activeEngimonIdx){
+            if (engimonList.find(e) == this.activeEngimonIdx) {
                 this.activeEngimonIdx = 0;
             }
 
             engimonList.remove(e);
-        } catch (Exception err){
+        } catch (Exception err) {
             throw err;
         }
     }
@@ -160,18 +159,18 @@ public class Player extends Actor {
         return s;
     }
 
-    public ArrayList<Element> inheritElmt(Engimon A, Engimon B){
+    public ArrayList<Element> inheritElmt(Engimon A, Engimon B) {
         Element elmtA = A.getElements().get(0);
         Element elmtB = B.getElements().get(0);
         ArrayList<Element> inheritedElmt = new ArrayList<Element>();
-        if(elmtA == elmtB){
+        if (elmtA == elmtB) {
             inheritedElmt.add(elmtA);
-        } else if(elmtA != elmtB){
-            if(Element.getAdvantage(elmtA, elmtB) > Element.getAdvantage(elmtB, elmtA)){
+        } else if (elmtA != elmtB) {
+            if (Element.getAdvantage(elmtA, elmtB) > Element.getAdvantage(elmtB, elmtA)) {
                 inheritedElmt.add(elmtA);
-            } else if(Element.getAdvantage(elmtA, elmtB) < Element.getAdvantage(elmtB, elmtA)){
+            } else if (Element.getAdvantage(elmtA, elmtB) < Element.getAdvantage(elmtB, elmtA)) {
                 inheritedElmt.add(elmtB);
-            } else{
+            } else {
                 inheritedElmt.add(elmtA);
                 inheritedElmt.add(elmtB);
             }
@@ -179,36 +178,35 @@ public class Player extends Actor {
         return inheritedElmt;
     }
 
-    public ArrayList<Skill> inheritSkill(Engimon A, Engimon B, Skill uniqueSkill){
+    public ArrayList<Skill> inheritSkill(Engimon A, Engimon B, Skill uniqueSkill) {
         ArrayList<Skill> inheritedSkill = new ArrayList<Skill>();
         inheritedSkill.add(uniqueSkill);
 
         ArrayList<Skill> parentSkills = new ArrayList<Skill>(A.getSkills());
         parentSkills.addAll(B.getSkills());
         parentSkills.sort(new SkillComparator());
-        for(int i = 0; i < parentSkills.size() && inheritedSkill.size() < 4; i++){
-            if(!inheritedSkill.contains(parentSkills.get(i))){
+        for (int i = 0; i < parentSkills.size() && inheritedSkill.size() < 4; i++) {
+            if (!inheritedSkill.contains(parentSkills.get(i))) {
                 inheritedSkill.add(parentSkills.get(i));
             }
         }
         return inheritedSkill;
     }
 
-    public void breed(Engimon A, Engimon B) throws
-            InputTooLargeException, ParentLevelException {
-        try{
-            if(A.getLevel() >= 4 && B.getLevel() >= 4){
+    public void breed(Engimon A, Engimon B) throws InputTooLargeException, ParentLevelException {
+        try {
+            if (A.getLevel() >= 4 && B.getLevel() >= 4) {
                 Scanner input = new Scanner(System.in);
                 Logger.print("Enter your new Engimon's name: ");
                 String childName = input.nextLine();
 
                 ArrayList<Element> childElmt = inheritElmt(A, B);
                 Species childSpecies = new Species(A.getSpecies());
-                if(Util.isElementSame(childElmt, A.getElements())){
+                if (Util.isElementSame(childElmt, A.getElements())) {
                     childSpecies = Species.getSpeciesByName(A.getSpecies());
-                } else if(Util.isElementSame(childElmt, B.getElements())){
+                } else if (Util.isElementSame(childElmt, B.getElements())) {
                     childSpecies = Species.getSpeciesByName(B.getSpecies());
-                } else{
+                } else {
                     childSpecies = Species.getSpeciesByElement(childElmt);
                 }
 
@@ -224,55 +222,55 @@ public class Player extends Actor {
                 child.setSkills(childSkill);
                 engimonList.insert(child);
 
-                A.setLevel(A.getLevel()-3);
-                B.setLevel(B.getLevel()-3);
+                A.setLevel(A.getLevel() - 3);
+                B.setLevel(B.getLevel() - 3);
 
                 Logger.print("Breeding successful!");
                 Logger.print(childName + " is in inventory.");
-            }else throw new ParentLevelException();
-        }catch(Exception err){
+            } else
+                throw new ParentLevelException();
+        } catch (Exception err) {
             throw err;
         }
     }
 
-    public void battle(EngimonLiar enemy) throws
-            ItemNotFoundException, InputTooLargeException, EngimonRanOutException {
+    public void battle(EngimonLiar enemy) throws ItemNotFoundException, InputTooLargeException, EngimonRanOutException {
         Engimon myEngimon = this.getActiveEngimon();
-        int winner =  Util.handleBattle(myEngimon, enemy);
+        int winner = Util.handleBattle(myEngimon, enemy);
 
-        Logger.print(myEngimon.getName()+" VS "+enemy.getName());
+        Logger.print(myEngimon.getName() + " VS " + enemy.getName());
 
-        if(winner==1){
-            Logger.print(myEngimon.getName()+" Won the battle!");
+        if (winner == 1) {
+            Logger.print(myEngimon.getName() + " Won the battle!");
             int expWon = enemy.getLevel() * EXP_MULT;
             myEngimon.addExp(expWon);
 
-            try{
-                if(myEngimon.isDead()){
+            try {
+                if (myEngimon.isDead()) {
                     Logger.EngimonDeadByLevel(myEngimon);
                     this.engimonList.remove(myEngimon);
-                }else{
+                } else {
                     Logger.print("You get new Engimon: " + enemy.getName());
-                    Engimon rewardEngimon = new Engimon(enemy.getName(),enemy.getSpecies(),enemy.getLevel());
+                    Engimon rewardEngimon = new Engimon(enemy.getName(), enemy.getSpecies(), enemy.getLevel());
                     this.engimonList.insert(rewardEngimon);
 
                     SkillItem rewardSkillItem = SkillItem.getRandomSkillItem(enemy.getElements());
                     this.skillItemList.insert(rewardSkillItem);
                     Logger.print("You get new SkillItem: \n" + rewardSkillItem);
                 }
-            }catch(Exception err){
+            } catch (Exception err) {
                 throw err;
             }
-        }else {
-            Logger.print(myEngimon.getName()+" Lost the battle!");
+        } else {
+            Logger.print(myEngimon.getName() + " Lost the battle!");
             myEngimon.faint();
 
-            if(myEngimon.getLife()==0){
+            if (myEngimon.getLife() == 0) {
                 this.engimonList.remove(myEngimon);
             }
         }
 
-        if(engimonList.size()==0){
+        if (engimonList.size() == 0) {
             throw new EngimonRanOutException();
         }
     }
