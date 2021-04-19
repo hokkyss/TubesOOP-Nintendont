@@ -44,7 +44,7 @@ public class Species {
     }
 
     public static Species get(String name) {
-        for(Species s : Species.listOfSpecies) {
+        for (Species s : Species.listOfSpecies) {
             if (name.equalsIgnoreCase(s.getSpecies())) {
                 return s;
             }
@@ -57,7 +57,7 @@ public class Species {
     }
 
     public static Species getSpeciesByElement(ArrayList<Element> elements) {
-        for(Species s : Species.listOfSpecies) {
+        for (Species s : Species.listOfSpecies) {
             boolean haveAllElements = true;
             for (Element el : elements) {
                 if (!s.elements.contains(el)) {
