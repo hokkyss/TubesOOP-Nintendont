@@ -43,25 +43,28 @@ public class MainScreen implements Screen {
 //        stage.act();
 //        stage.draw();
 
-        batch.begin();
+        renderer.setView(camera);
+        renderer.render();
+
+        renderer.getBatch().begin();
+
+//        batch.begin();
         batch.draw(
-            playerTexture,
+                playerTexture,
                 player.getPosition().getX() * GameConfig.SCALED_TILE_SIZE,
                 player.getPosition().getY() * GameConfig.SCALED_TILE_SIZE,
                 GameConfig.SCALED_TILE_SIZE,
                 GameConfig.SCALED_TILE_SIZE * 1.5f
         );
-        batch.end();
-
-//        renderer.setView(camera);
-//        renderer.render();
+        renderer.getBatch().end();
+//        batch.end();
     }
 
     @Override
     public void resize(int width, int height) {
-//        camera.viewportWidth = width;
-//        camera.viewportHeight = height;
-//        camera.update();
+        camera.viewportWidth = width;
+        camera.viewportHeight = height;
+        camera.update();
 
 //        stage.getViewport().update(width, height);
     }
@@ -90,9 +93,9 @@ public class MainScreen implements Screen {
             System.out.println("Failed to create player");
         }
 
-//        TiledMapTileLayer layer0 = (TiledMapTileLayer) map.getLayers().get(0);
-//        Vector3 center = new Vector3(layer0.getWidth() * layer0.getTileWidth() / 2, layer0.getHeight() * layer0.getTileHeight() / 2, 0);
-//        camera.position.set(center);
+        TiledMapTileLayer layer0 = (TiledMapTileLayer) map.getLayers().get(0);
+        Vector3 center = new Vector3(layer0.getWidth() * layer0.getTileWidth() / 2, layer0.getHeight() * layer0.getTileHeight() / 2, 0);
+        camera.position.set(center);
     }
 
     @Override
@@ -103,9 +106,9 @@ public class MainScreen implements Screen {
 
     @Override
     public void dispose() {
-//        map.dispose();
+        map.dispose();
 //        stage.dispose();
-//        renderer.dispose();
+        renderer.dispose();
     }
 
     @Override

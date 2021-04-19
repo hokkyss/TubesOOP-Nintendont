@@ -39,7 +39,7 @@ public class Player implements Creature, InputProcessor {
         try {
             engimonList = new Inventory<Engimon>();
             skillItemList = new Inventory<SkillItem>();
-            pos = new Position(0, 0);
+            pos = new Position(32, 32);
             activeEngimonPos = new Position(0, 0);
             this.engimonList.insert(starter);
         } catch (Exception err) {
