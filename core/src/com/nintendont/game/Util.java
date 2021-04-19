@@ -6,6 +6,8 @@ import java.nio.file.*;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.nintendont.game.entities.*;
 import org.apache.poi.ss.usermodel.*;
 
@@ -50,6 +52,8 @@ public class Util {
 
         Sheet sheet = workbook.getSheetAt(0);
 
+        Species.listOfSpecies = new ArrayList<>();
+
         int i = 0;
         for (Row row : sheet) {
             if (i != 0) { // not column name
@@ -78,8 +82,8 @@ public class Util {
 
                 if (i == -1 || j == -1 || i == arrPeta.length || j == arrPeta[0].length)
                     System.out.print("#");
-                else if (player.getPosition().equals(currPos))
-                    System.out.print("P");
+//                else if (player.getPosition().equals(currPos))
+//                    System.out.print("P");
                 else if (player.activeEngimonPos.equals(currPos))
                     System.out.print("X");
                 else if (e != null)

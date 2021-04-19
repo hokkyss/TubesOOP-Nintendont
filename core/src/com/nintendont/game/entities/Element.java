@@ -16,7 +16,6 @@ public enum Element {
 
     private static final double[][] advantage = {{1, 2, 0.5, 1, 0}, {0, 1, 2, 0.5, 1}, {1.5, 0, 1, 2, 1}, {1, 1.5, 0, 1, 2}, {2, 1, 1, 0, 1}};
 
-
     public static double getAdvantage(Element e1, Element e2) {
         return Element.advantage[e1.idx][e2.idx];
     }

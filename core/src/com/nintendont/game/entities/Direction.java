@@ -1,6 +1,6 @@
 package com.nintendont.game.entities;
 
-import java.util.Random;
+import com.nintendont.game.Logger;
 
 public enum Direction {
     UP(0), DOWN(1), LEFT(2), RIGHT(3);
@@ -11,9 +11,7 @@ public enum Direction {
     }
 
     public static Direction randomize() {
-        Random rand = new Random();
-
-        switch (rand.nextInt(4)) {
+        switch (Logger.randomize.nextInt(4)) {
             case 0:
                 return UP;
             case 1:

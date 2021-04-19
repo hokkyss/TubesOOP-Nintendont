@@ -1,5 +1,14 @@
 package com.nintendont.game.entities;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.nintendont.game.Logger;
 import com.nintendont.game.Util;
 import com.nintendont.game.comparators.SkillComparator;
@@ -9,33 +18,82 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
-public class Player implements Creature{
+public class Player extends Actor {
     private final int EXP_MULT = 15;
 
     private int activeEngimonIdx;
     public Inventory<Engimon> engimonList;
     public Inventory<SkillItem> skillItemList;
-    private Position pos;
+
     public Position activeEngimonPos;
+
+    private static final int FRAME_COLS = 4, FRAME_ROWS = 4;
+    Animation<TextureRegion> walkAnimation;
+    Texture walkSheet;
+    private final static int STARTING_X = 1024;
+    private final static int STARTING_Y = 1024;
+    TextureRegion reg;
+    float stateTime;
+
+    public Player() throws InputTooLargeException {
+        this(new Engimon("ember", Species.get("Emberon"), 1));
+    }
 
     public Player(Engimon starter) throws InputTooLargeException {
         this.activeEngimonIdx = 0;
+        this.setPosition(STARTING_X, STARTING_Y);
+
         try {
             engimonList = new Inventory<Engimon>();
             skillItemList = new Inventory<SkillItem>();
-            pos = new Position(0, 0);
             activeEngimonPos = new Position(0, 0);
             this.engimonList.insert(starter);
         } catch (Exception err) {
             throw err;
         }
+
+        createIdleAnimation();
+    }
+
+    public Position getPosition() {
+        return new Position((int) this.getX(), (int) this.getY());
+    }
+
+    private void createIdleAnimation() {
+        walkSheet = new Texture(Gdx.files.internal("../core/assets/Characters/boy_run.png"));
+
+        TextureRegion[][] tmp = TextureRegion.split(walkSheet,
+                walkSheet.getWidth() / FRAME_COLS,
+                walkSheet.getHeight() / FRAME_ROWS);
+
+        TextureRegion[] walkFrames = new TextureRegion[FRAME_COLS * FRAME_ROWS];
+        int index = 0;
+        for (int i = 0; i < FRAME_ROWS; i++) {
+            for (int j = 0; j < FRAME_COLS; j++) {
+                walkFrames[index++] = tmp[i][j];
+            }
+        }
+
+        walkAnimation = new Animation<TextureRegion>(0.025f, walkFrames);
+        stateTime = 0f;
+        reg=walkAnimation.getKeyFrame(0);
     }
 
     @Override
-    public Position getPosition() { return pos; }
+    public void act(float delta) {
+        super.act(delta);
+        stateTime += delta;
+        reg = walkAnimation.getKeyFrame(stateTime,true);
+    }
 
     @Override
-    public void setPosition(Position p) { pos = p; }
+    public void draw(Batch batch, float parentAlpha) {
+        super.draw(batch, parentAlpha);
+
+        Color color = getColor();
+        batch.setColor(color.r, color.g, color.b, color.a * parentAlpha);
+        batch.draw(reg,getX(),getY(),getWidth()/2,getHeight()/2,getWidth(),getHeight(),getScaleX(),getScaleY(),getRotation());
+    }
 
     public Engimon getActiveEngimon() {
         return this.engimonList.get(this.activeEngimonIdx);
@@ -95,7 +153,7 @@ public class Player implements Creature{
         s += "activeEngimonIdx: " + this.activeEngimonIdx + "\n";
         s += "engimonList: " + this.engimonList.toString() + "\n";
         s += "skillItemList: " + this.skillItemList.toString() + "\n";
-        s += "pos: " + this.pos.toString();
+        s += "pos: (" + this.getX() + "," + this.getY() + ")";
 
         return s;
     }
@@ -216,4 +274,5 @@ public class Player implements Creature{
             throw new EngimonRanOutException();
         }
     }
+
 }

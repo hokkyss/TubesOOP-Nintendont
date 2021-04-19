@@ -9,11 +9,12 @@ public class Species {
     private Skill uniqueSkill;
     private ArrayList<String> response;
 
-    public static ArrayList<Species> listOfSpecies = new ArrayList<Species>();
+    public static ArrayList<Species> listOfSpecies;
 
     public Species(String species, ArrayList<Element> elements, Skill uniqueSkill, ArrayList<String> response) {
         this.species = species;
         this.elements = elements;
+        elements.sort(Element.comparator);
         this.uniqueSkill = uniqueSkill;
         this.response = response;
     }

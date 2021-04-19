@@ -5,6 +5,14 @@ import com.nintendont.game.exceptions.SkillNotCompatibleException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.nintendont.game.Logger;
+import com.nintendont.game.Util;
+import com.nintendont.game.comparators.SkillComparator;
+import com.nintendont.game.exceptions.*;
+
 public class Engimon {
     public static final int EXP_PER_LEVEL = 100;
     public static final int MAX_LEVEL = 50;
