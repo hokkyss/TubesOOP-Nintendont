@@ -11,10 +11,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.nintendont.game.entities.Engimon;
 import com.nintendont.game.entities.PlayerSprite;
+import com.nintendont.game.entities.Species;
 import com.nintendont.game.screens.Play;
 import com.nintendont.game.entities.Player;
 //import com.nintendont.game.entities.Util;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class NintendontGame extends Game {
 	Stage stage;
@@ -33,8 +37,8 @@ public class NintendontGame extends Game {
 	public void create () {
 		OrthographicCamera camera = new OrthographicCamera();
 		stage = new Stage(new StretchViewport(1280, 720, camera));
-//		batch = new SpriteBatch();
-//		Gdx.input.setInputProcessor(stage);
+		batch = new SpriteBatch();
+		Gdx.input.setInputProcessor(stage);
 
 //		batch = new SpriteBatch();
 //		img = new Texture("badlogic.jpg");
@@ -49,14 +53,14 @@ public class NintendontGame extends Game {
 			e.printStackTrace();
 		}
 
-
+		setScreen(new Play(camera, batch));
 		try {
-			player = new Player();
+			player = new Player(new Engimon("ember", Species.get("Emberon"), 1));
 			//PlayerSprite playerSprite = new PlayerSprite(new Sprite(new Texture("../core/assets/cat.jpg")));
-			//stage.addActor(player);
-			setScreen(new Play(camera));
+			stage.addActor(player);
+
 		} catch (Exception e) {
-			System.out.println("Gagal!")
+			System.out.println(e.getMessage());
 		}
 
 	}
@@ -65,16 +69,16 @@ public class NintendontGame extends Game {
 	public void render () {
 		super.render();
 
-//		Texture tex = new Texture("boy_run.png");
-//		sprite = new Sprite(tex, 0, 0, 44, 44);
-//		update();
-//		batch.begin();
-//		playersprite.draw(batch);
-//		batch.end();
+		Texture tex = new Texture("E:/STEI/Sem4/PBO/Nintendont-Game/core/assets/Characters/boy_run.png");
+		update();
+		batch.begin();
+		batch.draw(tex, 50F,50F);
+		stage.draw();
+		batch.end();
 	}
 
 	private void update() {
-//		stage.act();
+		stage.act();
 	}
 
 	@Override

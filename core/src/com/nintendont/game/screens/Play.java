@@ -16,6 +16,7 @@ import com.nintendont.game.entities.Player;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.nintendont.game.entities.PlayerSprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Play implements Screen {
     private TiledMap map;
@@ -23,9 +24,11 @@ public class Play implements Screen {
     public OrthographicCamera camera;
     private Player player;
     private PlayerSprite playerSprite;
+    private SpriteBatch batch;
 
-    public Play(OrthographicCamera camera) {
+    public Play(OrthographicCamera camera, SpriteBatch batch) {
         this.camera = camera;
+        this.batch = batch;
 //        this.player = player;
     }
 
@@ -43,7 +46,10 @@ public class Play implements Screen {
 
 //        renderer.getSpriteBatch().begin();
 
-//        player.draw(new Batch(new Sprite(new Texture(Gdx.files.internal("../core/assets/Characters/boy_run.png")))), 1);
+//        player.draw(new SpriteBatch(), 1);
+        batch.begin();
+        batch.draw(new Texture(Gdx.files.internal("E:/STEI/Sem4/PBO/Nintendont-Game/core/assets/Characters/boy_run.png")), 1024, 1024);
+        batch.end();
     }
 
     @Override
@@ -67,7 +73,7 @@ public class Play implements Screen {
 //        camera = new OrthographicCamera();
 //        camera.setToOrtho(false, w,h);
 //        camera.position.set(w/2,h/2,0);
-//        camera.zoom = 1/5;
+        camera.zoom = 1.5f;
     }
 
     public void updateCamera() {

@@ -149,8 +149,8 @@ public class Engimon {
     }
 
     public void faint() {
+        this.life--;
         if (this.life > 0) {
-            this.life--;
             Logger.EngimonLoseLife(this);
         } else {
             Logger.EngimonDead(this);
@@ -179,7 +179,7 @@ public class Engimon {
             this.skills.add(new Skill(s));
         } else {
             Logger.print("Skill not compatible or engimon has learnt the skill");
-            throw new SkillNotCompatibleException();
+            throw new SkillNotCompatibleException(s, this);
         }
     }
 
