@@ -32,23 +32,7 @@ public class NintendontGame extends Game {
 	@Override
 	public void render () {
 		super.render();
-
-//		camera.update();
-//		batch.setProjectionMatrix(camera.combined);
-//
-//		Texture tex = new Texture("E:/STEI/Sem4/PBO/Nintendont-Game/core/assets/Characters/boy_run.png");
-//		update();
-//
-//		// starting to record drawing commands
-//		batch.begin();
-//		batch.draw(tex, 1024,1024);
-//		stage.draw();
-//		batch.end();
 	}
-
-//	private void update() {
-//		stage.act();
-//	}
 
 	@Override
 	public void dispose () {

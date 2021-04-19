@@ -1,6 +1,7 @@
 package com.nintendont.game.entities;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -18,22 +19,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
-public class Player extends Actor {
+public class Player implements Creature, InputProcessor {
     private final int EXP_MULT = 15;
 
     private int activeEngimonIdx;
     public Inventory<Engimon> engimonList;
     public Inventory<SkillItem> skillItemList;
 
+    private Position pos;
     public Position activeEngimonPos;
-
-    private static final int FRAME_COLS = 4, FRAME_ROWS = 4;
-    Animation<TextureRegion> walkAnimation;
-    Texture walkSheet;
-    private final static int STARTING_X = 32;
-    private final static int STARTING_Y = 32;
-    TextureRegion reg;
-    float stateTime;
 
     public Player() throws InputTooLargeException {
         this(new Engimon("ember", Species.get("Emberon"), 1));
@@ -42,59 +36,22 @@ public class Player extends Actor {
     public Player(Engimon starter) throws InputTooLargeException {
         this.activeEngimonIdx = 0;
 
-        this.setSize(32, 32);
-        this.setPosition(STARTING_X, STARTING_Y);
-
         try {
             engimonList = new Inventory<Engimon>();
             skillItemList = new Inventory<SkillItem>();
+            pos = new Position(0, 0);
             activeEngimonPos = new Position(0, 0);
             this.engimonList.insert(starter);
         } catch (Exception err) {
             throw err;
         }
-
-        createIdleAnimation();
-    }
-
-    public Position getPosition() {
-        return new Position((int) this.getX(), (int) this.getY());
-    }
-
-    private void createIdleAnimation() {
-        walkSheet = new Texture(Gdx.files.internal("Characters/boy_run.png"));
-
-        TextureRegion[][] tmp = TextureRegion.split(walkSheet, walkSheet.getWidth() / FRAME_COLS,
-                walkSheet.getHeight() / FRAME_ROWS);
-
-        TextureRegion[] walkFrames = new TextureRegion[FRAME_COLS * FRAME_ROWS];
-        int index = 0;
-        for (int i = 0; i < FRAME_ROWS; i++) {
-            for (int j = 0; j < FRAME_COLS; j++) {
-                walkFrames[index++] = tmp[i][j];
-            }
-        }
-
-        walkAnimation = new Animation<TextureRegion>(0.1f, walkFrames);
-        stateTime = 0f;
-        reg = walkAnimation.getKeyFrame(0);
     }
 
     @Override
-    public void act(float delta) {
-        super.act(delta);
-        stateTime += delta;
-        reg = walkAnimation.getKeyFrame(stateTime, true);
-    }
+    public Position getPosition() { return pos; }
 
     @Override
-    public void draw(Batch batch, float parentAlpha) {
-        super.draw(batch, parentAlpha);
-
-        Color color = getColor();
-        batch.setColor(color.r, color.g, color.b, color.a * parentAlpha);
-        batch.draw(reg,getX(),getY(),0,0,32,48,getScaleX(),getScaleY(),getRotation());
-    }
+    public void setPosition(Position p) { pos = p; }
 
     public Engimon getActiveEngimon() {
         return this.engimonList.get(this.activeEngimonIdx);
@@ -154,7 +111,7 @@ public class Player extends Actor {
         s += "activeEngimonIdx: " + this.activeEngimonIdx + "\n";
         s += "engimonList: " + this.engimonList.toString() + "\n";
         s += "skillItemList: " + this.skillItemList.toString() + "\n";
-        s += "pos: (" + this.getX() + "," + this.getY() + ")";
+        s += "pos: (" + this.pos.getX() + "," + this.pos.getY() + ")";
 
         return s;
     }
@@ -275,4 +232,56 @@ public class Player extends Actor {
         }
     }
 
+    @Override
+    public boolean keyDown(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        if (keycode == Input.Keys.LEFT) {
+            this.pos.move(-1,0);
+        }
+        if (keycode == Input.Keys.RIGHT) {
+            this.pos.move(1,0);
+        }
+        if (keycode == Input.Keys.UP) {
+            this.pos.move(0,1);
+        }
+        if (keycode == Input.Keys.DOWN) {
+            this.pos.move(0,-1);
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(float amountX, float amountY) {
+        return false;
+    }
 }

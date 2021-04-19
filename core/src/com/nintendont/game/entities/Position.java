@@ -22,6 +22,11 @@ public class Position {
         this.y = y;
     }
 
+    public void move(int dx, int dy) {
+        this.x += dx;
+        this.y += dy;
+    }
+
     public boolean equals(Position p) {
         return (this.x == p.x && this.y == p.y);
     }

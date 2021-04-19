@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.nintendont.game.GameConfig;
 import com.nintendont.game.NintendontGame;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -27,7 +28,8 @@ public class MainScreen implements Screen {
     private OrthogonalTiledMapRenderer renderer;
 
     private Player player;
-    private PlayerSprite playerSprite;
+
+    private Texture playerTexture;
 
     private OrthographicCamera camera;
     private Stage stage;
@@ -38,47 +40,59 @@ public class MainScreen implements Screen {
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        stage.act();
-        stage.draw();
+//        stage.act();
+//        stage.draw();
 
-        renderer.setView(camera);
-        renderer.render();
+        batch.begin();
+        batch.draw(
+            playerTexture,
+                player.getPosition().getX() * GameConfig.SCALED_TILE_SIZE,
+                player.getPosition().getY() * GameConfig.SCALED_TILE_SIZE,
+                GameConfig.SCALED_TILE_SIZE,
+                GameConfig.SCALED_TILE_SIZE * 1.5f
+        );
+        batch.end();
+
+//        renderer.setView(camera);
+//        renderer.render();
     }
 
     @Override
     public void resize(int width, int height) {
-
-        camera.viewportWidth = width;
-        camera.viewportHeight = height;
-        camera.update();
+//        camera.viewportWidth = width;
+//        camera.viewportHeight = height;
+//        camera.update();
 
 //        stage.getViewport().update(width, height);
     }
 
     @Override
     public void show() {
-        float w = Gdx.graphics.getWidth();
-        float h = Gdx.graphics.getHeight();
+//        float w = Gdx.graphics.getWidth();
+//        float h = Gdx.graphics.getHeight();
+
+        batch = new SpriteBatch();
+        playerTexture = new Texture(Gdx.files.internal("Characters/boy_stand_south.png"));
 
         map = new TmxMapLoader().load("Maps/Map.tmx");
-        renderer = new OrthogonalTiledMapRenderer(map);
+        renderer = new OrthogonalTiledMapRenderer(map, batch);
         camera = new OrthographicCamera();
 
-        ScreenViewport viewport = new ScreenViewport();
-        stage = new Stage(viewport);
-        Gdx.input.setInputProcessor(stage);
+//        ScreenViewport viewport = new ScreenViewport();
+//        stage = new Stage(viewport);
 
         try {
             player = new Player(new Engimon("ember", Species.get("Emberon"), 1));
-            stage.addActor(player);
-            stage.setKeyboardFocus(player);
+            Gdx.input.setInputProcessor(player);
+//            stage.addActor(player);
+//            stage.setKeyboardFocus(player);
         } catch (Exception e) {
             System.out.println("Failed to create player");
         }
 
-        TiledMapTileLayer layer0 = (TiledMapTileLayer) map.getLayers().get(0);
-        Vector3 center = new Vector3(layer0.getWidth() * layer0.getTileWidth() / 2, layer0.getHeight() * layer0.getTileHeight() / 2, 0);
-        camera.position.set(center);
+//        TiledMapTileLayer layer0 = (TiledMapTileLayer) map.getLayers().get(0);
+//        Vector3 center = new Vector3(layer0.getWidth() * layer0.getTileWidth() / 2, layer0.getHeight() * layer0.getTileHeight() / 2, 0);
+//        camera.position.set(center);
     }
 
     @Override
@@ -89,9 +103,9 @@ public class MainScreen implements Screen {
 
     @Override
     public void dispose() {
-        map.dispose();
-        stage.dispose();
-        renderer.dispose();
+//        map.dispose();
+//        stage.dispose();
+//        renderer.dispose();
     }
 
     @Override
