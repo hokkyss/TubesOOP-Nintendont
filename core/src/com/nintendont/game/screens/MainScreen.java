@@ -29,35 +29,32 @@ public class MainScreen implements Screen {
 
     private Player player;
 
-    private Texture playerTexture;
-
     private OrthographicCamera camera;
-    private Stage stage;
-    private SpriteBatch batch;
 
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-//        stage.act();
-//        stage.draw();
-
         renderer.setView(camera);
         renderer.render();
 
         renderer.getBatch().begin();
 
-//        batch.begin();
-        batch.draw(
-                playerTexture,
+        // draw player
+        player.draw(renderer.getBatch());
+
+        // move camera to player's center
+        Vector3 v = new Vector3(
                 player.getPosition().getX() * GameConfig.SCALED_TILE_SIZE,
                 player.getPosition().getY() * GameConfig.SCALED_TILE_SIZE,
-                GameConfig.SCALED_TILE_SIZE,
-                GameConfig.SCALED_TILE_SIZE * 1.5f
+                0
         );
+        camera.position.set(v);
+        camera.update();
+
+
         renderer.getBatch().end();
-//        batch.end();
     }
 
     @Override
@@ -71,24 +68,13 @@ public class MainScreen implements Screen {
 
     @Override
     public void show() {
-//        float w = Gdx.graphics.getWidth();
-//        float h = Gdx.graphics.getHeight();
-
-        batch = new SpriteBatch();
-        playerTexture = new Texture(Gdx.files.internal("Characters/boy_stand_south.png"));
-
         map = new TmxMapLoader().load("Maps/Map.tmx");
-        renderer = new OrthogonalTiledMapRenderer(map, batch);
+        renderer = new OrthogonalTiledMapRenderer(map);
         camera = new OrthographicCamera();
-
-//        ScreenViewport viewport = new ScreenViewport();
-//        stage = new Stage(viewport);
 
         try {
             player = new Player(new Engimon("ember", Species.get("Emberon"), 1));
             Gdx.input.setInputProcessor(player);
-//            stage.addActor(player);
-//            stage.setKeyboardFocus(player);
         } catch (Exception e) {
             System.out.println("Failed to create player");
         }
@@ -107,7 +93,6 @@ public class MainScreen implements Screen {
     @Override
     public void dispose() {
         map.dispose();
-//        stage.dispose();
         renderer.dispose();
     }
 

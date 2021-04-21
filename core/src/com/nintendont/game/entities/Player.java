@@ -3,13 +3,17 @@ package com.nintendont.game.entities;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.nintendont.game.GameConfig;
 import com.nintendont.game.Logger;
 import com.nintendont.game.Util;
 import com.nintendont.game.comparators.SkillComparator;
@@ -29,6 +33,8 @@ public class Player implements Creature, InputProcessor {
     private Position pos;
     public Position activeEngimonPos;
 
+    private Texture playerTexture;
+
     public Player() throws InputTooLargeException {
         this(new Engimon("ember", Species.get("Emberon"), 1));
     }
@@ -45,6 +51,8 @@ public class Player implements Creature, InputProcessor {
         } catch (Exception err) {
             throw err;
         }
+
+        this.playerTexture = new Texture(Gdx.files.internal("Characters/boy_stand_south.png"));
     }
 
     @Override
@@ -230,6 +238,16 @@ public class Player implements Creature, InputProcessor {
         if (engimonList.size() == 0) {
             throw new EngimonRanOutException();
         }
+    }
+
+    public void draw(Batch batch) {
+        batch.draw(
+                playerTexture,
+                this.getPosition().getX() * GameConfig.SCALED_TILE_SIZE,
+                this.getPosition().getY() * GameConfig.SCALED_TILE_SIZE,
+                GameConfig.SCALED_TILE_SIZE,
+                GameConfig.SCALED_TILE_SIZE * 1.5f
+        );
     }
 
     @Override
