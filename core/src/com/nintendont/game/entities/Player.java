@@ -14,6 +14,7 @@ import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.nintendont.game.entities.PlayerSprite;
 import com.nintendont.game.GameConfig;
 import com.nintendont.game.Logger;
 import com.nintendont.game.Util;
@@ -64,7 +65,7 @@ public class Player implements Creature, InputProcessor {
             throw err;
         }
 
-        this.playerTexture = new Texture(Gdx.files.internal("Characters/boy_stand_south.png"));
+        this.playerTexture = PlayerSprite.STANDING_SOUTH;
         this.state = PlayerState.STANDING;
     }
 
@@ -311,15 +312,19 @@ public class Player implements Creature, InputProcessor {
         int dx = 0;
         int dy = 0;
         if (keycode == Input.Keys.LEFT) {
+            this.playerTexture = PlayerSprite.STANDING_WEST;
             dx = -1;
         }
         if (keycode == Input.Keys.RIGHT) {
+            this.playerTexture = PlayerSprite.STANDING_EAST;
             dx = 1;
         }
         if (keycode == Input.Keys.UP) {
+            this.playerTexture = PlayerSprite.STANDING_NORTH;
             dy = 1;
         }
         if (keycode == Input.Keys.DOWN) {
+            this.playerTexture = PlayerSprite.STANDING_SOUTH;
             dy = -1;
         }
         initializeMove(this.pos.getX(), this.pos.getY(), dx, dy);
