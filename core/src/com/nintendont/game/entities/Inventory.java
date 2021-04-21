@@ -16,8 +16,8 @@ public class Inventory<T> {
     public Map<T, Integer> countInven;
 
     public Inventory() {
-        invenList = new ArrayList<T>();
-        countInven = new HashMap<T, Integer>();
+        invenList = new ArrayList<>();
+        countInven = new HashMap<>();
     }
 
     // getter
@@ -25,7 +25,7 @@ public class Inventory<T> {
         return invenList.get(i);
     }
 
-    public int getCount(T el) {
+    public Integer getCount(T el) {
         return countInven.get(el);
     }
 
@@ -97,12 +97,12 @@ public class Inventory<T> {
         String s = "";
 
         for (T el : invenList) {
-            s += ("{\nelement:{\n" + el.toString() + "\n},\ncount:" + countInven.get(el) + "\n}");
+            s = s + ("{\nelement:{\n" + el.toString() + "\n},\ncount:" + countInven.get(el) + "\n}");
 
             if (!el.equals(invenList.get(invenList.size() - 1)))
-                s += ",\n";
+                s = s + ",\n";
             else
-                s += "\n";
+                s = s + "\n";
         }
 
         return s;

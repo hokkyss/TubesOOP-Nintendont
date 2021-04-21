@@ -1,3 +1,4 @@
+import com.nintendont.game.Logger;
 import com.nintendont.game.entities.Inventory;
 import com.nintendont.game.entities.Species;
 import com.nintendont.game.exceptions.InputTooLargeException;
@@ -8,8 +9,6 @@ import org.junit.Before;
 
 import com.nintendont.game.entities.SkillItem;
 import com.nintendont.game.entities.Engimon;
-
-import java.util.ArrayList;
 
 public class InventoryTest {
     Inventory<Engimon> engimonInventory;
@@ -24,20 +23,25 @@ public class InventoryTest {
     @Test
     public void test_get()
     {
+        Logger.print(skillItemInventory);
+        Logger.print(engimonInventory);
         skillItemInventory.insert(SkillItem.TM24);
         Assert.assertEquals(SkillItem.TM24, skillItemInventory.get(0));
-        Assert.assertEquals(1, skillItemInventory.getCount(SkillItem.TM24));
-        Assert.assertEquals(null, skillItemInventory.getCount(SkillItem.TM01));
+        Assert.assertNotNull(skillItemInventory.getCount(SkillItem.TM24));
+        Assert.assertEquals((Object)1, skillItemInventory.getCount(SkillItem.TM24));
+        Assert.assertNull(skillItemInventory.getCount(SkillItem.TM01));
     }
 
     @Test
     public void test_remove()
     {
+        Logger.print(skillItemInventory);
+        Logger.print(engimonInventory);
         try
         {
             // seharusnya masuk ke dalam blok catch
             skillItemInventory.remove(SkillItem.TM13);
-            Assert.assertTrue(false);
+            Assert.fail();
         }
         catch (ItemNotFoundException e)
         {
@@ -49,7 +53,7 @@ public class InventoryTest {
             // seharusnya masuk ke dalam blok catch
             skillItemInventory.insert(SkillItem.TM24, 5);
             skillItemInventory.remove(SkillItem.TM24, 10);
-            Assert.assertTrue(false);
+            Assert.fail();
         }
         catch (InputTooLargeException e)
         {
@@ -57,23 +61,19 @@ public class InventoryTest {
         }
         catch (ItemNotFoundException e)
         {
-            Assert.assertTrue(false);
+            Assert.fail();
         }
 
         try
         {
-            skillItemInventory.insert(SkillItem.TM13, 10);
-            skillItemInventory.remove(SkillItem.TM13, 5);
+            skillItemInventory.insert(SkillItem.TM13, 3);
+            skillItemInventory.remove(SkillItem.TM13);
             Assert.assertTrue(true);
         }
-        catch (InputTooLargeException e)
+        catch (Exception e)
         {
             // seharusnya berada di dalam blok try
-            Assert.assertTrue(false);
-        }
-        catch (ItemNotFoundException e)
-        {
-            Assert.assertTrue(false);
+            Assert.fail();
         }
     }
 
@@ -89,7 +89,7 @@ public class InventoryTest {
         }
         catch(InputTooLargeException e)
         {
-            Assert.assertTrue(false);
+            Assert.fail();
         }
     }
 }
