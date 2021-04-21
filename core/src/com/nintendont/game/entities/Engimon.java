@@ -182,9 +182,6 @@ public class Engimon {
             Logger.print("Skill not compatible or engimon has learnt the skill");
             throw new SkillNotCompatibleException(s, this);
         }
-        // jangan langsung add(s).
-        // ntar kalau masterynya naik, itu naiknya dari enumerasinya.
-        // cek MainSkill untuk lebih detail.
         this.skills.add(new Skill(s));
     }
 

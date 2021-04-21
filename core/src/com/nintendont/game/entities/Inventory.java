@@ -9,7 +9,7 @@ import java.util.*;
 
 public class Inventory<T> {
     // atribut Inventory
-    public final int maxCapacity = 20;
+    public static final int maxCapacity = 20;
 
     public static int nCapacity = 0;
     public ArrayList<T> invenList;
@@ -30,11 +30,12 @@ public class Inventory<T> {
     }
 
     // setter
-    public void insert(T el) throws InputTooLargeException{
+    public void insert(T el) // throws InputTooLargeException
+    {
         try {
             insert(el, 1);
         } catch (InputTooLargeException err) {
-            throw err;
+            // throw err; // bagusnya do nothing
         }
     }
 
@@ -52,11 +53,14 @@ public class Inventory<T> {
         }
     }
 
-    public void remove(T el) throws InputTooLargeException, ItemNotFoundException {
+    public void remove(T el) throws // InputTooLargeException,
+            ItemNotFoundException {
         try{
             remove(el, 1);
-        }catch (Exception err){
+        }catch (ItemNotFoundException err){
             throw err;
+        }catch (InputTooLargeException err){
+            // do nothing throw err;
         }
     }
 
@@ -77,8 +81,8 @@ public class Inventory<T> {
         }
     }
 
-    public boolean isFull(){
-        return nCapacity==maxCapacity;
+    public static boolean isFull(){
+        return nCapacity == maxCapacity;
     }
 
     public int find(T el){
