@@ -22,4 +22,17 @@ public enum Direction {
                 return RIGHT;
         }
     }
+
+    public static Direction getDirection(int dx, int dy) {
+        if (dx == 0 && dy == 1) {
+            return UP;
+        } else if (dx == 0 && dy == -1) {
+            return DOWN;
+        } else if (dx == -1 && dy == 0) {
+            return LEFT;
+        } else if (dx == 1 && dy == 0) {
+            return RIGHT;
+        }
+        return null;
+    }
 }

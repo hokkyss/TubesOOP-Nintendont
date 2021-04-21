@@ -35,7 +35,7 @@ public class Player implements Creature, InputProcessor {
     private Position pos;
     public Position activeEngimonPos;
 
-    private Texture playerTexture;
+    private TextureRegion playerTexture;
     private PlayerState state;
 
     private static final int STARTING_X = 32;
@@ -45,6 +45,7 @@ public class Player implements Creature, InputProcessor {
     private float worldX = STARTING_X, worldY = STARTING_Y;
     private int srcX, srcY;
     private int destX, destY;
+    private Direction walkDir;
     private float animTimer;
     private float ANIM_TIME = 0.5f;
 
@@ -67,6 +68,7 @@ public class Player implements Creature, InputProcessor {
 
         this.playerTexture = PlayerSprite.STANDING_SOUTH;
         this.state = PlayerState.STANDING;
+        this.walkDir = null;
     }
 
     @Override
@@ -277,6 +279,20 @@ public class Player implements Creature, InputProcessor {
             animTimer += delta;
             this.worldX = Interpolation.pow2.apply(this.srcX, this.destX, this.animTimer/this.ANIM_TIME);
             this.worldY = Interpolation.pow2.apply(this.srcY, this.destY, this.animTimer/this.ANIM_TIME);
+
+            if (this.walkDir == Direction.UP) {
+                this.playerTexture = PlayerSprite.WALKING_NORTH.getKeyFrame(animTimer, true);
+            }
+            if (this.walkDir == Direction.DOWN) {
+                this.playerTexture = PlayerSprite.WALKING_SOUTH.getKeyFrame(animTimer, true);
+            }
+            if (this.walkDir == Direction.LEFT) {
+                this.playerTexture = PlayerSprite.WALKING_WEST.getKeyFrame(animTimer, true);
+            }
+            if (this.walkDir == Direction.RIGHT) {
+                this.playerTexture = PlayerSprite.WALKING_EAST.getKeyFrame(animTimer, true);
+            }
+
             if (this.animTimer > this.ANIM_TIME) {
                 this.finishMove();
             }
@@ -291,11 +307,13 @@ public class Player implements Creature, InputProcessor {
         this.worldX = oldX;
         this.worldY = oldY;
         this.animTimer = 0f;
-        state = PlayerState.WALKING;
+        this.state = PlayerState.WALKING;
+        this.walkDir = Direction.getDirection(dx, dy);
     }
 
     private void finishMove() {
         state = PlayerState.STANDING;
+        this.walkDir = null;
     }
 
     @Override
@@ -312,21 +330,18 @@ public class Player implements Creature, InputProcessor {
         int dx = 0;
         int dy = 0;
         if (keycode == Input.Keys.LEFT) {
-            this.playerTexture = PlayerSprite.STANDING_WEST;
             dx = -1;
         }
         if (keycode == Input.Keys.RIGHT) {
-            this.playerTexture = PlayerSprite.STANDING_EAST;
             dx = 1;
         }
         if (keycode == Input.Keys.UP) {
-            this.playerTexture = PlayerSprite.STANDING_NORTH;
             dy = 1;
         }
         if (keycode == Input.Keys.DOWN) {
-            this.playerTexture = PlayerSprite.STANDING_SOUTH;
             dy = -1;
         }
+
         initializeMove(this.pos.getX(), this.pos.getY(), dx, dy);
         this.pos.move(dx,dy);
 
