@@ -54,8 +54,8 @@ public class MainScreen implements Screen {
         camera.position.set(v);
         camera.update();
 
-
         renderer.getBatch().end();
+
     }
 
     @Override
