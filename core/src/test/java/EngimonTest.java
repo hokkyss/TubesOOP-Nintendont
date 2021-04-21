@@ -1,4 +1,5 @@
 import com.nintendont.game.entities.Skill;
+import com.nintendont.game.entities.SkillItem;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.Assert;
@@ -69,18 +70,52 @@ public class EngimonTest {
         a.setLevel(500);
         Assert.assertTrue(a.isDead());
     }
-    */
+
     @Test
     public void test_skill_compatible()
     {
         Engimon a = new Engimon("Embirun", Species.get("Emberon"), 1);
         try
         {
+            // seharusnya masuk ke dalam catch
             a.learnSkill(Skill.ELECTROLYSIS);
         }
         catch (Exception e)
         {
+            Assert.assertTrue(true);
+        }
 
+        try
+        {
+            a.learnSkill(Skill.FLAMETHROWER);
+            Assert.assertTrue(true);
+        }
+        catch (Exception e)
+        {
+            Assert.assertTrue(false);
+        }
+
+        try
+        {
+            a.learnSkill(SkillItem.TM02);
+            Assert.assertTrue(true);
+        }
+        catch (Exception e)
+        {
+            Assert.assertTrue(false);
         }
     }
+
+    @Test
+    public void test_faint()
+    {
+        Engimon a = new Engimon("Embirun", Species.get("Emberon"), 1);
+
+        Assert.assertEquals(3, a.getLife());
+        a.faint();
+        Assert.assertEquals(2, a.getLife());
+        a.faint();
+        Assert.assertEquals(1, a.getLife());
+    }
+    */
 }
