@@ -42,12 +42,13 @@ public class MainScreen implements Screen {
         renderer.getBatch().begin();
 
         // draw player
+        player.update(delta);
         player.draw(renderer.getBatch());
 
         // move camera to player's center
         Vector3 v = new Vector3(
-                player.getPosition().getX() * GameConfig.SCALED_TILE_SIZE,
-                player.getPosition().getY() * GameConfig.SCALED_TILE_SIZE,
+                player.getWorldX() * GameConfig.SCALED_TILE_SIZE,
+                player.getWorldY() * GameConfig.SCALED_TILE_SIZE,
                 0
         );
         camera.position.set(v);

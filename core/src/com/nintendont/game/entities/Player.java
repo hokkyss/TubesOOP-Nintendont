@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -34,6 +35,17 @@ public class Player implements Creature, InputProcessor {
     public Position activeEngimonPos;
 
     private Texture playerTexture;
+    private PlayerState state;
+
+    private static final int STARTING_X = 32;
+    private static final int STARTING_Y = 32;
+
+    // Tweening player movement attribute
+    private float worldX = STARTING_X, worldY = STARTING_Y;
+    private int srcX, srcY;
+    private int destX, destY;
+    private float animTimer;
+    private float ANIM_TIME = 0.5f;
 
     public Player() throws InputTooLargeException {
         this(new Engimon("ember", Species.get("Emberon"), 1));
@@ -43,16 +55,17 @@ public class Player implements Creature, InputProcessor {
         this.activeEngimonIdx = 0;
 
         try {
-            engimonList = new Inventory<Engimon>();
-            skillItemList = new Inventory<SkillItem>();
-            pos = new Position(32, 32);
-            activeEngimonPos = new Position(0, 0);
+            this.engimonList = new Inventory<Engimon>();
+            this.skillItemList = new Inventory<SkillItem>();
+            this.pos = new Position(STARTING_X, STARTING_Y);
+            this.activeEngimonPos = new Position(0, 0);
             this.engimonList.insert(starter);
         } catch (Exception err) {
             throw err;
         }
 
         this.playerTexture = new Texture(Gdx.files.internal("Characters/boy_stand_south.png"));
+        this.state = PlayerState.STANDING;
     }
 
     @Override
@@ -240,14 +253,48 @@ public class Player implements Creature, InputProcessor {
         }
     }
 
+    public float getWorldX() {
+        return this.worldX;
+    }
+
+    public float getWorldY() {
+        return this.worldY;
+    }
+
     public void draw(Batch batch) {
         batch.draw(
                 playerTexture,
-                this.getPosition().getX() * GameConfig.SCALED_TILE_SIZE,
-                this.getPosition().getY() * GameConfig.SCALED_TILE_SIZE,
+                this.getWorldX() * GameConfig.SCALED_TILE_SIZE,
+                this.getWorldY() * GameConfig.SCALED_TILE_SIZE,
                 GameConfig.SCALED_TILE_SIZE,
                 GameConfig.SCALED_TILE_SIZE * 1.5f
         );
+    }
+
+    public void update(float delta) {
+        if (this.state == PlayerState.WALKING) {
+            animTimer += delta;
+            this.worldX = Interpolation.pow2.apply(this.srcX, this.destX, this.animTimer/this.ANIM_TIME);
+            this.worldY = Interpolation.pow2.apply(this.srcY, this.destY, this.animTimer/this.ANIM_TIME);
+            if (this.animTimer > this.ANIM_TIME) {
+                this.finishMove();
+            }
+        }
+    }
+
+    private void initializeMove(int oldX, int oldY, int dx, int dy) {
+        this.srcX = oldX;
+        this.srcY = oldY;
+        this.destX = oldX + dx;
+        this.destY = oldY + dy;
+        this.worldX = oldX;
+        this.worldY = oldY;
+        this.animTimer = 0f;
+        state = PlayerState.WALKING;
+    }
+
+    private void finishMove() {
+        state = PlayerState.STANDING;
     }
 
     @Override
@@ -257,18 +304,26 @@ public class Player implements Creature, InputProcessor {
 
     @Override
     public boolean keyUp(int keycode) {
+        if (this.state != PlayerState.STANDING) {
+            return false;
+        }
+
+        int dx = 0;
+        int dy = 0;
         if (keycode == Input.Keys.LEFT) {
-            this.pos.move(-1,0);
+            dx = -1;
         }
         if (keycode == Input.Keys.RIGHT) {
-            this.pos.move(1,0);
+            dx = 1;
         }
         if (keycode == Input.Keys.UP) {
-            this.pos.move(0,1);
+            dy = 1;
         }
         if (keycode == Input.Keys.DOWN) {
-            this.pos.move(0,-1);
+            dy = -1;
         }
+        initializeMove(this.pos.getX(), this.pos.getY(), dx, dy);
+        this.pos.move(dx,dy);
 
         return false;
     }
