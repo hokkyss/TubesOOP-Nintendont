@@ -15,6 +15,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.Gdx;
+import com.nintendont.game.Sounds;
 import com.nintendont.game.entities.Engimon;
 import com.nintendont.game.entities.Player;
 import com.badlogic.gdx.graphics.Texture;
@@ -67,6 +68,10 @@ public class MainScreen implements Screen {
 
     @Override
     public void show() {
+        Sounds.defaultMusic.setLooping(true);
+        Sounds.defaultMusic.setVolume(0.15f);
+        Sounds.defaultMusic.play();
+
         mapLoader = new MapLoader();
         camera = new OrthographicCamera();
 
