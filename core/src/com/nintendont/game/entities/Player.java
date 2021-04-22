@@ -14,18 +14,22 @@ import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.nintendont.game.Sounds;
 import com.nintendont.game.entities.PlayerSprite;
 import com.nintendont.game.GameConfig;
 import com.nintendont.game.Logger;
 import com.nintendont.game.Util;
 import com.nintendont.game.comparators.SkillComparator;
 import com.nintendont.game.exceptions.*;
+import com.nintendont.game.maps.MapLoader;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
 public class Player implements Creature, InputProcessor {
+    private MapLoader mapLoader;
+
     private final int EXP_MULT = 15;
 
     private int activeEngimonIdx;
@@ -49,12 +53,10 @@ public class Player implements Creature, InputProcessor {
     private float animTimer;
     private float ANIM_TIME = 0.5f;
 
-    public Player() throws InputTooLargeException {
-        this(new Engimon("ember", Species.get("Emberon"), 1));
-    }
-
-    public Player(Engimon starter) throws InputTooLargeException {
+    public Player(Engimon starter, MapLoader mapLoader) throws InputTooLargeException {
         this.activeEngimonIdx = 0;
+        // to access map properties
+        this.mapLoader = mapLoader;
 
         try {
             this.engimonList = new Inventory<Engimon>();
@@ -280,22 +282,28 @@ public class Player implements Creature, InputProcessor {
             this.worldX = Interpolation.pow2.apply(this.srcX, this.destX, this.animTimer/this.ANIM_TIME);
             this.worldY = Interpolation.pow2.apply(this.srcY, this.destY, this.animTimer/this.ANIM_TIME);
 
-            if (this.walkDir == Direction.UP) {
-                this.playerTexture = PlayerSprite.WALKING_NORTH.getKeyFrame(animTimer, true);
-            }
-            if (this.walkDir == Direction.DOWN) {
-                this.playerTexture = PlayerSprite.WALKING_SOUTH.getKeyFrame(animTimer, true);
-            }
-            if (this.walkDir == Direction.LEFT) {
-                this.playerTexture = PlayerSprite.WALKING_WEST.getKeyFrame(animTimer, true);
-            }
-            if (this.walkDir == Direction.RIGHT) {
-                this.playerTexture = PlayerSprite.WALKING_EAST.getKeyFrame(animTimer, true);
-            }
+            setPlayerTexture(this.walkDir, true);
 
             if (this.animTimer > this.ANIM_TIME) {
                 this.finishMove();
             }
+        }
+    }
+
+    private void setPlayerTexture(Direction dir, boolean animate) {
+        float stateTime = animate ? animTimer : 0;
+
+        if (dir == Direction.UP) {
+            this.playerTexture = PlayerSprite.WALKING_NORTH.getKeyFrame(stateTime, true);
+        }
+        if (dir == Direction.DOWN) {
+            this.playerTexture = PlayerSprite.WALKING_SOUTH.getKeyFrame(stateTime, true);
+        }
+        if (dir == Direction.LEFT) {
+            this.playerTexture = PlayerSprite.WALKING_WEST.getKeyFrame(stateTime, true);
+        }
+        if (dir == Direction.RIGHT) {
+            this.playerTexture = PlayerSprite.WALKING_EAST.getKeyFrame(stateTime, true);
         }
     }
 
@@ -342,8 +350,19 @@ public class Player implements Creature, InputProcessor {
             dy = -1;
         }
 
-        initializeMove(this.pos.getX(), this.pos.getY(), dx, dy);
-        this.pos.move(dx,dy);
+        if (mapLoader.isWalkable(
+                this.pos.getX() + dx,
+                this.pos.getY() + dy
+        )) {
+            initializeMove(this.pos.getX(), this.pos.getY(), dx, dy);
+            this.pos.move(dx,dy);
+        } else {
+            Direction dir = Direction.getDirection(dx, dy);
+
+            setPlayerTexture(dir, false);
+
+            Sounds.playerBump.play();
+        }
 
         return false;
     }

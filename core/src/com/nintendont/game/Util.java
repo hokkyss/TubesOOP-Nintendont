@@ -23,10 +23,10 @@ public class Util {
     private static ArrayList<EngimonLiar> wildEngimons = new ArrayList<EngimonLiar>();
     public static Player player;
 
-    public static void initPlayer(Scanner scanner) throws Exception {
-        Engimon starter = pickStarterEngimon(scanner);
-        player = new Player(starter);
-    }
+//    public static void initPlayer(Scanner scanner) throws Exception {
+//        Engimon starter = pickStarterEngimon(scanner);
+//        player = new Player(starter);
+//    }
 
     public static void initPeta(String filePath) throws Exception {
         try {

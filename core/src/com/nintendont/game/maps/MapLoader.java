@@ -25,6 +25,7 @@ public class MapLoader {
     private final int[] TUNDRA_LAYER = new int[] {1};
     private final int[] GRASSLAND_LAYER = new int[] {2};
     private final int[] MOUNTAIN_LAYER = new int[] {3};
+    private final int[] BORDER_LAYER = new int[] {4};
 
     public MapLoader() {
         this.map = new TmxMapLoader().load("Maps/Map.tmx");
@@ -78,11 +79,26 @@ public class MapLoader {
             }
     }
 
+    public boolean isWalkable(int x, int y) {
+
+        // check SEA layer
+        TiledMapTileLayer seaLayer = (TiledMapTileLayer) map.getLayers().get(BORDER_LAYER[0]);
+        if (seaLayer.getCell(x, y) != null) {
+            TiledMapTile tile = seaLayer.getCell(x, y).getTile();
+            if (tile.getProperties().containsKey("blocked") && tile.getProperties().get("blocked", Boolean.class)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public void render() {
         this.renderer.render(SEA_LAYER);
         this.renderer.render(TUNDRA_LAYER);
         this.renderer.render(GRASSLAND_LAYER);
         this.renderer.render(MOUNTAIN_LAYER);
+        this.renderer.render(BORDER_LAYER);
 
         AnimatedTiledMapTile.updateAnimationBaseTime();
     }

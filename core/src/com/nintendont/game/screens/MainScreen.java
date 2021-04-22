@@ -71,7 +71,10 @@ public class MainScreen implements Screen {
         camera = new OrthographicCamera();
 
         try {
-            player = new Player(new Engimon("ember", Species.get("Emberon"), 1));
+            player = new Player(
+                    new Engimon("ember", Species.get("Emberon"), 1),
+                    mapLoader
+            );
             Gdx.input.setInputProcessor(player);
         } catch (Exception e) {
             System.out.println("Failed to create player");
