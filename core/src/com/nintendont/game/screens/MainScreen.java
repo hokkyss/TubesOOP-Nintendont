@@ -22,10 +22,10 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.nintendont.game.entities.PlayerSprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.nintendont.game.entities.Species;
+import com.nintendont.game.maps.MapLoader;
 
 public class MainScreen implements Screen {
-    private TiledMap map;
-    private OrthogonalTiledMapRenderer renderer;
+    private MapLoader mapLoader;
 
     private Player player;
 
@@ -36,14 +36,15 @@ public class MainScreen implements Screen {
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        renderer.setView(camera);
-        renderer.render();
+        mapLoader.getRenderer().setView(camera);
+        mapLoader.render();
 
-        renderer.getBatch().begin();
+        // start rendering anything necessary
+        mapLoader.getBatch().begin();
 
         // draw player
         player.update(delta);
-        player.draw(renderer.getBatch());
+        player.draw(mapLoader.getBatch());
 
         // move camera to player's center
         Vector3 v = new Vector3(
@@ -54,8 +55,7 @@ public class MainScreen implements Screen {
         camera.position.set(v);
         camera.update();
 
-        renderer.getBatch().end();
-
+        mapLoader.getBatch().end();
     }
 
     @Override
@@ -63,14 +63,11 @@ public class MainScreen implements Screen {
         camera.viewportWidth = width;
         camera.viewportHeight = height;
         camera.update();
-
-//        stage.getViewport().update(width, height);
     }
 
     @Override
     public void show() {
-        map = new TmxMapLoader().load("Maps/Map.tmx");
-        renderer = new OrthogonalTiledMapRenderer(map);
+        mapLoader = new MapLoader();
         camera = new OrthographicCamera();
 
         try {
@@ -80,9 +77,9 @@ public class MainScreen implements Screen {
             System.out.println("Failed to create player");
         }
 
-        TiledMapTileLayer layer0 = (TiledMapTileLayer) map.getLayers().get(0);
-        Vector3 center = new Vector3(layer0.getWidth() * layer0.getTileWidth() / 2, layer0.getHeight() * layer0.getTileHeight() / 2, 0);
-        camera.position.set(center);
+        mapLoader.initAnimationTiles();
+
+        mapLoader.centerToScreen(camera);
     }
 
     @Override
@@ -93,8 +90,8 @@ public class MainScreen implements Screen {
 
     @Override
     public void dispose() {
-        map.dispose();
-        renderer.dispose();
+        mapLoader.getMap().dispose();
+        mapLoader.getRenderer().dispose();
     }
 
     @Override

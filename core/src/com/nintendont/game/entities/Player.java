@@ -38,7 +38,7 @@ public class Player implements Creature, InputProcessor {
     private TextureRegion playerTexture;
     private PlayerState state;
 
-    private static final int STARTING_X = 32;
+    private static final int STARTING_X = 29;
     private static final int STARTING_Y = 32;
 
     // Tweening player movement attribute
