@@ -159,6 +159,46 @@ public class MapLoader {
                 tile.getProperties().get("blocked", Boolean.class));
     }
 
+    public Terrain getTerrain(int x, int y) {
+        // check TUNDRA layer
+        MapGroupLayer tundraGroupLayer = (MapGroupLayer) map.getLayers().get(TUNDRA_LAYER[0]);
+
+        TiledMapTileLayer tundraLayer1 = (TiledMapTileLayer) tundraGroupLayer.getLayers().get("Tundra");
+        TiledMapTileLayer tundraLayer2 = (TiledMapTileLayer) tundraGroupLayer.getLayers().get("Tundra 2");
+
+        if (tundraLayer1.getCell(x, y) != null || tundraLayer2.getCell(x, y) != null) {
+            return Terrain.TUNDRA;
+        }
+
+        // check MOUNTAIN layer
+        MapGroupLayer mountainGroupLayer = (MapGroupLayer) map.getLayers().get(MOUNTAIN_LAYER[0]);
+
+        TiledMapTileLayer mountainLayer1 = (TiledMapTileLayer) mountainGroupLayer.getLayers().get("Mountain");
+        TiledMapTileLayer mountainLayer2 = (TiledMapTileLayer) mountainGroupLayer.getLayers().get("Mountain 2");
+
+        if (mountainLayer1.getCell(x, y) != null || mountainLayer2.getCell(x, y) != null) {
+            return Terrain.MOUNTAIN;
+        }
+
+        // check GRASSLAND layer
+        MapGroupLayer grasslandGroupLayer = (MapGroupLayer) map.getLayers().get(GRASSLAND_LAYER[0]);
+
+        TiledMapTileLayer grasslandLayer1 = (TiledMapTileLayer) grasslandGroupLayer.getLayers().get("Grassland");
+        TiledMapTileLayer grasslandLayer2 = (TiledMapTileLayer) grasslandGroupLayer.getLayers().get("Flowers");
+
+        if (grasslandLayer1.getCell(x, y) != null || grasslandLayer2.getCell(x, y) != null) {
+            return Terrain.GRASSLAND;
+        }
+
+        // check SEA layer
+        TiledMapTileLayer seaLayer = (TiledMapTileLayer) map.getLayers().get(SEA_LAYER[0]);
+        if (seaLayer.getCell(x, y) != null) {
+            return Terrain.SEA;
+        }
+
+        return null;
+    }
+
     public void render() {
         this.renderer.render(SEA_LAYER);
         this.renderer.render(TUNDRA_LAYER);

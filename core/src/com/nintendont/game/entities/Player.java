@@ -22,6 +22,7 @@ import com.nintendont.game.Util;
 import com.nintendont.game.comparators.SkillComparator;
 import com.nintendont.game.exceptions.*;
 import com.nintendont.game.maps.MapLoader;
+import com.nintendont.game.maps.Terrain;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -353,6 +354,13 @@ public class Player implements Creature, InputProcessor {
         if (mapLoader.isWalkable(this.pos.getX(),this.pos.getY(),dx,dy)) {
             initializeMove(this.pos.getX(), this.pos.getY(), dx, dy);
             this.pos.move(dx,dy);
+
+            // terrain detection
+            Terrain t = mapLoader.getTerrain(this.pos.getX(), this.pos.getY());
+            if (t == Terrain.GRASSLAND) System.out.println("Grassland");
+            if (t == Terrain.MOUNTAIN) System.out.println("Mountain");
+            if (t == Terrain.SEA) System.out.println("Sea");
+            if (t == Terrain.TUNDRA) System.out.println("Tundra");
         } else {
             Direction dir = Direction.getDirection(dx, dy);
 
