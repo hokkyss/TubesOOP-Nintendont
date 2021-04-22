@@ -87,6 +87,24 @@ public class MapLoader {
         int x = currX + dx;
         int y = currY + dy;
 
+        // check TUNDRA layer
+        MapGroupLayer tundraGroupLayer = (MapGroupLayer) map.getLayers().get(TUNDRA_LAYER[0]);
+
+        TiledMapTileLayer tundraLayer1 = (TiledMapTileLayer) tundraGroupLayer.getLayers().get("Tundra");
+        TiledMapTileLayer tundraLayer2 = (TiledMapTileLayer) tundraGroupLayer.getLayers().get("Tundra 2");
+
+        if (tundraLayer1.getCell(x, y) != null) {
+            tile = tundraLayer1.getCell(x, y).getTile();
+            if (!isWalkableTile(tile))
+                return false;
+        }
+
+        if (tundraLayer2.getCell(x, y) != null) {
+            tile = tundraLayer2.getCell(x, y).getTile();
+            if (!isWalkableTile(tile))
+                return false;
+        }
+
         // check MOUNTAIN layer
         MapGroupLayer mountainGroupLayer = (MapGroupLayer) map.getLayers().get(MOUNTAIN_LAYER[0]);
 
