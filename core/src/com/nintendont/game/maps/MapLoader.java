@@ -12,6 +12,7 @@ import com.badlogic.gdx.maps.tiled.tiles.AnimatedTiledMapTile;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
+import com.nintendont.game.entities.Direction;
 
 import java.util.Iterator;
 
@@ -79,18 +80,65 @@ public class MapLoader {
             }
     }
 
-    public boolean isWalkable(int x, int y) {
+    public boolean isWalkable(int currX, int currY, int dx, int dy) {
+        Direction dir = Direction.getDirection(dx, dy);
+        TiledMapTile tile;
+
+        int x = currX + dx;
+        int y = currY + dy;
+
+        // check MOUNTAIN layer
+        MapGroupLayer mountainGroupLayer = (MapGroupLayer) map.getLayers().get(MOUNTAIN_LAYER[0]);
+
+        TiledMapTileLayer mountainLayer1 = (TiledMapTileLayer) mountainGroupLayer.getLayers().get("Mountain");
+        TiledMapTileLayer mountainLayer2 = (TiledMapTileLayer) mountainGroupLayer.getLayers().get("Mountain 2");
+
+        // special case for mountain top block
+        if (mountainLayer1.getCell(currX, currY) != null) {
+            TiledMapTile currentTile = mountainLayer1.getCell(currX, currY).getTile();
+
+            // if in special block, and wants to go up, not walkable
+            if (dir == Direction.UP &&
+                    currentTile.getProperties().containsKey("specialBlocked") &&
+                    currentTile.getProperties().get("specialBlocked", Boolean.class)
+            )
+                return false;
+        }
+
+        if (mountainLayer1.getCell(x, y) != null) {
+            tile = mountainLayer1.getCell(x, y).getTile();
+
+            // if not in special block, wants to go down to special block, not walkable
+            if (dir == Direction.DOWN &&
+                tile.getProperties().containsKey("specialBlocked") &&
+                tile.getProperties().get("specialBlocked", Boolean.class)
+            )
+                return false;
+
+            if (!isWalkableTile(tile))
+                return false;
+        }
+        if (mountainLayer2.getCell(x, y) != null) {
+            tile = mountainLayer2.getCell(x, y).getTile();
+            if (!isWalkableTile(tile))
+                return false;
+        }
+
 
         // check SEA layer
         TiledMapTileLayer seaLayer = (TiledMapTileLayer) map.getLayers().get(BORDER_LAYER[0]);
         if (seaLayer.getCell(x, y) != null) {
-            TiledMapTile tile = seaLayer.getCell(x, y).getTile();
-            if (tile.getProperties().containsKey("blocked") && tile.getProperties().get("blocked", Boolean.class)) {
+            tile = seaLayer.getCell(x, y).getTile();
+            if (!isWalkableTile(tile))
                 return false;
-            }
         }
 
         return true;
+    }
+
+    public boolean isWalkableTile(TiledMapTile tile) {
+        return !(tile.getProperties().containsKey("blocked") &&
+                tile.getProperties().get("blocked", Boolean.class));
     }
 
     public void render() {

@@ -42,8 +42,8 @@ public class Player implements Creature, InputProcessor {
     private TextureRegion playerTexture;
     private PlayerState state;
 
-    private static final int STARTING_X = 29;
-    private static final int STARTING_Y = 32;
+    private static final int STARTING_X = 30;
+    private static final int STARTING_Y = 40;
 
     // Tweening player movement attribute
     private float worldX = STARTING_X, worldY = STARTING_Y;
@@ -350,10 +350,7 @@ public class Player implements Creature, InputProcessor {
             dy = -1;
         }
 
-        if (mapLoader.isWalkable(
-                this.pos.getX() + dx,
-                this.pos.getY() + dy
-        )) {
+        if (mapLoader.isWalkable(this.pos.getX(),this.pos.getY(),dx,dy)) {
             initializeMove(this.pos.getX(), this.pos.getY(), dx, dy);
             this.pos.move(dx,dy);
         } else {
