@@ -294,17 +294,34 @@ public class Player implements Creature, InputProcessor {
     private void setPlayerTexture(Direction dir, boolean animate) {
         float stateTime = animate ? animTimer : 0;
 
-        if (dir == Direction.UP) {
-            this.playerTexture = PlayerSprite.WALKING_NORTH.getKeyFrame(stateTime, true);
-        }
-        if (dir == Direction.DOWN) {
-            this.playerTexture = PlayerSprite.WALKING_SOUTH.getKeyFrame(stateTime, true);
-        }
-        if (dir == Direction.LEFT) {
-            this.playerTexture = PlayerSprite.WALKING_WEST.getKeyFrame(stateTime, true);
-        }
-        if (dir == Direction.RIGHT) {
-            this.playerTexture = PlayerSprite.WALKING_EAST.getKeyFrame(stateTime, true);
+        Terrain terrain = mapLoader.getTerrain(this.pos.getX(), this.pos.getY());
+
+        if (terrain == Terrain.SEA) {
+            if (dir == Direction.UP) {
+                this.playerTexture = PlayerSprite.SURFING_NORTH.getKeyFrame(stateTime, true);
+            }
+            if (dir == Direction.DOWN) {
+                this.playerTexture = PlayerSprite.SURFING_SOUTH.getKeyFrame(stateTime, true);
+            }
+            if (dir == Direction.LEFT) {
+                this.playerTexture = PlayerSprite.SURFING_WEST.getKeyFrame(stateTime, true);
+            }
+            if (dir == Direction.RIGHT) {
+                this.playerTexture = PlayerSprite.SURFING_EAST.getKeyFrame(stateTime, true);
+            }
+        } else {
+            if (dir == Direction.UP) {
+                this.playerTexture = PlayerSprite.WALKING_NORTH.getKeyFrame(stateTime, true);
+            }
+            if (dir == Direction.DOWN) {
+                this.playerTexture = PlayerSprite.WALKING_SOUTH.getKeyFrame(stateTime, true);
+            }
+            if (dir == Direction.LEFT) {
+                this.playerTexture = PlayerSprite.WALKING_WEST.getKeyFrame(stateTime, true);
+            }
+            if (dir == Direction.RIGHT) {
+                this.playerTexture = PlayerSprite.WALKING_EAST.getKeyFrame(stateTime, true);
+            }
         }
     }
 
@@ -354,13 +371,6 @@ public class Player implements Creature, InputProcessor {
         if (mapLoader.isWalkable(this.pos.getX(),this.pos.getY(),dx,dy)) {
             initializeMove(this.pos.getX(), this.pos.getY(), dx, dy);
             this.pos.move(dx,dy);
-
-            // terrain detection
-            Terrain t = mapLoader.getTerrain(this.pos.getX(), this.pos.getY());
-            if (t == Terrain.GRASSLAND) System.out.println("Grassland");
-            if (t == Terrain.MOUNTAIN) System.out.println("Mountain");
-            if (t == Terrain.SEA) System.out.println("Sea");
-            if (t == Terrain.TUNDRA) System.out.println("Tundra");
         } else {
             Direction dir = Direction.getDirection(dx, dy);
 
