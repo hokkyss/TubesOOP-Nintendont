@@ -156,7 +156,7 @@ public class MainScreen implements Screen {
         root.setFillParent(true);
         uiStage.addActor(root);
         overlay = new OverlayScreen();
-        overlay.setSize(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/5);
+//        overlay.setSize(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/5);
         overlay.animateText("This is a test string\nAlso this one");
         overlay.setVisible(isOverlayOpen);
 

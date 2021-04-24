@@ -14,7 +14,7 @@ public class OverlayScreen extends Table {
     private String targetText ="";
     private float animTimer = 0f;
     private float animationTotalTime = 0f;
-    private float TIME_PER_CHARACTER =0.05f;
+    private float TIME_PER_CHARACTER =0.025f;
     private STATE state = STATE.IDLE;
 
     private Label textLabel;
@@ -35,7 +35,8 @@ public class OverlayScreen extends Table {
         TextureRegionDrawable temp = new TextureRegionDrawable(new TextureRegion(bg));
         this.setBackground(temp);
         textLabel = new Label("\n", mySkin);
-        this.add(textLabel).expand().align(Align.left).pad(5f);
+        this.textLabel.setColor(0,0,0,1);
+        this.add(textLabel).expand().align(Align.left).pad(0f, 30f, 0f, 30f);
     }
 
     public void animateText(String text){
@@ -76,6 +77,10 @@ public class OverlayScreen extends Table {
     }
 
     public float getPrefWidth(){
-        return 200f;
+        return 720f;
+    }
+
+    public float getPrefHeight(){
+        return 150f;
     }
 }
