@@ -80,8 +80,9 @@ public class MainScreen implements Screen {
          * optionBox.setVisible(false);
          * optionBox.add("Battle");
          * optionBox.add("Interact");
-         * optionBox.add("Skill Items");
          * optionBox.add("Engimon");
+         * optionBox.add("Switch Engimon");
+         * optionBox.add("Skill Item");
          */
     }
 

@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.graphics.GL20;
@@ -82,7 +83,6 @@ public class StarterScreen implements Screen {
             }
             @Override
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                engimon1.toggle();
                 this.screen.setSelectedEngimon(0);
                 return true;
             }
@@ -196,7 +196,11 @@ public class StarterScreen implements Screen {
             }
         }.init(this));
 
-        ButtonGroup
+        ButtonGroup buttonGroup = new ButtonGroup(engimon1, engimon2, engimon3, engimon4, engimon5);
+        engimon1.setChecked(true);
+        buttonGroup.setMaxCheckCount(1);
+        buttonGroup.setMinCheckCount(1);
+        buttonGroup.setUncheckLast(true);
 
         // Engimon input name
         TextField engimonNameInput = new TextField("", mySkin);
