@@ -24,6 +24,8 @@ import com.nintendont.game.exceptions.*;
 import com.nintendont.game.maps.MapLoader;
 import com.nintendont.game.maps.Terrain;
 import com.nintendont.game.screens.MainScreen;
+import com.nintendont.game.screens.OptionScreen;
+import com.nintendont.game.screens.OverlayScreen;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -361,28 +363,45 @@ public class Player implements Creature, InputProcessor {
 
         int dx = 0;
         int dy = 0;
-        if (keycode == Input.Keys.LEFT || keycode == Input.Keys.A) {
-            dx = -1;
-            this.lookDir = Direction.LEFT;
-        }
-        if (keycode == Input.Keys.RIGHT || keycode == Input.Keys.D) {
-            dx = 1;
-            this.lookDir = Direction.RIGHT;
-        }
-        if (keycode == Input.Keys.UP || keycode == Input.Keys.W) {
-            dy = 1;
-            this.lookDir = Direction.UP;
-        }
-        if (keycode == Input.Keys.DOWN || keycode == Input.Keys.S) {
-            dy = -1;
-            this.lookDir = Direction.DOWN;
+
+        OverlayScreen activeScreen = screen.getActiveScreen();
+
+        //kalau ada popup yang sedang aktif dan bukan dialog biasa
+        if (activeScreen.isVisible() && activeScreen instanceof OptionScreen){
+            if (keycode == Input.Keys.UP || keycode == Input.Keys.W) {
+                ((OptionScreen) activeScreen).moveUp();
+            }
+            if (keycode == Input.Keys.DOWN || keycode == Input.Keys.S) {
+                ((OptionScreen) activeScreen).moveDown();
+            }
+            if (keycode == Input.Keys.SPACE){
+                ((OptionScreen) activeScreen).handleSelect();
+            }
+        }else{
+            if (keycode == Input.Keys.LEFT || keycode == Input.Keys.A) {
+                dx = -1;
+                this.lookDir = Direction.LEFT;
+            }
+            if (keycode == Input.Keys.RIGHT || keycode == Input.Keys.D) {
+                dx = 1;
+                this.lookDir = Direction.RIGHT;
+            }
+            if (keycode == Input.Keys.UP || keycode == Input.Keys.W) {
+                dy = 1;
+                this.lookDir = Direction.UP;
+            }
+            if (keycode == Input.Keys.DOWN || keycode == Input.Keys.S) {
+                dy = -1;
+                this.lookDir = Direction.DOWN;
+            }
+            if (keycode == Input.Keys.SPACE){
+                screen.handleInteract(lookDir);
+            }else{
+                screen.hideDialog();
+            }
         }
 
-        if (keycode == Input.Keys.SPACE){
-            screen.handleInteract(lookDir);
-        }else{
-            screen.hideDialog();
-        }
+
 
         if (mapLoader.isWalkable(this.pos.getX(),this.pos.getY(),dx,dy)) {
             initializeMove(this.pos.getX(), this.pos.getY(), dx, dy);

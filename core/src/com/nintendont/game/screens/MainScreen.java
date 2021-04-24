@@ -24,21 +24,26 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.nintendont.game.maps.MapLoader;
+import com.nintendont.game.util.OnSelectHandler;
 import org.apache.batik.swing.gvt.Overlay;
+
+import java.util.Arrays;
 
 public class MainScreen implements Screen {
     private MapLoader mapLoader;
-    private OverlayScreen overlayScreen;
+
+    private DialogueScreen dialogueScreen;
+    private OptionScreen optionBox;
+
+    private OverlayScreen activeScreen;
 
     private Player player;
     private Engimon starter;
 
     private Stage uiStage;
     private Table root;
-    private OverlayScreen overlay;
-    private int uiScale = 1;
-    private OptionScreen optionBox;
 
+    private int uiScale = 1;
     private OrthographicCamera camera;
 
     public MainScreen(Engimon starter) {
@@ -107,7 +112,9 @@ public class MainScreen implements Screen {
         mapLoader = new MapLoader();
         camera = new OrthographicCamera();
         Skin skin = new Skin(Gdx.files.internal("Skin/glassy-ui.json"));
-        overlayScreen = new OverlayScreen();
+
+        //define all the screen
+//        dialogueScreen = new DialogueScreen();
 
         try {
             player = new Player(
@@ -125,7 +132,7 @@ public class MainScreen implements Screen {
 
         mapLoader.centerToScreen(camera);
 
-        initUI();
+        initOverlays();
     }
 
     @Override
@@ -146,21 +153,47 @@ public class MainScreen implements Screen {
     }
 
 
-    private void initUI(){
+    private void initOverlays(){
         uiStage = new Stage(new ScreenViewport());
         uiStage.getViewport().update(Gdx.graphics.getWidth()/uiScale, Gdx.graphics.getHeight()/uiScale);
 
         root = new Table();
         root.setFillParent(true);
         uiStage.addActor(root);
-        overlay = new OverlayScreen();
-        overlay.close();
 
+        //onSelectHandler for optionBox
+        OnSelectHandler handleBattle = () -> {dummyFunction("Battle");};
+        OnSelectHandler handleInteract = () -> {dummyFunction("Interact");};
+        OnSelectHandler handleEngimon = () -> {dummyFunction("Engimon");};
+        OnSelectHandler handleSwitchEngimon = () -> {dummyFunction("Switch Engimon");};
+        OnSelectHandler handleSkillItem = () -> {dummyFunction("Skill item...");};
+
+        dialogueScreen = new DialogueScreen();
+        optionBox = new OptionScreen(
+                Arrays.asList("Battle","Interact","Engimon","Switch Engimon", "Skill Items"),
+                Arrays.asList(handleBattle,handleInteract, handleEngimon, handleSwitchEngimon, handleSkillItem)
+        );
+
+        addBottomOverlay(dialogueScreen);
+        addRightOverlay(optionBox);
+
+        activeScreen = optionBox;
+    }
+
+    private void addBottomOverlay(OverlayScreen overlay){
         root.add(overlay)
                 .expand()
                 .align(Align.bottom)
                 .pad(8f)
                 ;
+    }
+
+    private void addRightOverlay(OverlayScreen overlay){
+        root.add(overlay)
+                .expand()
+                .align(Align.right)
+                .pad(8f)
+        ;
     }
 
     public void handleInteract(Direction dir){
@@ -170,14 +203,23 @@ public class MainScreen implements Screen {
             return;
         }
         if(mapLoader.isWalkable(pos.getX(), pos.getY(),dir.getDeltaX(), dir.getDeltaY())){
-            overlay.animateText("You can walk there!");
+            dialogueScreen.animateText("You can walk there!");
         }else{
-            overlay.animateText("You can't walk there!");
+            dialogueScreen.animateText("You can't walk there!");
         }
-        overlay.toggle();
+        activeScreen.toggle();
+    }
+
+    public void dummyFunction(String str){
+        System.out.println("MASUK BANG");
+        System.out.println(str);
     }
 
     public void hideDialog(){
-        overlay.close();
+        activeScreen.close();
+    }
+
+    public OverlayScreen getActiveScreen(){
+        return this.activeScreen;
     }
 }
