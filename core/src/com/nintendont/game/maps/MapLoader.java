@@ -13,7 +13,9 @@ import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.nintendont.game.entities.Direction;
+import com.nintendont.game.entities.EngimonLiar;
 import com.nintendont.game.entities.Position;
+import com.nintendont.game.screens.MainScreen;
 
 import java.util.Iterator;
 
@@ -85,12 +87,28 @@ public class MapLoader {
         return isWalkable(x - 1, y, 1, 0);
     }
 
-    public boolean isWalkable(int currX, int currY, int dx, int dy) {
+    public boolean isWalkable(int currX, int currY, int dx, int dy){
+        return isWalkable(currX, currY, dx, dy, false);
+    }
+
+    public boolean isWalkable(int currX, int currY, int dx, int dy, boolean forPlayer) {
         Direction dir = Direction.getDirection(dx, dy);
         TiledMapTile tile;
 
         int x = currX + dx;
         int y = currY + dy;
+
+        // check for active engimons
+        if (MainScreen.player.activeEngimonPos.equals(new Position(x, y)) && !forPlayer) return false;
+
+        // check for player
+        if (MainScreen.player.getPosition().equals(new Position(x, y))) return false;
+
+        // check for wild engimons
+        for (EngimonLiar e : MainScreen.wildEngimons) {
+            if (e.getPosition().equals(new Position(x, y)))
+                return false;
+        }
 
         // check TUNDRA layer
         MapGroupLayer tundraGroupLayer = (MapGroupLayer) map.getLayers().get(TUNDRA_LAYER[0]);

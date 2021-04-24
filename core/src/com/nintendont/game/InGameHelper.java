@@ -9,7 +9,7 @@ import java.util.Random;
 
 public class InGameHelper {
     public static final int LEVEL_BIG_WILD_ENGIMON = 30;
-    public static final int MAX_WILD_ENGIMON = 32;
+    public static final int MAX_WILD_ENGIMON = 75;
 
     public static void spawnWildEngimons() {
         Random rand = new Random();

@@ -12,6 +12,11 @@ public class EngimonLiar extends Engimon implements Creature {
         this.position = p;
     }
 
+    public EngimonLiar(Engimon e, Position p) {
+        super(e.getName(), e.getSpecies(), e.getLevel());
+        this.position = p;
+    }
+
     @Override
     public Position getPosition() { return position; }
 
@@ -24,12 +29,15 @@ public class EngimonLiar extends Engimon implements Creature {
         this.addExp(Engimon.EXP_PER_LEVEL);
     }
 
-    public void draw(Batch batch) {
+    public void draw(Batch batch, float delta) {
+        this.stateTime += delta;
+        this.engimonTexture = this.getSpecies().getIconAnimation().getKeyFrame(stateTime, true);
+
         batch.draw(
-                new Texture(this.getSpecies().getPathIconSprite()),
+                this.engimonTexture,
                 this.position.getX() * GameConfig.SCALED_TILE_SIZE,
                 this.position.getY() * GameConfig.SCALED_TILE_SIZE,
-                GameConfig.SCALED_TILE_SIZE,
+                GameConfig.SCALED_TILE_SIZE * 1.5f,
                 GameConfig.SCALED_TILE_SIZE * 1.5f
         );
     }

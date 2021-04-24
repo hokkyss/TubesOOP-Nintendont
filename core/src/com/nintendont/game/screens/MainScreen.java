@@ -53,6 +53,8 @@ public class MainScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        EngimonLiar activeEngimon = new EngimonLiar(player.getActiveEngimon(), player.activeEngimonPos);
+
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -65,9 +67,13 @@ public class MainScreen implements Screen {
         // draw player
         player.update(delta);
         player.draw(mapLoader.getBatch());
-
+        activeEngimon.draw(mapLoader.getBatch(),
+                player.activeEngimonPos.getX(),
+                player.activeEngimonPos.getY(),
+                delta
+        );
         for (EngimonLiar e : this.wildEngimons) {
-            e.draw(mapLoader.getBatch());
+            e.draw(mapLoader.getBatch(), delta);
         }
 
         // draw dialogbox
@@ -132,6 +138,7 @@ public class MainScreen implements Screen {
                 e.showDetails();
             }
         } catch (Exception e) {
+            e.printStackTrace();
             System.out.println("Failed to create player");
         }
 

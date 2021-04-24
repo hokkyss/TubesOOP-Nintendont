@@ -1,5 +1,9 @@
 package com.nintendont.game.entities;
 
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Interpolation;
+import com.nintendont.game.GameConfig;
 import com.nintendont.game.Logger;
 import com.nintendont.game.exceptions.SkillNotCompatibleException;
 import com.nintendont.game.exceptions.SkillHasBeenLearntException;
@@ -29,6 +33,9 @@ public class Engimon {
     private ArrayList<Skill> skills;
     private HashMap<String, String> parents;
 
+    public TextureRegion engimonTexture;
+    public float stateTime;
+
     public Engimon(String name, Species species, int level, HashMap<String, String> parents) {
         this.idEngimon = EngimonCount + 1;
         this.name = name;
@@ -43,6 +50,8 @@ public class Engimon {
 
         this.parents = parents;
         EngimonCount++;
+
+        this.engimonTexture = species.getIconAnimation().getKeyFrame(0);
     }
 
     public Engimon(String name, Species species, int level) {
@@ -187,5 +196,18 @@ public class Engimon {
 
     public void learnSkill(SkillItem si) throws SkillNotCompatibleException, SkillHasBeenLearntException {
         learnSkill(si.containedSkill);
+    }
+
+    public void draw(Batch batch, int x, int y, float delta) {
+        this.stateTime += delta;
+        this.engimonTexture = this.getSpecies().getIconAnimation().getKeyFrame(stateTime, true);
+
+        batch.draw(
+                this.engimonTexture,
+                x * GameConfig.SCALED_TILE_SIZE,
+                y * GameConfig.SCALED_TILE_SIZE,
+                GameConfig.SCALED_TILE_SIZE * 1.5f,
+                GameConfig.SCALED_TILE_SIZE * 1.5f
+        );
     }
 }

@@ -382,7 +382,8 @@ public class Player implements Creature, InputProcessor {
             screen.toggleDialog(lookDir);
         }
 
-        if (mapLoader.isWalkable(this.pos.getX(),this.pos.getY(),dx,dy)) {
+        if (mapLoader.isWalkable(this.pos.getX(),this.pos.getY(),dx,dy, true)) {
+            this.activeEngimonPos = new Position(this.pos.getX(), this.pos.getY());
             initializeMove(this.pos.getX(), this.pos.getY(), dx, dy);
             this.pos.move(dx,dy);
         } else {
