@@ -120,33 +120,35 @@ public class Engimon {
         return isDead;
     }
 
-    public void interact() {
-        Logger.print(this.species.interact());
+    public String interact() {
+        return this.species.interact();
     }
 
-    public void showDetails() {
-        Logger.print("=======ENGIMON'S DETAIL=======");
-        Logger.print("ID Engimon : " + this.idEngimon);
-        Logger.print("Nama : " + this.name);
-        Logger.print("Species : " + this.species.getSpecies());
-        Logger.print("Elements : "
-                + this.species.getElements().stream().map(e -> e.name()).collect(Collectors.joining(", ")));
-        Logger.print("Level : " + this.level);
-        Logger.print("EXP : (" + this.exp + "/100)");
-        Logger.print("Total EXP : " + this.cumExp);
-        Logger.print("Unique Skill : " + this.species.getUniqueSkill().skillName);
+    public String details() {
+        String s = "";
+        s = s + ("=======ENGIMON'S DETAIL=======\n");
+        s = s + ("ID Engimon : " + this.idEngimon + "\n");
+        s = s + ("Nama : " + this.name + "\n");
+        s = s + ("Species : " + this.species.getSpecies() + "\n");
+        s = s + ("Elements : "
+                + this.species.getElements().stream().map(e -> e.name()).collect(Collectors.joining(", ")) + "\n");
+        s = s + ("Level : " + this.level + "\n");
+        s = s + ("EXP : (" + this.exp + "/100)\n");
+        s = s + ("Total EXP : " + this.cumExp + "\n");
+        s = s + ("Unique Skill : " + this.species.getUniqueSkill().skillName + "\n");
 
         // TODO: Print skill level, mastery level, etc.
-        Logger.print("Skills : " + this.getSkills().stream().map(s -> s.skillName).collect(Collectors.joining(", ")));
+        s = s + ("Skills : " + this.getSkills().stream().map(S -> S.skillName).collect(Collectors.joining(", ")) + "\n");
 
         if (this.parents != null && this.parents.size() == 2) {
-            Logger.print("Parents : " + this.parents.entrySet().stream()
-                    .map(entry -> entry.getKey() + " - " + entry.getValue()).collect(Collectors.joining(" <3 ")));
+            s = s + ("Parents : " + this.parents.entrySet().stream()
+                    .map(entry -> entry.getKey() + " - " + entry.getValue()).collect(Collectors.joining(" <3 ")) + "\n");
         } else {
-            Logger.print("Parents : -");
+            s = s + ("Parents : -\n");
         }
 
-        Logger.print("==============================");
+        s = s + ("==============================\n");
+        return s;
     }
 
     public void faint() {
@@ -167,7 +169,11 @@ public class Engimon {
         }
         return false;
     }
-
+    
+    public String display()
+    {
+        return this.name+ " - " + this.species.getSpecies() + " / Lv. " + this.level + "\n";
+    }
     private boolean hasLearnt(Skill s) {
         return this.skills.contains(s);
     }

@@ -288,7 +288,6 @@ public class Util {
             throw new Exception("No enemy nearby!");
         }
 
-        enemy.showDetails();
         wildEngimons.remove(enemy);
         player.battle(enemy);
     }

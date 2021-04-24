@@ -75,12 +75,23 @@ public class Player implements Creature, InputProcessor {
         } catch (Exception err) {
             throw err;
         }
-
+        CHEAT();
         this.playerTexture = PlayerSprite.STANDING_SOUTH;
         this.state = PlayerState.STANDING;
         this.walkDir = null;
         this.lookDir = Direction.DOWN;
     }
+    private void CHEAT()
+    {
+        this.engimonList.insert(new Engimon("test", Species.get("Emberon"), 31));
+        try {
+            this.engimonList.get(0).learnSkill(SkillItem.TM01);
+        }
+        catch(Exception e)
+        {
+        }
+    }
+
 
     @Override
     public Position getPosition() { return pos; }
@@ -99,6 +110,26 @@ public class Player implements Creature, InputProcessor {
 
     public void switchActiveEngimon(int idx) {
         this.activeEngimonIdx = idx;
+    }
+
+    public ArrayList<String> getAllEngimonDisplayText()
+    {
+        ArrayList<String> res = new ArrayList<>();
+        for(int i = 0; i<engimonList.size(); i++){
+            Engimon curr = engimonList.get(i);
+            res.add(curr.display());
+        }
+        return res;
+    }
+
+    public ArrayList<String> getAllEngimonDetail()
+    {
+        ArrayList<String> res = new ArrayList<>();
+        for(int i = 0; i<engimonList.size(); i++){
+            Engimon curr = engimonList.get(i);
+            res.add(curr.details());
+        }
+        return res;
     }
 
     public void showAllEngimon() {

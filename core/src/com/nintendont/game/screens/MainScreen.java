@@ -27,6 +27,7 @@ import com.nintendont.game.maps.MapLoader;
 import com.nintendont.game.util.OnSelectHandler;
 import org.apache.batik.swing.gvt.Overlay;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class MainScreen implements Screen {
@@ -34,6 +35,7 @@ public class MainScreen implements Screen {
 
     private DialogueScreen dialogueScreen;
     private OptionScreen optionBox;
+    private OptionScreen engimonInventory;
 
     private OverlayScreen activeScreen;
 
@@ -109,7 +111,7 @@ public class MainScreen implements Screen {
                     starter,
                     mapLoader
             );
-            starter.showDetails();
+            starter.details();
             Gdx.input.setInputProcessor(player);
         } catch (Exception e) {
             System.out.println("Failed to create player");
@@ -148,13 +150,26 @@ public class MainScreen implements Screen {
         root.setFillParent(true);
         uiStage.addActor(root);
 
+        ArrayList<String> details = player.getAllEngimonDetail();
+
+        ArrayList<OnSelectHandler> detailHandler = new ArrayList<OnSelectHandler>();
+        for(int i = 0; i<details.size(); i++){
+            String temp = details.get(i);
+            detailHandler.add(() -> {
+                dialog(temp);
+            });
+        }
+
+        engimonInventory = new OptionScreen(player.getAllEngimonDisplayText(), detailHandler);
+
         //onSelectHandler for optionBox
         OnSelectHandler onBattle = () -> {dummyFunction("Battle");};
         OnSelectHandler onInteract = () -> {
             hideDialog();
             handleInteract(player.getLookDir());
         };
-        OnSelectHandler onEngimon = () -> {dummyFunction("Engimon");};
+
+        OnSelectHandler onEngimon = () -> {switchOverlayScreen(engimonInventory);};
         OnSelectHandler onSwitchEngimon = () -> {dummyFunction("Switch Engimon");};
         OnSelectHandler onSkillItem = () -> {dummyFunction("Skill item...");};
         OnSelectHandler onCancel = () -> {hideDialog();};
@@ -165,8 +180,10 @@ public class MainScreen implements Screen {
                 Arrays.asList(onBattle,onInteract, onEngimon, onSwitchEngimon, onSkillItem, onCancel)
         );
 
-        addBottomOverlay(dialogueScreen);
+        root.clearChildren();
+//        addBottomOverlay(dialogueScreen);
         addRightOverlay(optionBox);
+//        addRightOverlay(engimonInventory);
 
         activeScreen = optionBox;
     }
@@ -188,6 +205,8 @@ public class MainScreen implements Screen {
     }
 
     public void openController(){
+        root.clearChildren();
+        root.add(optionBox);
         activeScreen.close();
         activeScreen = optionBox;
         activeScreen.toggle();
@@ -201,13 +220,30 @@ public class MainScreen implements Screen {
             System.out.println("BROKE!!!!!!!!");
             return;
         }
-        activeScreen = dialogueScreen;
-        activeScreen.open();
+
         if(mapLoader.isWalkable(pos.getX(), pos.getY(),dir.getDeltaX(), dir.getDeltaY())){
-            dialogueScreen.animateText("You can walk there!");
+            dialog("You can walk there!");
         }else{
-            dialogueScreen.animateText("You can't walk there!");
+//            dialogueScreen.animateText("You can't walk there!");
+            dialog("You can't walk there!");
         }
+    }
+
+    public void dialog(String str){
+        root.clearChildren();
+        addBottomOverlay(dialogueScreen);
+        activeScreen.close();
+        activeScreen = dialogueScreen;
+        dialogueScreen.animateText(str);
+        activeScreen.open();
+    }
+
+    public void switchOverlayScreen(OverlayScreen screen){
+        root.clearChildren();
+        root.add(screen);
+        activeScreen.close();
+        activeScreen = screen;
+        activeScreen.open();
     }
 
     public void dummyFunction(String str){
