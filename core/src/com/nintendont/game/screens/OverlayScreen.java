@@ -27,11 +27,11 @@ public class OverlayScreen extends Table {
 
     private Window pause;
     private Table popup;
-    private Skin mySkin = new Skin(Gdx.files.internal("Skin/glassy-ui.json"));
+    private Skin mySkin = new Skin(Gdx.files.internal("Skin/craftacular-ui.json"));
 
-    public OverlayScreen(Skin skin){
-        super(skin);
-        Texture bg = new Texture(Gdx.files.internal("Util/bg.png"));
+    public OverlayScreen(){
+        super(new Skin(Gdx.files.internal("Skin/craftacular-ui.json")));
+        Texture bg = new Texture(Gdx.files.internal("Util/ui-dialog.png"));
         TextureRegionDrawable temp = new TextureRegionDrawable(new TextureRegion(bg));
         this.setBackground(temp);
         textLabel = new Label("\n", mySkin);

@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.graphics.GL20;
@@ -41,6 +42,7 @@ public class StarterScreen implements Screen {
     };
     private int selectedEngimon;
 
+
     public StarterScreen(Game game) {
         this.game = game;
     }
@@ -53,12 +55,12 @@ public class StarterScreen implements Screen {
         int row_height = Gdx.graphics.getHeight() / ROW_SIZE;
         int col_width = Gdx.graphics.getWidth() / COLUMN_SIZE;
 
-        Skin mySkin = new Skin(Gdx.files.internal("Skin/glassy-ui.json"));
+        Skin mySkin = new Skin(Gdx.files.internal("Skin/craftacular-ui.json"));
 
         // Title
         titleLabel = new Label("Welcome to Nintendon't", mySkin);
         titleLabel.setColor(255, 0, 0, 1);
-        titleLabel.setSize(Gdx.graphics.getWidth(),row_height*1);
+        titleLabel.setSize(Gdx.graphics.getWidth(),row_height);
         titleLabel.setAlignment(Align.center);
         titleLabel.setPosition(
                 0,
@@ -194,6 +196,12 @@ public class StarterScreen implements Screen {
             }
         }.init(this));
 
+        ButtonGroup buttonGroup = new ButtonGroup(engimon1, engimon2, engimon3, engimon4, engimon5);
+        engimon1.setChecked(true);
+        buttonGroup.setMaxCheckCount(1);
+        buttonGroup.setMinCheckCount(1);
+        buttonGroup.setUncheckLast(true);
+
         // Engimon input name
         TextField engimonNameInput = new TextField("", mySkin);
         engimonNameInput.setSize(col_width * 3, row_height);
@@ -212,7 +220,7 @@ public class StarterScreen implements Screen {
         }.init(this));
 
         // Start Button
-        TextButton startBtn = new TextButton("Start", mySkin, "small");
+        TextButton startBtn = new TextButton("Start", mySkin);
         startBtn.setSize(col_width * 5, row_height);
         startBtn.setPosition(col_width * 4, row_height);
         startBtn.addListener(new InputListener(){

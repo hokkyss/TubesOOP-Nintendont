@@ -27,9 +27,9 @@ public class NintendontGame extends Game {
 			e.printStackTrace();
 		}
 
-//		StarterScreen starterScreen = new StarterScreen(this);
-		Engimon e1 = new Engimon("test", Species.get("Emberon"), 1);
-		MainScreen screen = new MainScreen(e1);
+		StarterScreen screen = new StarterScreen(this);
+//		Engimon e1 = new Engimon("test", Species.get("Emberon"), 1);
+//		MainScreen screen = new MainScreen(e1);
 		setScreen(screen);
 	}
 

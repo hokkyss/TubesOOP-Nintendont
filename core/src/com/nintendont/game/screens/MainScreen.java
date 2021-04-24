@@ -39,6 +39,7 @@ public class MainScreen implements Screen {
     private boolean isOverlayOpen = false;
 
     private int uiScale = 1;
+    private OptionScreen optionBox;
 
     private OrthographicCamera camera;
 
@@ -76,6 +77,19 @@ public class MainScreen implements Screen {
         mapLoader.getBatch().end();
 
         uiStage.draw();
+        /*
+         * root = new Table();
+         * root.setFillParent(true);
+         * uiStage.addActor(root);
+         * Table dialogTable = new Table();
+         * optionBox = new OptionScreen(new Skin(Gdx.files.internal("...."));
+         * optionBox.setVisible(false);
+         * optionBox.add("Battle");
+         * optionBox.add("Interact");
+         * optionBox.add("Engimon");
+         * optionBox.add("Switch Engimon");
+         * optionBox.add("Skill Item");
+         */
     }
 
     @Override
@@ -95,7 +109,7 @@ public class MainScreen implements Screen {
         mapLoader = new MapLoader();
         camera = new OrthographicCamera();
         Skin skin = new Skin(Gdx.files.internal("Skin/glassy-ui.json"));
-        overlayScreen = new OverlayScreen(skin);
+        overlayScreen = new OverlayScreen();
 
         try {
             player = new Player(
@@ -141,9 +155,7 @@ public class MainScreen implements Screen {
         root = new Table();
         root.setFillParent(true);
         uiStage.addActor(root);
-
-        Skin skin = new Skin(Gdx.files.internal("Skin/glassy-ui.json"));
-        overlay = new OverlayScreen(skin);
+        overlay = new OverlayScreen();
         overlay.setSize(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/5);
         overlay.animateText("This is a test string\nAlso this one");
         overlay.setVisible(isOverlayOpen);
