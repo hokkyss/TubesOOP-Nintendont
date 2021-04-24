@@ -19,14 +19,14 @@ public class OverlayScreen extends Table {
 
     private Label textLabel;
 
+    private boolean terlihat;
+
     private enum STATE {
         ANIMATING,
         IDLE,
         ;
     }
 
-    private Window pause;
-    private Table popup;
     private Skin mySkin = new Skin(Gdx.files.internal("Skin/craftacular-ui.json"));
 
     public OverlayScreen(){
@@ -83,4 +83,18 @@ public class OverlayScreen extends Table {
     public float getPrefHeight(){
         return 150f;
     }
+
+    public void open(){
+        this.setVisible(true);
+    }
+
+    public void close()
+    {
+        this.setVisible(false);
+    }
+
+    public void toggle(){
+        this.setVisible(!this.isVisible());
+    }
+
 }

@@ -377,9 +377,11 @@ public class Player implements Creature, InputProcessor {
             dy = -1;
             this.lookDir = Direction.DOWN;
         }
-        screen.hideDialog();
+
         if (keycode == Input.Keys.SPACE){
-            screen.toggleDialog(lookDir);
+            screen.handleInteract(lookDir);
+        }else{
+            screen.hideDialog();
         }
 
         if (mapLoader.isWalkable(this.pos.getX(),this.pos.getY(),dx,dy)) {

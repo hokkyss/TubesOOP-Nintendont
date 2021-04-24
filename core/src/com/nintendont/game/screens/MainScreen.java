@@ -36,8 +36,6 @@ public class MainScreen implements Screen {
     private Stage uiStage;
     private Table root;
     private OverlayScreen overlay;
-    private boolean isOverlayOpen = false;
-
     private int uiScale = 1;
     private OptionScreen optionBox;
 
@@ -156,9 +154,7 @@ public class MainScreen implements Screen {
         root.setFillParent(true);
         uiStage.addActor(root);
         overlay = new OverlayScreen();
-//        overlay.setSize(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/5);
-        overlay.animateText("This is a test string\nAlso this one");
-        overlay.setVisible(isOverlayOpen);
+        overlay.close();
 
         root.add(overlay)
                 .expand()
@@ -167,7 +163,7 @@ public class MainScreen implements Screen {
                 ;
     }
 
-    public void toggleDialog(Direction dir){
+    public void handleInteract(Direction dir){
         Position pos = player.getPosition();
         if(dir == null){
             System.out.println("BROKE!!!!!!!!");
@@ -178,11 +174,10 @@ public class MainScreen implements Screen {
         }else{
             overlay.animateText("You can't walk there!");
         }
-        isOverlayOpen = !isOverlayOpen;
-        overlay.setVisible(isOverlayOpen);
+        overlay.toggle();
     }
 
     public void hideDialog(){
-        overlay.setVisible(false);
+        overlay.close();
     }
 }
