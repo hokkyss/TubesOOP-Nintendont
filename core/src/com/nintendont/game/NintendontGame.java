@@ -12,6 +12,7 @@ import com.nintendont.game.entities.PlayerSprite;
 import com.nintendont.game.entities.Species;
 import com.nintendont.game.screens.MainScreen;
 import com.nintendont.game.entities.Player;
+import com.nintendont.game.screens.StarterScreen;
 //import com.nintendont.game.entities.Util;
 
 
@@ -26,6 +27,11 @@ public class NintendontGame extends Game {
 			e.printStackTrace();
 		}
 
+		StarterScreen starterScreen = new StarterScreen(this);
+		setScreen(starterScreen);
+	}
+
+	public void GoToMainScreen() {
 		setScreen(new MainScreen());
 	}
 

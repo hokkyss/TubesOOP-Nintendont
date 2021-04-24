@@ -24,11 +24,16 @@ import com.nintendont.game.entities.PlayerSprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.nintendont.game.entities.Species;
 import com.nintendont.game.maps.MapLoader;
+import org.apache.batik.swing.gvt.Overlay;
 
 public class MainScreen implements Screen {
     private MapLoader mapLoader;
+    private OverlayScreen overlayScreen;
 
     private Player player;
+
+    private Stage uiStage;
+//    private DialogueBox dialoguebox;
 
     private OrthographicCamera camera;
 
@@ -46,6 +51,9 @@ public class MainScreen implements Screen {
         // draw player
         player.update(delta);
         player.draw(mapLoader.getBatch());
+
+        // draw dialogbox
+        overlayScreen.open();
 
         // move camera to player's center
         Vector3 v = new Vector3(
@@ -68,12 +76,13 @@ public class MainScreen implements Screen {
 
     @Override
     public void show() {
-        Sounds.defaultMusic.setLooping(true);
-        Sounds.defaultMusic.setVolume(0.15f);
-        Sounds.defaultMusic.play();
+//        Sounds.defaultMusic.setLooping(true);
+//        Sounds.defaultMusic.setVolume(0.15f);
+//        Sounds.defaultMusic.play();
 
         mapLoader = new MapLoader();
         camera = new OrthographicCamera();
+        overlayScreen = new OverlayScreen();
 
         try {
             player = new Player(
