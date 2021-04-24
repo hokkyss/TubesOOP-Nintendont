@@ -88,6 +88,11 @@ public class Player implements Creature, InputProcessor {
     @Override
     public void setPosition(Position p) { pos = p; }
 
+    public Direction getLookDir()
+    {
+        return this.lookDir;
+    }
+
     public Engimon getActiveEngimon() {
         return this.engimonList.get(this.activeEngimonIdx);
     }
@@ -395,7 +400,7 @@ public class Player implements Creature, InputProcessor {
                 this.lookDir = Direction.DOWN;
             }
             if (keycode == Input.Keys.SPACE){
-                screen.handleInteract(lookDir);
+                screen.openController();
             }else{
                 screen.hideDialog();
             }

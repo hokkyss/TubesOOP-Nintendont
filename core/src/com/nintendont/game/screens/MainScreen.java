@@ -80,19 +80,6 @@ public class MainScreen implements Screen {
         mapLoader.getBatch().end();
 
         uiStage.draw();
-        /*
-         * root = new Table();
-         * root.setFillParent(true);
-         * uiStage.addActor(root);
-         * Table dialogTable = new Table();
-         * optionBox = new OptionScreen(new Skin(Gdx.files.internal("...."));
-         * optionBox.setVisible(false);
-         * optionBox.add("Battle");
-         * optionBox.add("Interact");
-         * optionBox.add("Engimon");
-         * optionBox.add("Switch Engimon");
-         * optionBox.add("Skill Item");
-         */
     }
 
     @Override
@@ -162,16 +149,20 @@ public class MainScreen implements Screen {
         uiStage.addActor(root);
 
         //onSelectHandler for optionBox
-        OnSelectHandler handleBattle = () -> {dummyFunction("Battle");};
-        OnSelectHandler handleInteract = () -> {dummyFunction("Interact");};
-        OnSelectHandler handleEngimon = () -> {dummyFunction("Engimon");};
-        OnSelectHandler handleSwitchEngimon = () -> {dummyFunction("Switch Engimon");};
-        OnSelectHandler handleSkillItem = () -> {dummyFunction("Skill item...");};
+        OnSelectHandler onBattle = () -> {dummyFunction("Battle");};
+        OnSelectHandler onInteract = () -> {
+            hideDialog();
+            handleInteract(player.getLookDir());
+        };
+        OnSelectHandler onEngimon = () -> {dummyFunction("Engimon");};
+        OnSelectHandler onSwitchEngimon = () -> {dummyFunction("Switch Engimon");};
+        OnSelectHandler onSkillItem = () -> {dummyFunction("Skill item...");};
+        OnSelectHandler onCancel = () -> {hideDialog();};
 
         dialogueScreen = new DialogueScreen();
         optionBox = new OptionScreen(
-                Arrays.asList("Battle","Interact","Engimon","Switch Engimon", "Skill Items"),
-                Arrays.asList(handleBattle,handleInteract, handleEngimon, handleSwitchEngimon, handleSkillItem)
+                Arrays.asList("Battle","Interact","Engimon","Switch Engimon", "Skill Items", "Cancel"),
+                Arrays.asList(onBattle,onInteract, onEngimon, onSwitchEngimon, onSkillItem, onCancel)
         );
 
         addBottomOverlay(dialogueScreen);
@@ -196,18 +187,27 @@ public class MainScreen implements Screen {
         ;
     }
 
+    public void openController(){
+        activeScreen.close();
+        activeScreen = optionBox;
+        activeScreen.toggle();
+    }
+
     public void handleInteract(Direction dir){
+        System.out.println("SINI BANG");
         Position pos = player.getPosition();
+
         if(dir == null){
             System.out.println("BROKE!!!!!!!!");
             return;
         }
+        activeScreen = dialogueScreen;
+        activeScreen.open();
         if(mapLoader.isWalkable(pos.getX(), pos.getY(),dir.getDeltaX(), dir.getDeltaY())){
             dialogueScreen.animateText("You can walk there!");
         }else{
             dialogueScreen.animateText("You can't walk there!");
         }
-        activeScreen.toggle();
     }
 
     public void dummyFunction(String str){
