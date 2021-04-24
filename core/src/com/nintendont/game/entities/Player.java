@@ -70,7 +70,7 @@ public class Player implements Creature, InputProcessor {
             this.engimonList = new Inventory<Engimon>();
             this.skillItemList = new Inventory<SkillItem>();
             this.pos = new Position(STARTING_X, STARTING_Y);
-            this.activeEngimonPos = new Position(0, 0);
+            this.activeEngimonPos = new Position(STARTING_X, STARTING_Y);
             this.engimonList.insert(starter);
         } catch (Exception err) {
             throw err;
@@ -437,9 +437,8 @@ public class Player implements Creature, InputProcessor {
             }
         }
 
-
-
-        if (mapLoader.isWalkable(this.pos.getX(),this.pos.getY(),dx,dy)) {
+        if (mapLoader.isWalkable(this.pos.getX(),this.pos.getY(),dx,dy, true)) {
+            this.activeEngimonPos = new Position(this.pos.getX(), this.pos.getY());
             initializeMove(this.pos.getX(), this.pos.getY(), dx, dy);
             this.pos.move(dx,dy);
         } else {
