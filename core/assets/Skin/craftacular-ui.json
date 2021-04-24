@@ -30,6 +30,62 @@ com.badlogic.gdx.graphics.Color: {
 		a: 1
 	}
 }
+com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable: {
+	test1: {
+		patch: test1
+		minWidth: 250
+		minHeight: 100
+		leftWidth: 16
+		rightWidth: 16
+		topHeight: 16
+		bottomHeight: 16
+	}
+	test2: {
+		patch: test2
+		minWidth: 250
+		minHeight: 100
+		leftWidth: 16
+		rightWidth: 16
+		topHeight: 16
+		bottomHeight: 16
+	}
+	test3: {
+		patch: test3
+		minWidth: 250
+		minHeight: 100
+		leftWidth: 16
+		rightWidth: 16
+		topHeight: 16
+		bottomHeight: 16
+	}
+	test4: {
+		patch: test4
+		minWidth: 250
+		minHeight: 100
+		leftWidth: 24
+		rightWidth: 22
+		topHeight: 24
+		bottomHeight: 22
+	}
+	choice 28: {
+		patch: choice 28
+		minWidth: 250
+		minHeight: 100
+		leftWidth: 24
+		rightWidth: 20
+		topHeight: 24
+		bottomHeight: 20
+	}
+	choice 9: {
+		patch: choice 9
+		minWidth: 250
+		minHeight: 100
+		leftWidth: 22
+		rightWidth: 22
+		topHeight: 22
+		bottomHeight: 22
+	}
+}
 com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
 	gray: {
 		name: white
@@ -57,38 +113,38 @@ com.badlogic.gdx.scenes.scene2d.ui.ImageButton$ImageButtonStyle: {
 		disabled: button-disabled
 	}
 	starterEngimon1: {
-		up: button
-		over: window
-		checked: window
-		checkedOver: window
+		up: test1
+		over: choice 9
+		checked: choice 9
+		checkedOver: choice 9
 		disabled: button-disabled
 	}
 	starterEngimon2: {
-		up: button
-		over: window
-		checked: window
-		checkedOver: window
+		up: test1
+		over: choice 9
+		checked: choice 9
+		checkedOver: choice 9
 		disabled: button-disabled
 	}
 	starterEngimon3: {
-		up: button
-		over: window
-		checked: window
-		checkedOver: window
+		up: test1
+		over: choice 9
+		checked: choice 9
+		checkedOver: choice 9
 		disabled: button-disabled
 	}
 	starterEngimon4: {
-		up: button
-		over: window
-		checked: window
-		checkedOver: window
+		up: test1
+		over: choice 9
+		checked: choice 9
+		checkedOver: choice 9
 		disabled: button-disabled
 	}
 	starterEngimon5: {
-		up: button
-		over: window
-		checked: window
-		checkedOver: window
+		up: test1
+		over: choice 9
+		checked: choice 9
+		checkedOver: choice 9
 		disabled: button-disabled
 	}
 }
