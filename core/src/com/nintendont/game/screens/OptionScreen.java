@@ -37,16 +37,37 @@ public class OptionScreen extends Table{
         this.uiContainer.add(arrow).expand().align(Align.left);
         this.uiContainer.add(optionLabel).expand().align(Align.left).space(5f);
         this.uiContainer.row();
+
+        changeArrowVisibility();
+    }
+    private void changeArrowVisibility()
+    {
+        for(int i = 0; i < this.arrows.size(); i++)
+        {
+            this.arrows.get(i).setVisible(i == this.selectedIndex);
+        }
     }
 
     public void moveUp()
     {
-
+        if(this.selectedIndex == 0)
+        {
+            this.selectedIndex = this.arrows.size() - 1;
+        }
+        else
+            this.selectedIndex--;
+        changeArrowVisibility();
     }
 
     public void moveDown()
     {
-
+        if(this.selectedIndex == this.arrows.size() - 1)
+        {
+            this.selectedIndex = 0;
+        }
+        else
+            this.selectedIndex++;
+        changeArrowVisibility();
     }
 
     public int getSelected()
@@ -56,6 +77,9 @@ public class OptionScreen extends Table{
 
     public void clearChoices()
     {
-
+        this.uiContainer.clearChildren();
+        this.arrows.clear();
+        this.options.clear();
+        this.selectedIndex = 0;
     }
 }

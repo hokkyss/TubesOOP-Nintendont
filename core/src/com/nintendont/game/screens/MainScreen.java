@@ -34,7 +34,7 @@ public class MainScreen implements Screen {
     private Engimon starter;
 
     private Stage uiStage;
-//    private DialogueBox dialoguebox;
+    private OptionScreen optionBox;
 
     private OrthographicCamera camera;
 
@@ -70,6 +70,19 @@ public class MainScreen implements Screen {
         camera.update();
 
         mapLoader.getBatch().end();
+
+        /*
+         * root = new Table();
+         * root.setFillParent(true);
+         * uiStage.addActor(root);
+         * Table dialogTable = new Table();
+         * optionBox = new OptionScreen(new Skin(Gdx.files.internal("...."));
+         * optionBox.setVisible(false);
+         * optionBox.add("Battle");
+         * optionBox.add("Interact");
+         * optionBox.add("Skill Items");
+         * optionBox.add("Engimon");
+         */
     }
 
     @Override
