@@ -3,6 +3,9 @@ package com.nintendont.game.screens;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.nintendont.game.GameConfig;
 import com.nintendont.game.NintendontGame;
@@ -33,9 +36,16 @@ public class MainScreen implements Screen {
     private Player player;
 
     private Stage uiStage;
-//    private DialogueBox dialoguebox;
+    private Table root;
+    private OverlayScreen overlay;
+
+    private int uiScale = 1;
 
     private OrthographicCamera camera;
+
+    public MainScreen(){
+        initUI();
+    }
 
     @Override
     public void render(float delta) {
@@ -53,7 +63,7 @@ public class MainScreen implements Screen {
         player.draw(mapLoader.getBatch());
 
         // draw dialogbox
-        overlayScreen.open();
+        uiStage.act(delta);
 
         // move camera to player's center
         Vector3 v = new Vector3(
@@ -65,6 +75,8 @@ public class MainScreen implements Screen {
         camera.update();
 
         mapLoader.getBatch().end();
+
+        uiStage.draw();
     }
 
     @Override
@@ -72,6 +84,7 @@ public class MainScreen implements Screen {
         camera.viewportWidth = width;
         camera.viewportHeight = height;
         camera.update();
+        uiStage.getViewport().update(width/uiScale, height/uiScale, true);
     }
 
     @Override
@@ -82,7 +95,8 @@ public class MainScreen implements Screen {
 
         mapLoader = new MapLoader();
         camera = new OrthographicCamera();
-        overlayScreen = new OverlayScreen();
+        Skin skin = new Skin(Gdx.files.internal("Skin/glassy-ui.json"));
+        overlayScreen = new OverlayScreen(skin);
 
         try {
             player = new Player(
@@ -114,5 +128,26 @@ public class MainScreen implements Screen {
     @Override
     public void hide() {
         dispose();
+    }
+
+
+    private void initUI(){
+        uiStage = new Stage(new ScreenViewport());
+        uiStage.getViewport().update(Gdx.graphics.getWidth()/uiScale, Gdx.graphics.getHeight()/uiScale);
+
+        root = new Table();
+        root.setFillParent(true);
+        uiStage.addActor(root);
+
+        Skin skin = new Skin(Gdx.files.internal("Skin/glassy-ui.json"));
+        overlay = new OverlayScreen(skin);
+        overlay.setSize(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/5);
+        overlay.animateText("This is a test string\nAlso this one");
+
+        root.add(overlay)
+                .expand()
+                .align(Align.bottom)
+                .pad(8f)
+                ;
     }
 }
