@@ -64,8 +64,10 @@ public class Util {
                     add(row.getCell(3).toString());
                     add(row.getCell(4).toString());
                 }};
+                String pathBattleSprite = row.getCell(5).toString();
+                String pathIconSprite = row.getCell(6).toString();
 
-                Species s = new Species(name, elements, uniqueSkill, responses);
+                Species s = new Species(name, elements, uniqueSkill, responses, pathBattleSprite, pathIconSprite);
                 Species.listOfSpecies.add(s);
             }
             i++;
@@ -347,27 +349,29 @@ public class Util {
         return e1Power >= e2Power ? 1 : 2;
     }
 
-    public static void spawnWildEngimons() {
+    public static ArrayList<EngimonLiar> spawnWildEngimons() {
+        ArrayList<EngimonLiar> engLiar = new ArrayList<EngimonLiar>();
         Random rand = new Random();
-        wildEngimons.clear();
 
         for (int i = 0; i < MAX_WILD_ENGIMON; i++) {
             Species s = Species.listOfSpecies.get(rand.nextInt(Species.listOfSpecies.size()));
             ArrayList<Element> elements = s.getElements();
-            Position p = new Position(rand.nextInt(arrPeta[0].length), rand.nextInt(arrPeta.length));
+            Position p = new Position(rand.nextInt(64), rand.nextInt(64));
 
             boolean seaEngimon = elements.contains(Element.WATER);
             boolean grasslandEngimon = elements.contains(Element.GROUND) || elements.contains(Element.ELECTRIC);
             boolean mountainEngimon = elements.contains(Element.FIRE);
             boolean tundraEngimon = elements.contains(Element.ICE);
 
-            if (!isCellOccupied(p) &&
-                    ((seaEngimon && arrPeta[p.getY()][p.getX()] == 'o') ||
-                            (grasslandEngimon && arrPeta[p.getY()][p.getX()] == '-') ||
-                            (mountainEngimon && arrPeta[p.getY()][p.getX()] == 'A') ||
-                            (tundraEngimon && arrPeta[p.getY()][p.getX()] == 'T')))
-                wildEngimons.add(new EngimonLiar(s.getSpecies(), s, rand.nextInt(player.getActiveEngimon().getLevel()) + 1, p));
+//            if (!isCellOccupied(p) &&
+//                    ((seaEngimon && mapLoader.getTerrain ||
+//                            (grasslandEngimon && arrPeta[p.getY()][p.getX()] == '-') ||
+//                            (mountainEngimon && arrPeta[p.getY()][p.getX()] == 'A') ||
+//                            (tundraEngimon && arrPeta[p.getY()][p.getX()] == 'T')))
+//                engLiar.add(new EngimonLiar(s.getSpecies(), s, rand.nextInt(player.getActiveEngimon().getLevel()) + 1, p));
         }
+
+        return engLiar;
     }
 
     public static EngimonLiar getEngimonInCell(Position p) {

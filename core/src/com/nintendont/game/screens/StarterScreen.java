@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
@@ -22,6 +23,8 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.nintendont.game.entities.Engimon;
 import com.nintendont.game.entities.Species;
+
+import java.util.Objects;
 
 public class StarterScreen implements Screen {
     private Stage stage;
@@ -58,7 +61,7 @@ public class StarterScreen implements Screen {
         Skin mySkin = new Skin(Gdx.files.internal("Skin/craftacular-ui.json"));
 
         // Title
-        titleLabel = new Label("Welcome to Nintendon't", mySkin);
+        titleLabel = new Label("Welcome to Nintendon't, pick your starter engimon!", mySkin);
         titleLabel.setColor(255, 0, 0, 1);
         titleLabel.setSize(Gdx.graphics.getWidth(),row_height);
         titleLabel.setAlignment(Align.center);
@@ -67,10 +70,10 @@ public class StarterScreen implements Screen {
                 Gdx.graphics.getHeight()-row_height*2);
 
         // Engimon Button 1
-        ImageButton engimon1 = new ImageButton(mySkin);
+        ImageButton engimon1 = new ImageButton(mySkin, "starterEngimon1");
         engimon1.setSize(col_width*3, row_height*2);
-        engimon1.getStyle().imageUp = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("cat.jpg"))));
-        engimon1.getStyle().imageDown = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("badlogic.jpg"))));
+        engimon1.getStyle().imageUp = getBattleSprite(starterEngimon[0]);
+        engimon1.getStyle().imageDown = getBattleSprite(starterEngimon[0]);
         engimon1.setPosition(col_width,Gdx.graphics.getHeight()-row_height*5);
         engimon1.addListener(new InputListener(){
             private StarterScreen screen;
@@ -93,10 +96,10 @@ public class StarterScreen implements Screen {
         }.init(this));
 
         // Engimon Button 2
-        ImageButton engimon2 = new ImageButton(mySkin);
+        ImageButton engimon2 = new ImageButton(mySkin, "starterEngimon2");
         engimon2.setSize(col_width*3, row_height*2);
-        engimon2.getStyle().imageUp = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("cat.jpg"))));
-        engimon2.getStyle().imageDown = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("badlogic.jpg"))));
+        engimon2.getStyle().imageUp = getBattleSprite(starterEngimon[1]);
+        engimon2.getStyle().imageDown = getBattleSprite(starterEngimon[1]);
         engimon2.setPosition(col_width*5,Gdx.graphics.getHeight()-row_height*5);
         engimon2.addListener(new InputListener(){
             private StarterScreen screen;
@@ -119,10 +122,10 @@ public class StarterScreen implements Screen {
         }.init(this));
 
         // Engimon Button 3
-        ImageButton engimon3 = new ImageButton(mySkin);
+        ImageButton engimon3 = new ImageButton(mySkin, "starterEngimon3");
         engimon3.setSize(col_width*3, row_height*2);
-        engimon3.getStyle().imageUp = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("cat.jpg"))));
-        engimon3.getStyle().imageDown = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("badlogic.jpg"))));
+        engimon3.getStyle().imageUp = getBattleSprite(starterEngimon[2]);
+        engimon3.getStyle().imageDown = getBattleSprite(starterEngimon[2]);
         engimon3.setPosition(col_width * 9,Gdx.graphics.getHeight()-row_height*5);
         engimon3.addListener(new InputListener(){
             private StarterScreen screen;
@@ -145,10 +148,10 @@ public class StarterScreen implements Screen {
         }.init(this));
 
         // Engimon Button 4
-        ImageButton engimon4 = new ImageButton(mySkin);
+        ImageButton engimon4 = new ImageButton(mySkin, "starterEngimon4");
         engimon4.setSize(col_width*3, row_height*2);
-        engimon4.getStyle().imageUp = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("cat.jpg"))));
-        engimon4.getStyle().imageDown = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("badlogic.jpg"))));
+        engimon4.getStyle().imageUp = getBattleSprite(starterEngimon[3]);
+        engimon4.getStyle().imageDown = getBattleSprite(starterEngimon[3]);
         engimon4.setPosition(col_width*3,Gdx.graphics.getHeight()-row_height*8);
         engimon4.addListener(new InputListener(){
             private StarterScreen screen;
@@ -171,10 +174,10 @@ public class StarterScreen implements Screen {
         }.init(this));
 
         // Engimon Button 5
-        ImageButton engimon5 = new ImageButton(mySkin);
+        ImageButton engimon5 = new ImageButton(mySkin, "starterEngimon5");
         engimon5.setSize(col_width*3, row_height*2);
-        engimon5.getStyle().imageUp = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("cat.jpg"))));
-        engimon5.getStyle().imageDown = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("badlogic.jpg"))));
+        engimon5.getStyle().imageUp = getBattleSprite(starterEngimon[4]);
+        engimon5.getStyle().imageDown = getBattleSprite(starterEngimon[4]);
         engimon5.setPosition(col_width * 7,Gdx.graphics.getHeight()-row_height*8);
         engimon5.addListener(new InputListener(){
             private StarterScreen screen;
@@ -210,7 +213,6 @@ public class StarterScreen implements Screen {
             private StarterScreen screen;
             @Override
             public void keyTyped(TextField textField, char key) {
-                System.out.println(key);
                 this.screen.setEngimonName(textField.getText());
             }
             private TextFieldListener init(StarterScreen screen){
@@ -261,6 +263,17 @@ public class StarterScreen implements Screen {
         stage.addActor(startBtn);
     }
 
+    private TextureRegionDrawable getBattleSprite(String speciesName) {
+        return new TextureRegionDrawable(
+                new TextureRegion(
+                        new Texture(
+                                Objects.requireNonNull(Species.get(speciesName))
+                                        .getPathBattleSprite()
+                        )
+                )
+        );
+    }
+
     public void GoToMainScreen(Engimon starter) {
         this.game.setScreen(new MainScreen(starter));
     }
@@ -277,7 +290,11 @@ public class StarterScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        stage.act();
+
+        stage.act(Gdx.graphics.getDeltaTime());
+        stage.getBatch().begin();
+        stage.getBatch().draw(new Texture(Gdx.files.internal("Engimon/000.png")), 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        stage.getBatch().end();
         stage.draw();
     }
 

@@ -56,6 +56,41 @@ com.badlogic.gdx.scenes.scene2d.ui.ImageButton$ImageButtonStyle: {
 		checkedOver: window
 		disabled: button-disabled
 	}
+	starterEngimon1: {
+		up: button
+		over: window
+		checked: window
+		checkedOver: window
+		disabled: button-disabled
+	}
+	starterEngimon2: {
+		up: button
+		over: window
+		checked: window
+		checkedOver: window
+		disabled: button-disabled
+	}
+	starterEngimon3: {
+		up: button
+		over: window
+		checked: window
+		checkedOver: window
+		disabled: button-disabled
+	}
+	starterEngimon4: {
+		up: button
+		over: window
+		checked: window
+		checkedOver: window
+		disabled: button-disabled
+	}
+	starterEngimon5: {
+		up: button
+		over: window
+		checked: window
+		checkedOver: window
+		disabled: button-disabled
+	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton$ImageTextButtonStyle: {
 	default: {

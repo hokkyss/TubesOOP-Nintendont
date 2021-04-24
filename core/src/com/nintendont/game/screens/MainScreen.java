@@ -25,6 +25,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.nintendont.game.maps.MapLoader;
 import org.apache.batik.swing.gvt.Overlay;
+import java.util.ArrayList;
+import com.nintendont.game.Util;
 
 public class MainScreen implements Screen {
     private MapLoader mapLoader;
@@ -45,6 +47,11 @@ public class MainScreen implements Screen {
 
     public MainScreen(Engimon starter) {
         this.starter = starter;
+        ArrayList<EngimonLiar> engLiar = Util.spawnWildEngimons();
+
+        for(EngimonLiar e : engLiar){
+            e.showDetails();
+        }
     }
 
     @Override
