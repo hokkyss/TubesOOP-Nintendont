@@ -13,6 +13,7 @@ import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.nintendont.game.entities.Direction;
+import com.nintendont.game.entities.Position;
 
 import java.util.Iterator;
 
@@ -78,6 +79,10 @@ public class MapLoader {
                     }
                 }
             }
+    }
+
+    public boolean isWalkable(int x, int y) {
+        return isWalkable(x - 1, y, 1, 0);
     }
 
     public boolean isWalkable(int currX, int currY, int dx, int dy) {

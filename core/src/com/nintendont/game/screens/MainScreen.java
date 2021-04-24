@@ -26,13 +26,15 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.nintendont.game.maps.MapLoader;
 import org.apache.batik.swing.gvt.Overlay;
 import java.util.ArrayList;
-import com.nintendont.game.Util;
+import com.nintendont.game.InGameHelper;
 
 public class MainScreen implements Screen {
-    private MapLoader mapLoader;
-    private OverlayScreen overlayScreen;
+    public OverlayScreen overlayScreen;
 
-    private Player player;
+    public static MapLoader mapLoader;
+    public static ArrayList<EngimonLiar> wildEngimons = new ArrayList<EngimonLiar>();
+    public static Player player;
+
     private Engimon starter;
 
     private Stage uiStage;
@@ -47,11 +49,6 @@ public class MainScreen implements Screen {
 
     public MainScreen(Engimon starter) {
         this.starter = starter;
-        ArrayList<EngimonLiar> engLiar = Util.spawnWildEngimons();
-
-        for(EngimonLiar e : engLiar){
-            e.showDetails();
-        }
     }
 
     @Override
@@ -68,6 +65,10 @@ public class MainScreen implements Screen {
         // draw player
         player.update(delta);
         player.draw(mapLoader.getBatch());
+
+        for (EngimonLiar e : this.wildEngimons) {
+            e.draw(mapLoader.getBatch());
+        }
 
         // draw dialogbox
         uiStage.act(delta);
@@ -126,6 +127,10 @@ public class MainScreen implements Screen {
             );
             starter.showDetails();
             Gdx.input.setInputProcessor(player);
+            InGameHelper.spawnWildEngimons();
+            for (EngimonLiar e : this.wildEngimons) {
+                e.showDetails();
+            }
         } catch (Exception e) {
             System.out.println("Failed to create player");
         }
