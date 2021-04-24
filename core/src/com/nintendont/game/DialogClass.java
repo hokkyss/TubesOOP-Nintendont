@@ -15,24 +15,13 @@ public class DialogClass extends ScreenAdapter {
         Gdx.input.setInputProcessor(stage = new Stage());
         skin = new Skin();
 
-        StarterDialog starterDialog = new StarterDialog("Test",skin);
-        starterDialog.show(stage);
-    }
-
-    public static class StarterDialog extends Dialog{
-
-        public StarterDialog(String title, Skin skin){
-            super(title,skin);
-        }
-
+        new Dialog("Test", skin)
         {
-            text("Test dialog");
-            button("Yes");
-            button("No");
-        }
-
-        public void result(Object object){
-        }
-
+            {
+                text("Test dialog");
+                button("YES");
+                button("NO");
+            }
+        }.show(stage);
     }
 }

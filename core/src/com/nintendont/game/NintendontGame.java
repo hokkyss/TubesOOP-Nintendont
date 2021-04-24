@@ -31,10 +31,6 @@ public class NintendontGame extends Game {
 		setScreen(starterScreen);
 	}
 
-	public void GoToMainScreen() {
-		setScreen(new MainScreen());
-	}
-
 	@Override
 	public void render () {
 		super.render();

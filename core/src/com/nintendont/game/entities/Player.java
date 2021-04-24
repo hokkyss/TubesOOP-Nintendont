@@ -23,12 +23,15 @@ import com.nintendont.game.comparators.SkillComparator;
 import com.nintendont.game.exceptions.*;
 import com.nintendont.game.maps.MapLoader;
 import com.nintendont.game.maps.Terrain;
+import com.nintendont.game.screens.MainScreen;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
 public class Player implements Creature, InputProcessor {
+    private MainScreen screen;
+
     private MapLoader mapLoader;
 
     private final int EXP_MULT = 15;
@@ -54,7 +57,8 @@ public class Player implements Creature, InputProcessor {
     private float animTimer;
     private float ANIM_TIME = 0.5f;
 
-    public Player(Engimon starter, MapLoader mapLoader) throws InputTooLargeException {
+    public Player(MainScreen screen, Engimon starter, MapLoader mapLoader) throws InputTooLargeException {
+        this.screen = screen;
         this.activeEngimonIdx = 0;
         // to access map properties
         this.mapLoader = mapLoader;

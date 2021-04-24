@@ -31,11 +31,16 @@ public class MainScreen implements Screen {
     private OverlayScreen overlayScreen;
 
     private Player player;
+    private Engimon starter;
 
     private Stage uiStage;
 //    private DialogueBox dialoguebox;
 
     private OrthographicCamera camera;
+
+    public MainScreen(Engimon starter) {
+        this.starter = starter;
+    }
 
     @Override
     public void render(float delta) {
@@ -86,9 +91,11 @@ public class MainScreen implements Screen {
 
         try {
             player = new Player(
-                    new Engimon("ember", Species.get("Emberon"), 1),
+                    this,
+                    starter,
                     mapLoader
             );
+            starter.showDetails();
             Gdx.input.setInputProcessor(player);
         } catch (Exception e) {
             System.out.println("Failed to create player");
