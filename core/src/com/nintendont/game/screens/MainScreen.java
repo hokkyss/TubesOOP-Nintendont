@@ -19,13 +19,10 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.Gdx;
 import com.nintendont.game.Sounds;
-import com.nintendont.game.entities.Engimon;
-import com.nintendont.game.entities.Player;
+import com.nintendont.game.entities.*;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.nintendont.game.entities.PlayerSprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.nintendont.game.entities.Species;
 import com.nintendont.game.maps.MapLoader;
 import org.apache.batik.swing.gvt.Overlay;
 
@@ -34,17 +31,19 @@ public class MainScreen implements Screen {
     private OverlayScreen overlayScreen;
 
     private Player player;
+    private Engimon starter;
 
     private Stage uiStage;
     private Table root;
     private OverlayScreen overlay;
+    private boolean isOverlayOpen = false;
 
     private int uiScale = 1;
 
     private OrthographicCamera camera;
 
-    public MainScreen(){
-        initUI();
+    public MainScreen(Engimon starter) {
+        this.starter = starter;
     }
 
     @Override
@@ -100,9 +99,11 @@ public class MainScreen implements Screen {
 
         try {
             player = new Player(
-                    new Engimon("ember", Species.get("Emberon"), 1),
+                    this,
+                    starter,
                     mapLoader
             );
+            starter.showDetails();
             Gdx.input.setInputProcessor(player);
         } catch (Exception e) {
             System.out.println("Failed to create player");
@@ -111,6 +112,8 @@ public class MainScreen implements Screen {
         mapLoader.initAnimationTiles();
 
         mapLoader.centerToScreen(camera);
+
+        initUI();
     }
 
     @Override
@@ -143,11 +146,31 @@ public class MainScreen implements Screen {
         overlay = new OverlayScreen(skin);
         overlay.setSize(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/5);
         overlay.animateText("This is a test string\nAlso this one");
+        overlay.setVisible(isOverlayOpen);
 
         root.add(overlay)
                 .expand()
                 .align(Align.bottom)
                 .pad(8f)
                 ;
+    }
+
+    public void toggleDialog(Direction dir){
+        Position pos = player.getPosition();
+        if(dir == null){
+            System.out.println("BROKE!!!!!!!!");
+            return;
+        }
+        if(mapLoader.isWalkable(pos.getX(), pos.getY(),dir.getDeltaX(), dir.getDeltaY())){
+            overlay.animateText("You can walk there!");
+        }else{
+            overlay.animateText("You can't walk there!");
+        }
+        isOverlayOpen = !isOverlayOpen;
+        overlay.setVisible(isOverlayOpen);
+    }
+
+    public void hideDialog(){
+        overlay.setVisible(false);
     }
 }

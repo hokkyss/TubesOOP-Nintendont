@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 
-public class OverlayScreen extends  Table {
+public class OverlayScreen extends Table {
 // extends InputAdapter
     private String targetText ="";
     private float animTimer = 0f;

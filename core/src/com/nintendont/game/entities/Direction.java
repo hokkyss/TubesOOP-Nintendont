@@ -35,4 +35,22 @@ public enum Direction {
         }
         return null;
     }
+
+    public int getDeltaX(){
+        if(this==Direction.LEFT){
+            return -1;
+        }else if(this==Direction.RIGHT){
+            return 1;
+        }
+        return 0;
+    }
+
+    public int getDeltaY(){
+        if(this==Direction.DOWN){
+            return -1;
+        }else if(this==Direction.UP){
+            return 1;
+        }
+        return 0;
+    }
 }

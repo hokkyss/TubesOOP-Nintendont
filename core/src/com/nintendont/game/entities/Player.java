@@ -23,12 +23,15 @@ import com.nintendont.game.comparators.SkillComparator;
 import com.nintendont.game.exceptions.*;
 import com.nintendont.game.maps.MapLoader;
 import com.nintendont.game.maps.Terrain;
+import com.nintendont.game.screens.MainScreen;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
 public class Player implements Creature, InputProcessor {
+    private MainScreen screen;
+
     private MapLoader mapLoader;
 
     private final int EXP_MULT = 15;
@@ -50,11 +53,13 @@ public class Player implements Creature, InputProcessor {
     private float worldX = STARTING_X, worldY = STARTING_Y;
     private int srcX, srcY;
     private int destX, destY;
+    private Direction lookDir;
     private Direction walkDir;
     private float animTimer;
     private float ANIM_TIME = 0.5f;
 
-    public Player(Engimon starter, MapLoader mapLoader) throws InputTooLargeException {
+    public Player(MainScreen screen, Engimon starter, MapLoader mapLoader) throws InputTooLargeException {
+        this.screen = screen;
         this.activeEngimonIdx = 0;
         // to access map properties
         this.mapLoader = mapLoader;
@@ -72,6 +77,7 @@ public class Player implements Creature, InputProcessor {
         this.playerTexture = PlayerSprite.STANDING_SOUTH;
         this.state = PlayerState.STANDING;
         this.walkDir = null;
+        this.lookDir = Direction.DOWN;
     }
 
     @Override
@@ -355,17 +361,25 @@ public class Player implements Creature, InputProcessor {
 
         int dx = 0;
         int dy = 0;
-        if (keycode == Input.Keys.LEFT) {
+        if (keycode == Input.Keys.LEFT || keycode == Input.Keys.A) {
             dx = -1;
+            this.lookDir = Direction.LEFT;
         }
-        if (keycode == Input.Keys.RIGHT) {
+        if (keycode == Input.Keys.RIGHT || keycode == Input.Keys.D) {
             dx = 1;
+            this.lookDir = Direction.RIGHT;
         }
-        if (keycode == Input.Keys.UP) {
+        if (keycode == Input.Keys.UP || keycode == Input.Keys.W) {
             dy = 1;
+            this.lookDir = Direction.UP;
         }
-        if (keycode == Input.Keys.DOWN) {
+        if (keycode == Input.Keys.DOWN || keycode == Input.Keys.S) {
             dy = -1;
+            this.lookDir = Direction.DOWN;
+        }
+        screen.hideDialog();
+        if (keycode == Input.Keys.SPACE){
+            screen.toggleDialog(lookDir);
         }
 
         if (mapLoader.isWalkable(this.pos.getX(),this.pos.getY(),dx,dy)) {
