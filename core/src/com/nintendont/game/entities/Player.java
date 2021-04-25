@@ -443,21 +443,29 @@ public class Player implements Creature, InputProcessor {
                 MainScreen.turn++;
                 dx = -1;
                 this.lookDir = Direction.LEFT;
+                if (MainScreen.turn % InGameHelper.RESPAWN_TURN == 0) InGameHelper.spawnWildEngimons();
+                else if (MainScreen.turn % InGameHelper.WILD_ENGIMON_MOVE_TURN == 0) InGameHelper.moveWildEngimon();
             }
             if (keycode == Input.Keys.RIGHT || keycode == Input.Keys.D) {
                 MainScreen.turn++;
                 dx = 1;
                 this.lookDir = Direction.RIGHT;
+                if (MainScreen.turn % InGameHelper.RESPAWN_TURN == 0) InGameHelper.spawnWildEngimons();
+                else if (MainScreen.turn % InGameHelper.WILD_ENGIMON_MOVE_TURN == 0) InGameHelper.moveWildEngimon();
             }
             if (keycode == Input.Keys.UP || keycode == Input.Keys.W) {
                 MainScreen.turn++;
                 dy = 1;
                 this.lookDir = Direction.UP;
+                if (MainScreen.turn % InGameHelper.RESPAWN_TURN == 0) InGameHelper.spawnWildEngimons();
+                else if (MainScreen.turn % InGameHelper.WILD_ENGIMON_MOVE_TURN == 0) InGameHelper.moveWildEngimon();
             }
             if (keycode == Input.Keys.DOWN || keycode == Input.Keys.S) {
                 MainScreen.turn++;
                 dy = -1;
                 this.lookDir = Direction.DOWN;
+                if (MainScreen.turn % InGameHelper.RESPAWN_TURN == 0) InGameHelper.spawnWildEngimons();
+                else if (MainScreen.turn % InGameHelper.WILD_ENGIMON_MOVE_TURN == 0) InGameHelper.moveWildEngimon();
             }
             if (keycode == Input.Keys.SPACE) {
                 screen.openController();
@@ -465,9 +473,6 @@ public class Player implements Creature, InputProcessor {
             } else {
                 screen.hideDialog();
             }
-
-            if (MainScreen.turn % InGameHelper.RESPAWN_TURN == 0) InGameHelper.spawnWildEngimons();
-            else if (MainScreen.turn % InGameHelper.WILD_ENGIMON_MOVE_TURN == 0) InGameHelper.moveWildEngimon();
 
             if (mapLoader.isWalkable(this.pos.getX(),this.pos.getY(),dx,dy, true)) {
                 initializeMove(this.pos.getX(), this.pos.getY(), dx, dy);

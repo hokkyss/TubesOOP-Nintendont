@@ -26,7 +26,7 @@ public class DialogueScreen extends OverlayScreen{
     public DialogueScreen(float w, float h){
         super(w, h);
         textLabel = new Label("\n", this.getSkin());
-        this.textLabel.setColor(0,0,0,1);
+        this.textLabel.setColor(0,0,20,1);
         this.add(textLabel).expand().align(Align.left).pad(30f);
     }
 

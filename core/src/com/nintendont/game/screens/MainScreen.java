@@ -272,6 +272,7 @@ public class MainScreen implements Screen {
     private void generateSetNameFor(int idx){
         OnSubmitHandler onSetName = (name) -> {
             player.setEngimonName(idx, (String) name);
+            Gdx.input.setInputProcessor(player);
             hideDialog();
         };
         nameInput = new InputScreen("Enter name : ", onSetName);
