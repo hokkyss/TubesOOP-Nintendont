@@ -1,6 +1,7 @@
 package com.nintendont.game;
 
 import com.nintendont.game.entities.*;
+import com.nintendont.game.exceptions.EngimonRanOutException;
 import com.nintendont.game.maps.*;
 import com.nintendont.game.screens.BattleScreen;
 import com.nintendont.game.screens.MainScreen;
@@ -40,7 +41,7 @@ public class InGameHelper {
     }
 
     // set the obj position to the new position if valid, also returns its old position
-    public static <C extends Creature> Position move(C obj, Direction dir) throws Exception {
+    public static <C extends Creature> Position moveCreature(C obj, Direction dir) throws Exception {
         int x = obj.getPosition().getX();
         int y = obj.getPosition().getY();
         int dx = 0;
@@ -66,13 +67,12 @@ public class InGameHelper {
         return p;
     }
 
-
     public static void moveWildEngimon() {
         for (EngimonLiar engimonLiar : MainScreen.wildEngimons) {
             Position currPos = null;
 
             try {
-                currPos = move(engimonLiar, Direction.randomize());
+                currPos = moveCreature(engimonLiar, Direction.randomize());
             } catch (Exception e) {}
 
             // if found a new position for wild engimon
@@ -124,6 +124,15 @@ public class InGameHelper {
                 player.getActiveEngimon(),
                 enemy
         );
+
+        if (MainScreen.player.engimonList.size() == 0) {
+            // lose
+            throw new EngimonRanOutException();
+        }
 //        player.battle(enemy);
+    }
+
+    public static double getBattlePower(Engimon engimon) {
+        return engimon.getLevel() * Util.getElmtAdv(engimon.getElements(), engimon.getElements()) + engimon.getSkillPower();
     }
 }

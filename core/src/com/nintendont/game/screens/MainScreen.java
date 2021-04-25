@@ -162,6 +162,14 @@ public class MainScreen implements Screen {
         dispose();
     }
 
+    public Stage getUiStage() {
+        return uiStage;
+    }
+
+    public DialogueScreen getDialogueScreen() {
+        return dialogueScreen;
+    }
+
     private void initOverlays(){
         uiStage = new Stage(new ScreenViewport());
         uiStage.getViewport().update(Gdx.graphics.getWidth()/uiScale, Gdx.graphics.getHeight()/uiScale);
@@ -188,7 +196,7 @@ public class MainScreen implements Screen {
         OnSelectHandler onEngimon = () -> {updateEngimonInventoryOverlay(); switchOverlayScreen(engimonInventory);};
         OnSelectHandler onSkillItem = () -> {updateSkillItemInventoryOverlay(); switchOverlayScreen(skillItemInventory);};
         OnSelectHandler onCheck = () -> {dialog(player.getActiveEngimon().interact());};
-        OnSelectHandler onSave = () -> {hideDialog();}
+        OnSelectHandler onSave = () -> {hideDialog();};
         OnSelectHandler onCancel = () -> {hideDialog();};
 
         dialogueScreen = new DialogueScreen();
