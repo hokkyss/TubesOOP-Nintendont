@@ -28,6 +28,7 @@ import com.nintendont.game.screens.MainScreen;
 import com.nintendont.game.screens.OptionScreen;
 import com.nintendont.game.screens.OverlayScreen;
 import com.nintendont.game.InGameHelper;
+import org.apache.xpath.operations.Bool;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -121,6 +122,7 @@ public class Player implements Creature, InputProcessor {
     {
         return this.engimonList.get(idx);
     }
+
     public Engimon getActiveEngimon() {
         return this.engimonList.get(this.activeEngimonIdx);
     }
@@ -259,13 +261,16 @@ public class Player implements Creature, InputProcessor {
         this.engimonList.get(idx).setName(name);
     }
 
-    public String breed(Engimon A, Engimon B) {
-        try {
-            if (A.getLevel() >= 4 && B.getLevel() >= 4) {
-                Scanner input = new Scanner(System.in);
-                Logger.print("Enter your new Engimon's name: ");
-                String childName = input.nextLine();
+    public Boolean isAbleToBreed(Engimon A, Engimon B) {
+        if (A.getLevel() >= 4 && B.getLevel() >= 4) {
+            return true;
+        }
+        return false;
+    }
 
+    public String breed(Engimon A, Engimon B, String childName) {
+        try {
+            if (isAbleToBreed(A, B)) {
                 ArrayList<Element> childElmt = inheritElmt(A, B);
                 Species childSpecies = new Species(A.getSpecies());
                 if (Util.isElementSame(childElmt, A.getElements())) {

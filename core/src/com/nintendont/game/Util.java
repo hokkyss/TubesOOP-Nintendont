@@ -160,15 +160,15 @@ public class Util {
         Logger.print("Successfully switched " + player.getActiveEngimon().getName() + " into active!");
     }
 
-    public static void breed(Scanner scanner) throws Exception {
-        int opt1,opt2;
-        player.showAllEngimon();
-        Logger.print("Choose 2 Engimon to breed");
-        opt1 = chooseEngimon(scanner);
-        opt2 = chooseEngimon(scanner);
-
-        player.breed(player.engimonList.invenList.get(opt1-1),player.engimonList.invenList.get(opt2-1));
-    }
+//    public static void breed(Scanner scanner) throws Exception {
+//        int opt1,opt2;
+//        player.showAllEngimon();
+//        Logger.print("Choose 2 Engimon to breed");
+//        opt1 = chooseEngimon(scanner);
+//        opt2 = chooseEngimon(scanner);
+//
+//        player.breed(player.engimonList.invenList.get(opt1-1),player.engimonList.invenList.get(opt2-1));
+//    }
 
     public static boolean isElementSame(ArrayList<Element> e1, ArrayList<Element> e2) {
         HashMap<Integer, Integer> counter = new HashMap<Integer, Integer>();

@@ -279,13 +279,28 @@ public class MainScreen implements Screen {
         switchOverlayScreen(nameInput);
     }
 
+    private void generateSetNameForBreed(Engimon a, Engimon b){
+        OnSubmitHandler onSetName = (name) -> {
+            dialog(player.breed(a, b, name.toString()));
+            Gdx.input.setInputProcessor(player);
+//            hideDialog();
+        };
+        nameInput = new InputScreen("Enter name for your new engimon : ", onSetName);
+        switchOverlayScreen(nameInput);
+    }
+
     private void generateEngimonBreedMenu(Engimon selected, int selectedIdx){
         ArrayList<OnSelectHandler> selectHandlers = new ArrayList<OnSelectHandler>();
+
         for(int i = 0; i<player.engimonList.size(); i++){
             if(i!=selectedIdx){
                 int idx = i;
                 selectHandlers.add(() -> {
-                    dialog(player.breed(selected, player.getEngimon(idx)));
+                    if(player.isAbleToBreed(selected, player.getEngimon(idx))){
+                        generateSetNameForBreed(selected, player.getEngimon(idx));
+                    }else{
+                        dialog("Parent level is not enough for breeding!");
+                    }
                 });
             }
         }
