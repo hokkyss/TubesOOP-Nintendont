@@ -53,8 +53,12 @@ public class Player implements Creature, InputProcessor {
 
     // Tweening player movement attribute
     private float worldX = STARTING_X, worldY = STARTING_Y;
+    private float activeEngimonWorldX = STARTING_X, activeEngimonWorldY = STARTING_Y + 1;
     private int srcX, srcY;
     private int destX, destY;
+    private int activeEngimonSrcX, activeEngimonSrcY;
+    private int activeEngimonDestX, activeEngimonDestY;
+    private int lastDx, lastDy;
     private Direction lookDir;
     private Direction walkDir;
     private float animTimer;
@@ -80,7 +84,11 @@ public class Player implements Creature, InputProcessor {
         this.state = PlayerState.STANDING;
         this.walkDir = null;
         this.lookDir = Direction.DOWN;
+
+        this.lastDx = 0;
+        this.lastDy = -1;
     }
+
     private void CHEAT()
     {
         this.engimonList.insert(new Engimon("test", Species.get("Emberon"), 31));
@@ -311,6 +319,10 @@ public class Player implements Creature, InputProcessor {
         return this.worldY;
     }
 
+    public float getActiveEngimonWorldX() { return this.activeEngimonWorldX; }
+
+    public float getActiveEngimonWorldY(){ return this.activeEngimonWorldY; }
+
     public void draw(Batch batch) {
         batch.draw(
                 playerTexture,
@@ -326,6 +338,9 @@ public class Player implements Creature, InputProcessor {
             animTimer += delta;
             this.worldX = Interpolation.pow2.apply(this.srcX, this.destX, this.animTimer/this.ANIM_TIME);
             this.worldY = Interpolation.pow2.apply(this.srcY, this.destY, this.animTimer/this.ANIM_TIME);
+
+            this.activeEngimonWorldX = Interpolation.pow2.apply(this.activeEngimonSrcX, this.activeEngimonDestX, this.animTimer/this.ANIM_TIME);
+            this.activeEngimonWorldY = Interpolation.pow2.apply(this.activeEngimonSrcY, this.activeEngimonDestY, this.animTimer/this.ANIM_TIME);
 
             setPlayerTexture(this.walkDir, true);
 
@@ -370,15 +385,26 @@ public class Player implements Creature, InputProcessor {
     }
 
     private void initializeMove(int oldX, int oldY, int dx, int dy) {
+        this.activeEngimonSrcX = oldX - this.lastDx;
+        this.activeEngimonSrcY = oldY - this.lastDy;
+        this.activeEngimonDestX = oldX;
+        this.activeEngimonDestY = oldY;
+        this.activeEngimonWorldX = oldX - this.lastDx;
+        this.activeEngimonWorldY = oldY - this.lastDy;
+
         this.srcX = oldX;
         this.srcY = oldY;
         this.destX = oldX + dx;
         this.destY = oldY + dy;
         this.worldX = oldX;
         this.worldY = oldY;
+
         this.animTimer = 0f;
         this.state = PlayerState.WALKING;
         this.walkDir = Direction.getDirection(dx, dy);
+
+        this.lastDx = dx;
+        this.lastDy = dy;
     }
 
     private void finishMove() {
@@ -403,7 +429,7 @@ public class Player implements Creature, InputProcessor {
         OverlayScreen activeScreen = screen.getActiveScreen();
 
         //kalau ada popup yang sedang aktif dan bukan dialog biasa
-        if (activeScreen.isVisible() && activeScreen instanceof OptionScreen){
+        if (activeScreen.isVisible() && activeScreen instanceof OptionScreen) {
             if (keycode == Input.Keys.UP || keycode == Input.Keys.W) {
                 ((OptionScreen) activeScreen).moveUp();
             }
@@ -413,7 +439,7 @@ public class Player implements Creature, InputProcessor {
             if (keycode == Input.Keys.SPACE){
                 ((OptionScreen) activeScreen).handleSelect();
             }
-        }else{
+        } else {
             if (keycode == Input.Keys.LEFT || keycode == Input.Keys.A) {
                 dx = -1;
                 this.lookDir = Direction.LEFT;
@@ -430,23 +456,25 @@ public class Player implements Creature, InputProcessor {
                 dy = -1;
                 this.lookDir = Direction.DOWN;
             }
-            if (keycode == Input.Keys.SPACE){
+            if (keycode == Input.Keys.SPACE) {
                 screen.openController();
-            }else{
+            } else {
                 screen.hideDialog();
             }
-        }
 
-        if (mapLoader.isWalkable(this.pos.getX(),this.pos.getY(),dx,dy, true)) {
-            this.activeEngimonPos = new Position(this.pos.getX(), this.pos.getY());
-            initializeMove(this.pos.getX(), this.pos.getY(), dx, dy);
-            this.pos.move(dx,dy);
-        } else {
-            Direction dir = Direction.getDirection(dx, dy);
+            if (mapLoader.isWalkable(this.pos.getX(),this.pos.getY(),dx,dy, true)) {
+                initializeMove(this.pos.getX(), this.pos.getY(), dx, dy);
+                this.activeEngimonPos.move(dx, dy);
+                this.pos.move(dx,dy);
+            } else {
+                if (dx != 0 || dy != 0) {
+                    Direction dir = Direction.getDirection(dx, dy);
 
-            setPlayerTexture(dir, false);
+                    setPlayerTexture(dir, false);
 
-            Sounds.playerBump.play();
+                    Sounds.playerBump.play();
+                }
+            }
         }
 
         return false;

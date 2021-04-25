@@ -52,6 +52,7 @@ public class Engimon {
         EngimonCount++;
 
         this.engimonTexture = species.getIconAnimation().getKeyFrame(0);
+
     }
 
     public Engimon(String name, Species species, int level) {
@@ -204,16 +205,27 @@ public class Engimon {
         learnSkill(si.containedSkill);
     }
 
-    public void draw(Batch batch, int x, int y, float delta) {
+    // draw for active engimon
+    public void draw(Batch batch, float x, float y, float delta) {
         this.stateTime += delta;
         this.engimonTexture = this.getSpecies().getIconAnimation().getKeyFrame(stateTime, true);
 
         batch.draw(
                 this.engimonTexture,
-                x * GameConfig.SCALED_TILE_SIZE,
+                x * GameConfig.SCALED_TILE_SIZE - 16,
                 y * GameConfig.SCALED_TILE_SIZE,
-                GameConfig.SCALED_TILE_SIZE * 1.5f,
-                GameConfig.SCALED_TILE_SIZE * 1.5f
+                this.engimonTexture.getRegionWidth(),
+                this.engimonTexture.getRegionHeight()
+//                GameConfig.SCALED_TILE_SIZE * 1.5f,
+//                GameConfig.SCALED_TILE_SIZE * 1.5f
         );
+    }
+
+    public void initializeMove(int srcX, int srcY, int destX, int destY) {
+
+    }
+
+    public void finishMove() {
+
     }
 }

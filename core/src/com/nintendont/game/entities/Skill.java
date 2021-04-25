@@ -23,6 +23,9 @@ public class Skill implements Comparable<Skill> {
 
     // hanya copy constructor yang boleh dipakai
     public Skill(Skill s) {
+        if (s == null) {
+            System.out.println("skill null");
+        }
         this.skillName = s.skillName;
         this.basePower = s.basePower;
         this.masteryLevel = s.getMasteryLevel();
@@ -89,7 +92,7 @@ public class Skill implements Comparable<Skill> {
     public static final Skill ICEBEAM = new Skill("Ice Beam", 90, Element.constructElements("ICE"));
     public static final Skill BLIZZARD = new Skill("Blizzard", 120, Element.constructElements("ICE"));
     public static final Skill SUBZEROSLAMMER = new Skill("Subzero Slammer", 140, Element.constructElements("ICE"));
-    public static final Skill BULLDOZE = new Skill("BullDoze", 60, Element.constructElements("GROUND"));
+    public static final Skill BULLDOZE = new Skill("Bull Doze", 60, Element.constructElements("GROUND"));
     public static final Skill THOUSANDARROWS = new Skill("Thousand Arrows", 90, Element.constructElements("GROUND"));
     public static final Skill EARTHQUAKE = new Skill("Earthquake", 100, Element.constructElements("GROUND"));
     public static final Skill TECTONICRAGE = new Skill("Tectonic Rage", 160, Element.constructElements("GROUND"));

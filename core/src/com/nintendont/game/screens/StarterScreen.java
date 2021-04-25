@@ -31,11 +31,11 @@ public class StarterScreen implements Screen {
 
     public Game game;
 
-    private final int COLUMN_SIZE = 13;
-    private final int ROW_SIZE = 13;
+    private static final int COLUMN_SIZE = 13;
+    private static final int ROW_SIZE = 13;
 
     private String engimonName;
-    private String[] starterEngimon = new String[] {
+    private final String[] starterEngimon = new String[] {
             "Emberon",
             "Hailon",
             "Soliust",

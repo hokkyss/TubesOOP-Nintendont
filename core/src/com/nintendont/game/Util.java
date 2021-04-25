@@ -60,6 +60,9 @@ public class Util {
                 String name = row.getCell(0).toString();
                 ArrayList<Element> elements = Element.constructElements(row.getCell(1).toString());
                 Skill uniqueSkill = Skill.getBySkillName(row.getCell(2).toString());
+                if (uniqueSkill == null) {
+                    System.out.println(row.getCell(2).toString());
+                }
                 ArrayList<String> responses = new ArrayList<String>() {{
                     add(row.getCell(3).toString());
                     add(row.getCell(4).toString());
