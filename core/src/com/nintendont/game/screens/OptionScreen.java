@@ -56,6 +56,7 @@ public class OptionScreen extends OverlayScreen{
 
         TextureRegion tr = temp.getRegion();
         Image arrow = new Image(temp);
+        arrow.setSize(25f, 25f);
         arrow.setVisible(false);
         this.arrows.add(arrow);
 

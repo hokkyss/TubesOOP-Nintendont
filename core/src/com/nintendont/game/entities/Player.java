@@ -84,11 +84,14 @@ public class Player implements Creature, InputProcessor {
     private void CHEAT()
     {
         this.engimonList.insert(new Engimon("test", Species.get("Emberon"), 31));
+
         try {
             this.engimonList.get(0).learnSkill(SkillItem.TM01);
+            this.skillItemList.insert(SkillItem.TM04);
+            this.skillItemList.insert(SkillItem.TM11, 3);
+            this.skillItemList.insert(SkillItem.TM20);
         }
-        catch(Exception e)
-        {
+        catch(Exception e) {
         }
     }
 
@@ -104,12 +107,19 @@ public class Player implements Creature, InputProcessor {
         return this.lookDir;
     }
 
+    public Engimon getEngimon(int idx)
+    {
+        return this.engimonList.get(idx);
+    }
     public Engimon getActiveEngimon() {
         return this.engimonList.get(this.activeEngimonIdx);
     }
 
-    public void switchActiveEngimon(int idx) {
+    public String switchActiveEngimon(int idx) {
+        String s = "Active engimon has been changed from " + this.engimonList.get(this.activeEngimonIdx).getName();
+        s = s + "\nto " + this.engimonList.get(idx).getName();
         this.activeEngimonIdx = idx;
+        return s;
     }
 
     public ArrayList<String> getAllEngimonDisplayText()
@@ -118,6 +128,15 @@ public class Player implements Creature, InputProcessor {
         for(int i = 0; i<engimonList.size(); i++){
             Engimon curr = engimonList.get(i);
             res.add(curr.display());
+        }
+        return res;
+    }
+
+    public ArrayList<String> getAllSkillItemDisplayText()
+    {
+        ArrayList<String> res = new ArrayList<>();
+        for(SkillItem curr : skillItemList.invenList){
+            res.add(this.skillItemList.getCount(curr) + "x " + curr.itemName + ": " + curr.containedSkill.skillName);
         }
         return res;
     }
@@ -142,29 +161,33 @@ public class Player implements Creature, InputProcessor {
         Inventory.sortInventory(skillItemList, true);
     }
 
-    public void useSkillItem(Engimon e1, SkillItem si) throws InputTooLargeException, SkillNotCompatibleException,
-            ItemNotFoundException, SkillHasBeenLearntException {
+    public String useSkillItem(Engimon e1, SkillItem si){
         try {
             e1.learnSkill(si);
             skillItemList.remove(si);
+            return "Berhasil menggunakan skillItem";
+        } catch (SkillNotCompatibleException err) {
+            return e1.getName() + " tidak dapat menggunakan " + si.itemName;
+        } catch (SkillHasBeenLearntException err) {
+            return e1.getName() + " sudah mempelajari " + si.containedSkill.skillName;
         } catch (Exception err) {
-            throw err;
+            return "";
         }
     }
 
-    public void throwSkillItem(int amount, SkillItem si) throws InputTooLargeException, ItemNotFoundException {
+    public String throwSkillItem(int amount, SkillItem si)  {
         try {
             this.skillItemList.remove(si, amount);
+            return "Sukses membuang";
         } catch (Exception err) {
-            throw err;
+            return "Ggagal Membuang";
         }
     }
 
-    public void releaseEngimon(Engimon e) throws InputTooLargeException, ItemNotFoundException {
+    public String releaseEngimon(Engimon e){
         try {
             if (engimonList.size() == 1) {
-                Logger.print("You only have 1 Engimon! Release failed");
-                return;
+                return ("You only have 1 Engimon! Release failed");
             }
 
             if (engimonList.find(e) == this.activeEngimonIdx) {
@@ -172,9 +195,10 @@ public class Player implements Creature, InputProcessor {
             }
 
             engimonList.remove(e);
+            return "You have released " + e.getName();
         } catch (Exception err) {
-            throw err;
         }
+        return "";
     }
 
     public String toString() {

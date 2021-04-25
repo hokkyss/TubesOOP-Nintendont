@@ -38,6 +38,10 @@ public class MainScreen implements Screen {
     private DialogueScreen dialogueScreen;
     private OptionScreen optionBox;
     private OptionScreen engimonInventory;
+    private OptionScreen engimonSelection;
+    private OptionScreen skillItemInventory;
+    private OptionScreen skillItemSelection;
+    private OptionScreen skillItemToEngimon;
 
     private OverlayScreen activeScreen;
 
@@ -170,18 +174,6 @@ public class MainScreen implements Screen {
         uiStage.addActor(root);
         uiStage.setDebugAll(true);
 
-        ArrayList<String> details = player.getAllEngimonDetail();
-
-        ArrayList<OnSelectHandler> detailHandler = new ArrayList<OnSelectHandler>();
-        for(int i = 0; i<details.size(); i++){
-            String temp = details.get(i);
-            detailHandler.add(() -> {
-                dialog(temp, 0.5f);
-            });
-        }
-
-        engimonInventory = new OptionScreen(player.getAllEngimonDisplayText(), detailHandler, 0.65f);
-
         //onSelectHandler for optionBox
         OnSelectHandler onBattle = () -> {dummyFunction("Battle");};
         OnSelectHandler onInteract = () -> {
@@ -189,22 +181,85 @@ public class MainScreen implements Screen {
             handleInteract(player.getLookDir());
         };
 
-        OnSelectHandler onEngimon = () -> {switchOverlayScreen(engimonInventory);};
-        OnSelectHandler onSwitchEngimon = () -> {dummyFunction("Switch Engimon");};
-        OnSelectHandler onSkillItem = () -> {dummyFunction("Skill item...");};
+        OnSelectHandler onEngimon = () -> {updateEngimonInventoryOverlay(); switchOverlayScreen(engimonInventory);};
+        OnSelectHandler onSkillItem = () -> {updateSkillItemInventoryOverlay(); switchOverlayScreen(skillItemInventory);};
         OnSelectHandler onCancel = () -> {hideDialog();};
         OnSelectHandler onCheck = () -> {dialog(player.getActiveEngimon().interact());};
 
         dialogueScreen = new DialogueScreen();
         optionBox = new OptionScreen(
-                Arrays.asList("Battle","Check Engimon","Interact","Engimon","Switch Engimon", "Skill Items", "Cancel"),
-                Arrays.asList(onBattle,onCheck, onInteract, onEngimon, onSwitchEngimon, onSkillItem, onCancel)
+                Arrays.asList("Engimon", "Check Engimon", "Battle", "Interact", "Skill Items", "Cancel"),
+                Arrays.asList(onEngimon, onCheck, onBattle, onInteract, onSkillItem, onCancel)
         );
 
         root.clearChildren();
         addRightOverlay(optionBox);
 
         activeScreen = optionBox;
+    }
+
+    private void updateEngimonInventoryOverlay(){
+        ArrayList<OnSelectHandler> selectHandlers = new ArrayList<OnSelectHandler>();
+        for(int i = 0; i<player.engimonList.size(); i++){
+            int idx = i;
+            selectHandlers.add(() -> {
+                generateEngimonSelectionMenu(player.getEngimon(idx), idx);
+                switchOverlayScreen(engimonSelection);
+            });
+        }
+
+        selectHandlers.add(()->{hideDialog();});
+
+        ArrayList<String> menu = player.getAllEngimonDisplayText();
+        menu.add("Cancel");
+        engimonInventory = new OptionScreen(menu, selectHandlers, 0.65f);
+    }
+
+    private void updateSkillItemInventoryOverlay(){
+        ArrayList<OnSelectHandler> selectHandlers = new ArrayList<OnSelectHandler>();
+        for(int i = 0; i<player.skillItemList.size(); i++){
+            int idx = i;
+            selectHandlers.add(() -> {
+                generateSkillItemSelectionMenu(player.skillItemList.get(idx));
+                switchOverlayScreen(skillItemSelection);
+            });
+        }
+
+        selectHandlers.add(()->{hideDialog();});
+
+        ArrayList<String> menu = player.getAllSkillItemDisplayText();
+        menu.add("Close");
+
+        skillItemInventory = new OptionScreen(menu, selectHandlers, 0.65f);
+    }
+
+    private void generateEngimonSelectionMenu(Engimon e, int idx){
+        ArrayList<OnSelectHandler> selectHandlers = new ArrayList<OnSelectHandler>();
+        selectHandlers.add(()->{ dialog(e.details(), 0.95f); });
+        selectHandlers.add(()->{ dialog(player.switchActiveEngimon(idx)); });
+        selectHandlers.add(()->{ dialog(player.releaseEngimon(e)); });
+        selectHandlers.add(()->{hideDialog();});
+
+        engimonSelection = new OptionScreen(Arrays.asList("Detail Engimon", "Switch Engimon", "Release Engimon","Cancel"), selectHandlers, 0.9f);
+    }
+
+    private void generateSkillItemSelectionMenu(SkillItem s){
+        ArrayList<OnSelectHandler> selectHandlers = new ArrayList<OnSelectHandler>();
+        selectHandlers.add(()->{ dialog(s.toString(), 0.65f);});
+        selectHandlers.add(()->{ generateSkillItemUseMenu(s); switchOverlayScreen(skillItemToEngimon);});
+        selectHandlers.add(()->{ dialog(player.throwSkillItem(1, s));});
+        selectHandlers.add(()->{hideDialog();});
+
+        skillItemSelection = new OptionScreen(Arrays.asList("Detail Skill Item", "Use Skill Item", "Dispose Skill Item","Cancel"),selectHandlers, 0.9f);
+    }
+
+    private void generateSkillItemUseMenu(SkillItem s){
+        ArrayList<OnSelectHandler> selectHandlers = new ArrayList<OnSelectHandler>();
+        for(int i = 0; i<player.engimonList.size(); i++){
+            int idx = i;
+            selectHandlers.add(() -> { dialog(player.useSkillItem(player.getEngimon(idx), s)); });
+        }
+        skillItemToEngimon = new OptionScreen(player.getAllEngimonDisplayText(), selectHandlers, 0.65f);
     }
 
     private void addBottomOverlay(OverlayScreen overlay){
@@ -263,7 +318,12 @@ public class MainScreen implements Screen {
 
     public void switchOverlayScreen(OverlayScreen screen){
         root.clearChildren();
-        root.add(screen);
+        if(screen instanceof OptionScreen){
+            addRightOverlay(screen);
+        }else{
+            addBottomOverlay(screen);
+        }
+
         activeScreen.close();
         activeScreen = screen;
         activeScreen.open();
