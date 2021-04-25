@@ -105,7 +105,6 @@ public class BattleScreen extends Table implements InputProcessor {
         this.add(main.getDialogueScreen()).minHeight(300);
 
         this.setFillParent(true);
-        this.setDebug(true);
         main.getUiStage().addActor(this);
 
         Gdx.input.setInputProcessor(this);

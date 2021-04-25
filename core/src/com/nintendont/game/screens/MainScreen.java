@@ -1,32 +1,20 @@
 package com.nintendont.game.screens;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.nintendont.game.*;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.Gdx;
 import com.nintendont.game.entities.*;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.nintendont.game.maps.MapLoader;
 import com.nintendont.game.util.OnSelectHandler;
-import org.apache.batik.swing.gvt.Overlay;
 import java.util.ArrayList;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 public class MainScreen implements Screen {
@@ -46,7 +34,7 @@ public class MainScreen implements Screen {
     public static Player player;
     public static int turn = 0;
 
-    private Engimon starter;
+    public static Engimon starter;
 
     private Stage uiStage;
     private Table root;
@@ -54,8 +42,31 @@ public class MainScreen implements Screen {
     private int uiScale = 1;
     private OrthographicCamera camera;
 
+    public MainScreen() {
+        this(null);
+    }
+
     public MainScreen(Engimon starter) {
-        this.starter = starter;
+        MainScreen.starter = starter;
+
+        mapLoader = new MapLoader();
+        camera = new OrthographicCamera();
+
+        try {
+            // starter null = loaded game
+            player = new Player(
+                    this,
+                    starter,
+                    mapLoader
+            );
+
+            Gdx.input.setInputProcessor(player);
+
+            if (starter != null) InGameHelper.spawnWildEngimons();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Failed to create player");
+        }
     }
 
     @Override
@@ -113,30 +124,6 @@ public class MainScreen implements Screen {
 //        Sounds.defaultMusic.setLooping(true);
 //        Sounds.defaultMusic.setVolume(0.15f);
 //        Sounds.defaultMusic.play();
-
-        mapLoader = new MapLoader();
-        camera = new OrthographicCamera();
-        Skin skin = new Skin(Gdx.files.internal("Skin/glassy-ui.json"));
-
-        //define all the screen
-//        dialogueScreen = new DialogueScreen();
-
-        try {
-            player = new Player(
-                    this,
-                    starter,
-                    mapLoader
-            );
-            starter.details();
-            Gdx.input.setInputProcessor(player);
-            InGameHelper.spawnWildEngimons();
-            for (EngimonLiar e : this.wildEngimons) {
-//                e.showDetails();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Failed to create player");
-        }
 
         mapLoader.initAnimationTiles();
 
@@ -196,7 +183,10 @@ public class MainScreen implements Screen {
         OnSelectHandler onEngimon = () -> {updateEngimonInventoryOverlay(); switchOverlayScreen(engimonInventory);};
         OnSelectHandler onSkillItem = () -> {updateSkillItemInventoryOverlay(); switchOverlayScreen(skillItemInventory);};
         OnSelectHandler onCheck = () -> {dialog(player.getActiveEngimon().interact());};
-        OnSelectHandler onSave = () -> {hideDialog();};
+        OnSelectHandler onSave = () -> {
+            InGameHelper.saveGame(this, player);
+            dialog("Game saved!");
+        };
         OnSelectHandler onCancel = () -> {hideDialog();};
 
         dialogueScreen = new DialogueScreen();

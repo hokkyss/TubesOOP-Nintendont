@@ -12,6 +12,11 @@ public class SkillItem implements Comparable<SkillItem> {
     // daftar SkillItem
     public static ArrayList<SkillItem> listOfSkillItem = new ArrayList<>();
 
+    public SkillItem() {
+        this.itemName = "";
+        this.containedSkill = null;
+    }
+
     private SkillItem(String itemName, Skill containedSkill) {
         this.itemName = itemName;
         this.containedSkill = containedSkill;

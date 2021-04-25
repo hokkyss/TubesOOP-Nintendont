@@ -6,6 +6,10 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class PlayerSprite {
+        public PlayerSprite() {
+
+        }
+
         private static Texture WALKING_SPRITE_MAP = new Texture(Gdx.files.internal("Characters/boy_run_animation.png"));
         private static TextureRegion[][] WALKING_ANIMATION = TextureRegion.split(WALKING_SPRITE_MAP, WALKING_SPRITE_MAP.getWidth() / 4, WALKING_SPRITE_MAP.getHeight() / 4);
 

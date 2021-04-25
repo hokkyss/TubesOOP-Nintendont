@@ -16,6 +16,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.nintendont.game.InGameHelper;
 import com.nintendont.game.entities.Engimon;
 import com.nintendont.game.entities.Species;
 
@@ -255,6 +256,30 @@ public class StarterScreen implements Screen {
             }
         }.init(this));
 
+        // Load Button
+        TextButton loadBtn = new TextButton("Load game", mySkin);
+        loadBtn.setSize(col_width * 5, row_height);
+        loadBtn.setPosition(col_width * 4, 0);
+        loadBtn.addListener(new InputListener(){
+            private StarterScreen screen;
+            @Override
+            public void touchUp (InputEvent event,
+                                 float x,
+                                 float y,
+                                 int pointer,
+                                 int button) {
+            }
+            @Override
+            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                InGameHelper.loadGame(this.screen);
+                return true;
+            }
+            private InputListener init(StarterScreen screen){
+                this.screen = screen;
+                return this;
+            }
+        }.init(this));
+
         // add buttons to stage
         stage.addActor(titleLabel);
         stage.addActor(engimon1);
@@ -265,6 +290,7 @@ public class StarterScreen implements Screen {
         stage.addActor(nameLabel);
         stage.addActor(engimonNameInput);
         stage.addActor(startBtn);
+        stage.addActor(loadBtn);
     }
 
     private TextureRegionDrawable getBattleSprite(String speciesName) {
@@ -276,6 +302,10 @@ public class StarterScreen implements Screen {
                         )
                 )
         );
+    }
+
+    public void GoToMainScreen() {
+        this.game.setScreen(new MainScreen());
     }
 
     public void GoToMainScreen(Engimon starter) {

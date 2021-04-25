@@ -12,6 +12,12 @@ public class Skill implements Comparable<Skill> {
     // menampung semua Skill yang dienumerasi di bawah
     public static ArrayList<Skill> listOfSkill = new ArrayList<>();
 
+    public Skill() {
+        this.skillName = "";
+        this.basePower = 0;
+        this.learnableBy = null;
+    }
+
     // constructor di bawah ini diprivate agar tidak ada Skill baru oleh pengguna
     private Skill(String skillName, int basePower, ArrayList<Element> e) {
         this.skillName = skillName;

@@ -65,6 +65,10 @@ public class Player implements Creature, InputProcessor {
     private float animTimer;
     private float ANIM_TIME = 0.5f;
 
+    public Player() {
+
+    }
+
     public Player(MainScreen screen, Engimon starter, MapLoader mapLoader) throws InputTooLargeException {
         this.screen = screen;
         this.activeEngimonIdx = 0;
@@ -76,7 +80,7 @@ public class Player implements Creature, InputProcessor {
             this.skillItemList = new Inventory<SkillItem>();
             this.pos = new Position(STARTING_X, STARTING_Y);
             this.activeEngimonPos = new Position(STARTING_X, STARTING_Y);
-            this.engimonList.insert(starter);
+            if (starter != null) this.engimonList.insert(starter);
         } catch (Exception err) {
             throw err;
         }
@@ -109,7 +113,11 @@ public class Player implements Creature, InputProcessor {
     public Position getPosition() { return pos; }
 
     @Override
-    public void setPosition(Position p) { pos = p; }
+    public void setPosition(Position p) {
+        pos = p;
+        this.worldX = p.getX();
+        this.worldY = p.getY();
+    }
 
     public Direction getLookDir()
     {
@@ -122,6 +130,10 @@ public class Player implements Creature, InputProcessor {
     }
     public Engimon getActiveEngimon() {
         return this.engimonList.get(this.activeEngimonIdx);
+    }
+
+    public int getActiveEngimonIdx() {
+        return this.activeEngimonIdx;
     }
 
     public String switchActiveEngimon(int idx) {

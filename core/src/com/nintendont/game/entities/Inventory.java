@@ -35,6 +35,7 @@ public class Inventory<T> {
         try {
             insert(el, 1);
         } catch (InputTooLargeException err) {
+            err.printStackTrace();
             // throw err; // bagusnya do nothing
         }
     }

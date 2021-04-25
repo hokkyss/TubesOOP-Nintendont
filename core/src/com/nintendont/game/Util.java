@@ -13,6 +13,7 @@ import com.nintendont.game.screens.MainScreen;
 import org.apache.poi.ss.usermodel.*;
 
 public class Util {
+
     // Const
     public static final int RESPAWN_TURN = 10;
     public static final int WILD_ENGIMON_MOVE_TURN = 5;
@@ -20,9 +21,13 @@ public class Util {
     public static final int LEVEL_BIG_WILD_ENGIMON = 15;
 
     // Attributes
-    private static char[][] arrPeta;
-    private static ArrayList<EngimonLiar> wildEngimons = new ArrayList<EngimonLiar>();
-    public static Player player;
+//    private static char[][] arrPeta;
+//    private static ArrayList<EngimonLiar> wildEngimons = new ArrayList<EngimonLiar>();
+//    public static Player player;
+
+    public Util() {
+
+    }
 
     public static void loadSpecies() throws Exception {
         String filePath = System.getProperty("user.dir") + "/data/Engimon.xlsx";
@@ -42,10 +47,10 @@ public class Util {
                 if (uniqueSkill == null) {
                     System.out.println(row.getCell(2).toString());
                 }
-                ArrayList<String> responses = new ArrayList<String>() {{
-                    add(row.getCell(3).toString());
-                    add(row.getCell(4).toString());
-                }};
+                ArrayList<String> responses = new ArrayList<String>();
+                responses.add(row.getCell(3).toString());
+                responses.add(row.getCell(4).toString());
+
                 String pathBattleSprite = row.getCell(5).toString();
                 String pathIconSprite = row.getCell(6).toString();
 
@@ -89,17 +94,17 @@ public class Util {
         Logger.print("T      | Tundra");
     }
 
-    public static void printInventory(Scanner scanner) {
-        int opt;
-
-        Logger.print("1. Engimon");
-        Logger.print("2. Skill Item");
-        Logger.print("Choose a number (1-2): ");
-        opt = scanner.nextInt();
-
-        if(opt == 1) player.showAllEngimon();
-        else player.showSkillItem();
-    }
+//    public static void printInventory(Scanner scanner) {
+//        int opt;
+//
+//        Logger.print("1. Engimon");
+//        Logger.print("2. Skill Item");
+//        Logger.print("Choose a number (1-2): ");
+//        opt = scanner.nextInt();
+//
+//        if(opt == 1) player.showAllEngimon();
+//        else player.showSkillItem();
+//    }
 
     public static EngimonLiar getEngimonInCell(Position p) {
         for (EngimonLiar e : MainScreen.wildEngimons) {
@@ -109,66 +114,66 @@ public class Util {
         return null;
     }
 
-    public static int chooseEngimon(Scanner scanner) {
-        int opt;
+//    public static int chooseEngimon(Scanner scanner) {
+//        int opt;
+//
+//        player.showAllEngimon();
+//        Logger.print("Choose Engimon(1 - " + player.engimonList.invenList.size() + ") $");
+//        opt = scanner.nextInt();
+//
+//        while (opt < 1 || opt > player.engimonList.invenList.size()) {
+//            Logger.print("You chose an invalid option!\n");
+//            opt = scanner.nextInt();
+//        }
+//
+//        return opt;
+//    }
 
-        player.showAllEngimon();
-        Logger.print("Choose Engimon(1 - " + player.engimonList.invenList.size() + ") $");
-        opt = scanner.nextInt();
-
-        while (opt < 1 || opt > player.engimonList.invenList.size()) {
-            Logger.print("You chose an invalid option!\n");
-            opt = scanner.nextInt();
-        }
-
-        return opt;
-    }
-
-    public static void useItem(Scanner scanner) throws Exception {
-        int opt;
-        player.showSkillItem();
-
-        Logger.print("Choose an item(1 - " + player.skillItemList.invenList.size() + ") $");
-        opt = scanner.nextInt();
-
-        while (opt < 1 || opt>player.skillItemList.invenList.size()){
-            Logger.print("You chose an invalid option!\n");
-            opt = scanner.nextInt();
-        }
-        SkillItem skillChosen = player.skillItemList.invenList.get(opt-1);
-
-        Logger.print("Choose Engimon to give the " + skillChosen.itemName);
-        Logger.print("Make sure the skills elements are compatible.");
-
-        opt = chooseEngimon(scanner);
-
-        Engimon engiChosen = player.engimonList.invenList.get(opt - 1);
-        try {
-            player.useSkillItem(engiChosen, skillChosen);
-        } catch (Exception e) {
-            throw e;
-        }
-    }
-
-    public static void changeActiveEngimon(Scanner scanner) {
-        int opt;
-        Logger.print("Choose new Active Engimon ");
-
-        opt = chooseEngimon(scanner);
-
-        player.switchActiveEngimon(opt-1);
-        Logger.print("Successfully switched " + player.getActiveEngimon().getName() + " into active!");
-    }
-
-    public static void breed(Scanner scanner) throws Exception {
-        int opt1,opt2;
-        player.showAllEngimon();
-        Logger.print("Choose 2 Engimon to breed");
-        opt1 = chooseEngimon(scanner);
-        opt2 = chooseEngimon(scanner);
-
-        player.breed(player.engimonList.invenList.get(opt1-1),player.engimonList.invenList.get(opt2-1));
-    }
+//    public static void useItem(Scanner scanner) throws Exception {
+//        int opt;
+//        player.showSkillItem();
+//
+//        Logger.print("Choose an item(1 - " + player.skillItemList.invenList.size() + ") $");
+//        opt = scanner.nextInt();
+//
+//        while (opt < 1 || opt>player.skillItemList.invenList.size()){
+//            Logger.print("You chose an invalid option!\n");
+//            opt = scanner.nextInt();
+//        }
+//        SkillItem skillChosen = player.skillItemList.invenList.get(opt-1);
+//
+//        Logger.print("Choose Engimon to give the " + skillChosen.itemName);
+//        Logger.print("Make sure the skills elements are compatible.");
+//
+//        opt = chooseEngimon(scanner);
+//
+//        Engimon engiChosen = player.engimonList.invenList.get(opt - 1);
+//        try {
+//            player.useSkillItem(engiChosen, skillChosen);
+//        } catch (Exception e) {
+//            throw e;
+//        }
+//    }
+//
+//    public static void changeActiveEngimon(Scanner scanner) {
+//        int opt;
+//        Logger.print("Choose new Active Engimon ");
+//
+//        opt = chooseEngimon(scanner);
+//
+//        player.switchActiveEngimon(opt-1);
+//        Logger.print("Successfully switched " + player.getActiveEngimon().getName() + " into active!");
+//    }
+//
+//    public static void breed(Scanner scanner) throws Exception {
+//        int opt1,opt2;
+//        player.showAllEngimon();
+//        Logger.print("Choose 2 Engimon to breed");
+//        opt1 = chooseEngimon(scanner);
+//        opt2 = chooseEngimon(scanner);
+//
+//        player.breed(player.engimonList.invenList.get(opt1-1),player.engimonList.invenList.get(opt2-1));
+//    }
 
     public static boolean isElementSame(ArrayList<Element> e1, ArrayList<Element> e2) {
         HashMap<Integer, Integer> counter = new HashMap<Integer, Integer>();

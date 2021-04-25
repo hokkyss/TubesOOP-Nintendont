@@ -36,6 +36,10 @@ public class Engimon {
     public TextureRegion engimonTexture;
     public float stateTime;
 
+    public Engimon() {
+        this.species = null;
+    }
+
     public Engimon(String name, Species species, int level, HashMap<String, String> parents) {
         this.idEngimon = EngimonCount + 1;
         this.name = name;
@@ -113,6 +117,14 @@ public class Engimon {
         return pow;
     }
 
+    public int getExp() {
+        return this.exp;
+    }
+
+    public int getCumExp() {
+        return this.cumExp;
+    }
+
     public void addExp(int exp) {
         if (this.exp + exp >= EXP_PER_LEVEL && !(this instanceof EngimonLiar)) {
             Logger.EngimonLevelUp(this, this.exp + exp);
@@ -120,6 +132,10 @@ public class Engimon {
         this.cumExp += exp;
         this.exp = (this.exp + exp) % EXP_PER_LEVEL;
         this.level = (this.cumExp / EXP_PER_LEVEL) + 1;
+    }
+
+    public HashMap<String, String> getParents() {
+        return this.parents;
     }
 
     public boolean isDead() {

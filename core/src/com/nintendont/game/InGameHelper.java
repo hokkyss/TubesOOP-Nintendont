@@ -1,10 +1,15 @@
 package com.nintendont.game;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonWriter;
 import com.nintendont.game.entities.*;
 import com.nintendont.game.exceptions.EngimonRanOutException;
 import com.nintendont.game.maps.*;
 import com.nintendont.game.screens.BattleScreen;
 import com.nintendont.game.screens.MainScreen;
+import com.nintendont.game.screens.StarterScreen;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -134,5 +139,27 @@ public class InGameHelper {
 
     public static double getBattlePower(Engimon engimon) {
         return engimon.getLevel() * Util.getElmtAdv(engimon.getElements(), engimon.getElements()) + engimon.getSkillPower();
+    }
+
+    public static void saveGame(MainScreen screen, Player player) {
+        Json json = new Json();
+        json.setOutputType(JsonWriter.OutputType.json);
+        FileHandle file = Gdx.files.local("save.json");
+        file.writeString(json.toJson(new GameData(screen, player)), false);
+    }
+
+    public static void loadGame(StarterScreen screen) {
+        FileHandle file = Gdx.files.local("save.json");
+        String save = file.readString();
+        Json json = new Json();
+        GameData gameData = json.fromJson(GameData.class, save);
+
+        screen.GoToMainScreen();
+
+        try {
+            gameData.load();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

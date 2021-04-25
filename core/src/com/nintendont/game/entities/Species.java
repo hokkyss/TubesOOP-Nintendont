@@ -21,6 +21,10 @@ public class Species {
 
     public static ArrayList<Species> listOfSpecies;
 
+    public Species() {
+
+    }
+
     public Species(String species, ArrayList<Element> elements, Skill uniqueSkill, ArrayList<String> response, String pathBattleSprite, String pathIconSprite) {
         this.species = species;
         this.elements = elements;
@@ -59,6 +63,10 @@ public class Species {
 
     public Skill getUniqueSkill() {
         return this.uniqueSkill;
+    }
+
+    public ArrayList<String> getResponses() {
+        return this.response;
     }
 
     public Animation<TextureRegion> getIconAnimation() {
