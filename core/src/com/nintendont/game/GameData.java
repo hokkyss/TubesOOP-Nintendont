@@ -1,12 +1,14 @@
 package com.nintendont.game;
 
 import com.nintendont.game.entities.*;
+import com.nintendont.game.comparators.SkillItemComparator;
 import com.nintendont.game.entities.saveable.SaveableEngimon;
 import com.nintendont.game.entities.saveable.SaveableEngimonLiar;
 import com.nintendont.game.exceptions.InputTooLargeException;
 import com.nintendont.game.screens.MainScreen;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class GameData {
     private int turn = 0;
@@ -32,6 +34,8 @@ public class GameData {
 
         this.activeEngimonIdx = player.getActiveEngimonIdx();
 
+        Inventory.nCapacity = 0;
+
         this.engimonList = new Inventory<SaveableEngimon>();
         for(Engimon e : player.engimonList.invenList) {
             this.engimonList.insert(
@@ -40,11 +44,18 @@ public class GameData {
         }
 
         this.skillItemList = new Inventory<SkillItem>();
-        for (SkillItem si : player.skillItemList.invenList) {
-            this.skillItemList.insert(
-                    si
-            );
-        }
+        player.skillItemList.countInven.entrySet().stream().forEach(
+                si -> {
+                    try {
+                        this.skillItemList.insert(
+                                SkillItem.getByItemName(
+                                        si.getKey().toString()
+                                ), si.getValue());
+                    } catch (InputTooLargeException e) {
+                        e.printStackTrace();
+                    }
+                }
+        );
 
         this.wildEngimons = new ArrayList<SaveableEngimonLiar>();
         for (EngimonLiar e: MainScreen.wildEngimons) {
@@ -61,7 +72,7 @@ public class GameData {
 
         Inventory.nCapacity = 0;
 
-        MainScreen.player.engimonList = new Inventory<Engimon>();
+        MainScreen.player.engimonList = new Inventory<>();
         for(SaveableEngimon e : this.engimonList.invenList) {
             MainScreen.player.engimonList.insert(
                     e.toEngimon()
@@ -72,11 +83,21 @@ public class GameData {
         MainScreen.player.switchActiveEngimon(this.activeEngimonIdx);
 
         MainScreen.player.skillItemList = new Inventory<SkillItem>();
-        for (SkillItem si : this.skillItemList.invenList) {
-            MainScreen.player.skillItemList.insert(
-                    si
-            );
-        }
+
+        this.skillItemList.countInven.entrySet().stream().forEach(
+                si -> {
+                    try {
+                        MainScreen.player.skillItemList.insert(
+                                SkillItem.getByItemName(
+                                        String.valueOf(si.getKey())
+                                ), si.getValue());
+                    } catch (InputTooLargeException e) {
+                        e.printStackTrace();
+                    }
+                }
+        );
+
+        MainScreen.player.skillItemList.invenList.sort(new SkillItemComparator());
 
         MainScreen.wildEngimons = new ArrayList<EngimonLiar>();
         for (SaveableEngimonLiar e: this.wildEngimons) {

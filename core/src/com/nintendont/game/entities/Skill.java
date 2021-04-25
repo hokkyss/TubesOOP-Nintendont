@@ -57,7 +57,12 @@ public class Skill implements Comparable<Skill> {
         return this.masteryLevel;
     }
 
-    public String toString() {
+    public String toString()
+    {
+        return this.skillName;
+    }
+
+    public String display() {
         String s = "";
         s = s + this.skillName + "\n";
         s = s + "Power : " + this.basePower + "\n";

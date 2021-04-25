@@ -305,7 +305,7 @@ public class MainScreen implements Screen {
 
     private void generateSkillItemSelectionMenu(SkillItem s){
         ArrayList<OnSelectHandler> selectHandlers = new ArrayList<OnSelectHandler>();
-        selectHandlers.add(()->{ dialog(s.toString(), 0.65f);});
+        selectHandlers.add(()->{ dialog(s.display(), 0.65f);});
         selectHandlers.add(()->{ generateSkillItemUseMenu(s); switchOverlayScreen(skillItemToEngimon);});
         selectHandlers.add(()->{ dialog(player.throwSkillItem(1, s));});
         selectHandlers.add(()->{hideDialog();});

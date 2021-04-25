@@ -54,9 +54,14 @@ public class SkillItem implements Comparable<SkillItem> {
     }
 
     public String toString() {
+        return this.itemName;
+    }
+
+    public String display()
+    {
         String s = "";
         s = s + this.itemName + ": ";
-        s = s + this.containedSkill.toString() + "\n";
+        s = s + this.containedSkill.display() + "\n";
         s = s + "Learnable by: " + this.containedSkill.learnableBy.toString();
         return s;
     }

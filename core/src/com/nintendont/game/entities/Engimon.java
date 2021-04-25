@@ -177,12 +177,12 @@ public class Engimon {
         return s;
     }
 
-    public void faint() {
+    public String faint() {
         this.life--;
         if (this.life > 0) {
-            Logger.EngimonLoseLife(this);
+            return Logger.EngimonLoseLife(this);
         } else {
-            Logger.EngimonDead(this);
+            return Logger.EngimonDead(this);
         }
     }
 

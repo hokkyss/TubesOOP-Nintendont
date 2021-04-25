@@ -94,7 +94,7 @@ public class Inventory<T> {
         return invenList.size();
     }
 
-    public String toString() {
+    public String display() {
         String s = "";
 
         for (T el : invenList) {

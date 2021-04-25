@@ -3,7 +3,6 @@ package com.nintendont.game.entities.saveable;
 import com.nintendont.game.entities.Creature;
 import com.nintendont.game.entities.EngimonLiar;
 import com.nintendont.game.entities.Position;
-import com.nintendont.game.entities.saveable.SaveableEngimon;
 
 public class SaveableEngimonLiar extends SaveableEngimon implements Creature {
     private Position position;

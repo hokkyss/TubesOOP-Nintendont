@@ -20,14 +20,12 @@ public class Logger {
         print(e.getName() + " has leveled up to level : " + (e.getLevel() + changeLevel));
     }
 
-    public static void EngimonLoseLife(Engimon e) {
-        print("Ouch!");
-        print(e.getName() + " has fainted! It has lose one life and have " + e.getLife() + " live(s) remaining!");
+    public static String EngimonLoseLife(Engimon e) {
+        return "Ouch!\n" + e.getName() + " has fainted!\nIt has lose one life and have " + e.getLife() + " live(s) remaining!";
     }
 
-    public static void EngimonDead(Engimon e) {
-        print("Too bad!");
-        print(e.getName() + " has lost all it's life! It will be removed from your inventory");
+    public static String EngimonDead(Engimon e) {
+        return "Too bad!\n" + e.getName() + " has lost all it's life!\nIt will be removed from your inventory";
     }
 
     public static void EngimonDeadByLevel(Engimon e) {

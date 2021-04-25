@@ -58,14 +58,14 @@ public class BattleScreen extends Table implements InputProcessor {
 
                     SkillItem rewardSkillItem = SkillItem.getRandomSkillItem(enemyEngimon.getElements());
                     MainScreen.player.skillItemList.insert(rewardSkillItem);
-                    res.append("You get new SkillItem: \n" + rewardSkillItem);
+                    res.append("You get new SkillItem: \n" + rewardSkillItem.display());
                 }
             } catch (Exception err) {
                 Logger.print(err.getMessage());
             }
         } else {
-            Logger.print(playerEngimon.getName() + " lost the battle!");
-            playerEngimon.faint();
+            res.append(playerEngimon.getName() + " lost the battle!\n\n");
+            res.append(playerEngimon.faint());
 
             if (playerEngimon.getLife() == 0) {
                 try {
@@ -98,7 +98,7 @@ public class BattleScreen extends Table implements InputProcessor {
 
         this.row().colspan(4);
         this.add(spritePlayerEngimon).colspan(2).expand();
-        this.add(vs).colspan(2);
+        this.add(vs).colspan(2).expand();
         this.add(spriteEnemyEngimon).colspan(2).expand();
 
         this.row().colspan(6);
