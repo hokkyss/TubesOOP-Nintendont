@@ -7,8 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.nintendont.game.GameConfig;
-import com.nintendont.game.NintendontGame;
+import com.nintendont.game.*;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -18,7 +17,6 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.Gdx;
-import com.nintendont.game.Sounds;
 import com.nintendont.game.entities.*;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -27,22 +25,20 @@ import com.nintendont.game.maps.MapLoader;
 import com.nintendont.game.util.OnSelectHandler;
 import org.apache.batik.swing.gvt.Overlay;
 import java.util.ArrayList;
-import com.nintendont.game.InGameHelper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class MainScreen implements Screen {
-    public static MapLoader mapLoader;
-
     private DialogueScreen dialogueScreen;
     private OptionScreen optionBox;
     private OptionScreen engimonInventory;
-
     private OverlayScreen activeScreen;
 
+    public static MapLoader mapLoader;
     public static ArrayList<EngimonLiar> wildEngimons = new ArrayList<EngimonLiar>();
     public static Player player;
+    public static int turn = 0;
 
     private Engimon starter;
 
@@ -160,7 +156,6 @@ public class MainScreen implements Screen {
         dispose();
     }
 
-
     private void initOverlays(){
         uiStage = new Stage(new ScreenViewport());
         uiStage.getViewport().update(Gdx.graphics.getWidth()/uiScale, Gdx.graphics.getHeight()/uiScale);
@@ -182,7 +177,14 @@ public class MainScreen implements Screen {
         engimonInventory = new OptionScreen(player.getAllEngimonDisplayText(), detailHandler);
 
         //onSelectHandler for optionBox
-        OnSelectHandler onBattle = () -> {dummyFunction("Battle");};
+        OnSelectHandler onBattle = () -> {
+            try {
+                InGameHelper.battleNearbyEngimon(player);
+                hideDialog();
+            } catch (Exception err) {
+                dialog(err.getMessage());
+            }
+        };
         OnSelectHandler onInteract = () -> {
             hideDialog();
             handleInteract(player.getLookDir());

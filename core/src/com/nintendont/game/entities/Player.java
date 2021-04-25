@@ -26,6 +26,7 @@ import com.nintendont.game.maps.Terrain;
 import com.nintendont.game.screens.MainScreen;
 import com.nintendont.game.screens.OptionScreen;
 import com.nintendont.game.screens.OverlayScreen;
+import com.nintendont.game.InGameHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -441,18 +442,22 @@ public class Player implements Creature, InputProcessor {
             }
         } else {
             if (keycode == Input.Keys.LEFT || keycode == Input.Keys.A) {
+                MainScreen.turn++;
                 dx = -1;
                 this.lookDir = Direction.LEFT;
             }
             if (keycode == Input.Keys.RIGHT || keycode == Input.Keys.D) {
+                MainScreen.turn++;
                 dx = 1;
                 this.lookDir = Direction.RIGHT;
             }
             if (keycode == Input.Keys.UP || keycode == Input.Keys.W) {
+                MainScreen.turn++;
                 dy = 1;
                 this.lookDir = Direction.UP;
             }
             if (keycode == Input.Keys.DOWN || keycode == Input.Keys.S) {
+                MainScreen.turn++;
                 dy = -1;
                 this.lookDir = Direction.DOWN;
             }
@@ -461,6 +466,9 @@ public class Player implements Creature, InputProcessor {
             } else {
                 screen.hideDialog();
             }
+
+            if (MainScreen.turn % InGameHelper.RESPAWN_TURN == 0) InGameHelper.spawnWildEngimons();
+            else if (MainScreen.turn % InGameHelper.WILD_ENGIMON_MOVE_TURN == 0) InGameHelper.moveWildEngimon();
 
             if (mapLoader.isWalkable(this.pos.getX(),this.pos.getY(),dx,dy, true)) {
                 initializeMove(this.pos.getX(), this.pos.getY(), dx, dy);

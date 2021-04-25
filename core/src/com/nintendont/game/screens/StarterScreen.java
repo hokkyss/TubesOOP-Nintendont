@@ -8,15 +8,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
-import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
@@ -66,7 +61,7 @@ public class StarterScreen implements Screen {
         titleLabel.setAlignment(Align.center);
         titleLabel.setPosition(
                 0,
-                Gdx.graphics.getHeight()-row_height*1);
+                Gdx.graphics.getHeight()-row_height);
 
         // Engimon Button 1
         ImageButton engimon1 = new ImageButton(mySkin, "starterEngimon1");
@@ -198,7 +193,7 @@ public class StarterScreen implements Screen {
             }
         }.init(this));
 
-        ButtonGroup buttonGroup = new ButtonGroup(engimon1, engimon2, engimon3, engimon4, engimon5);
+        ButtonGroup<Button> buttonGroup = new ButtonGroup<Button>(engimon1, engimon2, engimon3, engimon4, engimon5);
         engimon1.setChecked(true);
         buttonGroup.setMaxCheckCount(1);
         buttonGroup.setMinCheckCount(1);
