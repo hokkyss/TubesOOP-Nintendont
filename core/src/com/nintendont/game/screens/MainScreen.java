@@ -179,7 +179,7 @@ public class MainScreen implements Screen {
         //onSelectHandler for optionBox
         OnSelectHandler onBattle = () -> {
             try {
-                InGameHelper.battleNearbyEngimon(player);
+                InGameHelper.battleNearbyEngimon(player, this);
                 hideDialog();
             } catch (Exception err) {
                 dialog(err.getMessage());

@@ -2,6 +2,7 @@ package com.nintendont.game;
 
 import com.nintendont.game.entities.*;
 import com.nintendont.game.maps.*;
+import com.nintendont.game.screens.BattleScreen;
 import com.nintendont.game.screens.MainScreen;
 
 import java.util.ArrayList;
@@ -65,6 +66,7 @@ public class InGameHelper {
         return p;
     }
 
+
     public static void moveWildEngimon() {
         for (EngimonLiar engimonLiar : MainScreen.wildEngimons) {
             Position currPos = null;
@@ -94,7 +96,7 @@ public class InGameHelper {
         }
     }
 
-    public static void battleNearbyEngimon(Player player) throws Exception {
+    public static void battleNearbyEngimon(Player player, MainScreen mainScreen) throws Exception {
         int x = player.getPosition().getX();
         int y = player.getPosition().getY();
         EngimonLiar enemy = null;
@@ -116,6 +118,12 @@ public class InGameHelper {
         }
 
         MainScreen.wildEngimons.remove(enemy);
-        player.battle(enemy);
+        BattleScreen battleScreen = new BattleScreen(
+                player,
+                mainScreen,
+                player.getActiveEngimon(),
+                enemy
+        );
+//        player.battle(enemy);
     }
 }

@@ -37,7 +37,7 @@ public class Player implements Creature, InputProcessor {
 
     private MapLoader mapLoader;
 
-    private final int EXP_MULT = 15;
+    public static final int EXP_MULT = 15;
 
     private int activeEngimonIdx;
     public Inventory<Engimon> engimonList;
