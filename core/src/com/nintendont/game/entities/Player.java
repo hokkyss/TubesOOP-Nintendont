@@ -23,6 +23,7 @@ import com.nintendont.game.comparators.SkillComparator;
 import com.nintendont.game.exceptions.*;
 import com.nintendont.game.maps.MapLoader;
 import com.nintendont.game.maps.Terrain;
+import com.nintendont.game.screens.InputScreen;
 import com.nintendont.game.screens.MainScreen;
 import com.nintendont.game.screens.OptionScreen;
 import com.nintendont.game.screens.OverlayScreen;
@@ -93,7 +94,7 @@ public class Player implements Creature, InputProcessor {
     private void CHEAT()
     {
         this.engimonList.insert(new Engimon("test", Species.get("Emberon"), 31));
-
+        this.engimonList.insert(new Engimon("fred", Species.get("Frederon"), 31));
         try {
             this.engimonList.get(0).learnSkill(SkillItem.TM01);
             this.skillItemList.insert(SkillItem.TM04);
@@ -254,7 +255,11 @@ public class Player implements Creature, InputProcessor {
         return inheritedSkill;
     }
 
-    public void breed(Engimon A, Engimon B) throws InputTooLargeException, ParentLevelException {
+    public void setEngimonName(int idx, String name){
+        this.engimonList.get(idx).setName(name);
+    }
+
+    public String breed(Engimon A, Engimon B) {
         try {
             if (A.getLevel() >= 4 && B.getLevel() >= 4) {
                 Scanner input = new Scanner(System.in);
@@ -288,10 +293,14 @@ public class Player implements Creature, InputProcessor {
 
                 Logger.print("Breeding successful!");
                 Logger.print(childName + " is in inventory.");
-            } else
-                throw new ParentLevelException();
+
+                return "Breeding successful!\n"+childName + " is now in inventory.";
+            } else {
+                return "Parent level is not enough for breeding!";
+            }
+//                return throw new ParentLevelException();
         } catch (Exception err) {
-            throw err;
+            return err.toString();
         }
     }
 
@@ -454,15 +463,21 @@ public class Player implements Creature, InputProcessor {
         OverlayScreen activeScreen = screen.getActiveScreen();
 
         //kalau ada popup yang sedang aktif dan bukan dialog biasa
-        if (activeScreen.isVisible() && activeScreen instanceof OptionScreen) {
-            if (keycode == Input.Keys.UP || keycode == Input.Keys.W) {
-                ((OptionScreen) activeScreen).moveUp();
-            }
-            if (keycode == Input.Keys.DOWN || keycode == Input.Keys.S) {
-                ((OptionScreen) activeScreen).moveDown();
-            }
-            if (keycode == Input.Keys.SPACE){
-                ((OptionScreen) activeScreen).handleSelect();
+        if (activeScreen.isVisible()) {
+            if(activeScreen instanceof OptionScreen){
+                if (keycode == Input.Keys.UP || keycode == Input.Keys.W) {
+                    ((OptionScreen) activeScreen).moveUp();
+                }
+                if (keycode == Input.Keys.DOWN || keycode == Input.Keys.S) {
+                    ((OptionScreen) activeScreen).moveDown();
+                }
+                if (keycode == Input.Keys.SPACE){
+                    ((OptionScreen) activeScreen).handleSelect();
+                }
+            }else if(activeScreen instanceof InputScreen){
+                ((InputScreen) activeScreen).onChange(keycode);
+            }else{
+                activeScreen.close();
             }
         } else {
             if (keycode == Input.Keys.LEFT || keycode == Input.Keys.A) {

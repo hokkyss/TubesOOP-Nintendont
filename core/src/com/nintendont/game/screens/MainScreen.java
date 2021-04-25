@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.nintendont.game.*;
@@ -23,6 +24,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.nintendont.game.maps.MapLoader;
 import com.nintendont.game.util.OnSelectHandler;
+import com.nintendont.game.util.OnSubmitHandler;
 import org.apache.batik.swing.gvt.Overlay;
 import java.util.ArrayList;
 
@@ -31,10 +33,12 @@ import java.util.Arrays;
 
 public class MainScreen implements Screen {
     private DialogueScreen dialogueScreen;
+    private InputScreen nameInput;
     private OptionScreen optionBox;
-    private OptionScreen engimonInventory;
 
+    private OptionScreen engimonInventory;
     private OptionScreen engimonSelection;
+    private OptionScreen engimonBreed;
     private OptionScreen skillItemInventory;
     private OptionScreen skillItemSelection;
     private OptionScreen skillItemToEngimon;
@@ -188,7 +192,7 @@ public class MainScreen implements Screen {
         OnSelectHandler onEngimon = () -> {updateEngimonInventoryOverlay(); switchOverlayScreen(engimonInventory);};
         OnSelectHandler onSkillItem = () -> {updateSkillItemInventoryOverlay(); switchOverlayScreen(skillItemInventory);};
         OnSelectHandler onCheck = () -> {dialog(player.getActiveEngimon().interact());};
-        OnSelectHandler onSave = () -> {hideDialog();}
+        OnSelectHandler onSave = () -> {hideDialog();};
         OnSelectHandler onCancel = () -> {hideDialog();};
 
         dialogueScreen = new DialogueScreen();
@@ -242,10 +246,47 @@ public class MainScreen implements Screen {
         ArrayList<OnSelectHandler> selectHandlers = new ArrayList<>();
         selectHandlers.add(()->{ dialog(e.details(), 0.65f); });
         selectHandlers.add(()->{ dialog(player.switchActiveEngimon(idx)); });
+        selectHandlers.add(()->{ generateSetNameFor(idx); }); //rename
+        selectHandlers.add(()->{
+            if(player.engimonList.size()>1){
+                generateEngimonBreedMenu(e, idx);
+                switchOverlayScreen(engimonBreed);
+            }else{
+                dialog("You don't have any other engimon to breed "+e.getName()+" with!");
+            }
+        }); //breed
         selectHandlers.add(()->{ dialog(player.releaseEngimon(e)); });
         selectHandlers.add(()->{ hideDialog(); });
 
-        engimonSelection = new OptionScreen(Arrays.asList("Detail Engimon", "Switch Engimon", "Release Engimon","Cancel"), selectHandlers, 0.9f);
+        engimonSelection = new OptionScreen(Arrays.asList("Detail Engimon", "Switch Engimon", "Rename", "Breed", "Release Engimon","Cancel"), selectHandlers, 0.9f);
+    }
+
+    private void generateSetNameFor(int idx){
+        OnSubmitHandler onSetName = (name) -> {
+            player.setEngimonName(idx, (String) name);
+            hideDialog();
+        };
+        nameInput = new InputScreen("Enter name : ", onSetName);
+        switchOverlayScreen(nameInput);
+    }
+
+    private void generateEngimonBreedMenu(Engimon selected, int selectedIdx){
+        ArrayList<OnSelectHandler> selectHandlers = new ArrayList<OnSelectHandler>();
+        for(int i = 0; i<player.engimonList.size(); i++){
+            if(i!=selectedIdx){
+                int idx = i;
+                selectHandlers.add(() -> {
+                    dialog(player.breed(selected, player.getEngimon(idx)));
+                });
+            }
+        }
+
+        selectHandlers.add(()->{hideDialog();});
+
+        ArrayList<String> menu = player.getAllEngimonDisplayText();
+        menu.remove(selected.display()); //deleting current engimon
+        menu.add("Cancel");
+        engimonBreed = new OptionScreen(menu, selectHandlers, 0.65f);
     }
 
     private void generateSkillItemSelectionMenu(SkillItem s){
