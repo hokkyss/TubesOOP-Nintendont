@@ -90,7 +90,7 @@ public class BattleScreen extends Table implements InputProcessor {
                 )
         );
 
-        main.dialog(res.toString(), 0.65f);
+        main.dialog(res.toString(), 1f);
 
         this.add(playerEngimon.getName() + " (" + playerEngimonPower + ")").height(200).colspan(2);
         this.add().colspan(2);

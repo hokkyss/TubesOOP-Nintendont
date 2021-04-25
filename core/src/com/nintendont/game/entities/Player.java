@@ -23,10 +23,12 @@ import com.nintendont.game.comparators.SkillComparator;
 import com.nintendont.game.exceptions.*;
 import com.nintendont.game.maps.MapLoader;
 import com.nintendont.game.maps.Terrain;
+import com.nintendont.game.screens.InputScreen;
 import com.nintendont.game.screens.MainScreen;
 import com.nintendont.game.screens.OptionScreen;
 import com.nintendont.game.screens.OverlayScreen;
 import com.nintendont.game.InGameHelper;
+import org.apache.xpath.operations.Bool;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -97,7 +99,7 @@ public class Player implements Creature, InputProcessor {
     private void CHEAT()
     {
         this.engimonList.insert(new Engimon("test", Species.get("Emberon"), 31));
-
+        this.engimonList.insert(new Engimon("fred", Species.get("Frederon"), 31));
         try {
             this.engimonList.get(0).learnSkill(SkillItem.TM01);
             this.skillItemList.insert(SkillItem.TM04);
@@ -128,6 +130,7 @@ public class Player implements Creature, InputProcessor {
     {
         return this.engimonList.get(idx);
     }
+
     public Engimon getActiveEngimon() {
         return this.engimonList.get(this.activeEngimonIdx);
     }
@@ -266,13 +269,20 @@ public class Player implements Creature, InputProcessor {
         return inheritedSkill;
     }
 
-    public void breed(Engimon A, Engimon B) throws InputTooLargeException, ParentLevelException {
-        try {
-            if (A.getLevel() >= 4 && B.getLevel() >= 4) {
-                Scanner input = new Scanner(System.in);
-                Logger.print("Enter your new Engimon's name: ");
-                String childName = input.nextLine();
+    public void setEngimonName(int idx, String name){
+        this.engimonList.get(idx).setName(name);
+    }
 
+    public Boolean isAbleToBreed(Engimon A, Engimon B) {
+        if (A.getLevel() >= 4 && B.getLevel() >= 4) {
+            return true;
+        }
+        return false;
+    }
+
+    public String breed(Engimon A, Engimon B, String childName) {
+        try {
+            if (isAbleToBreed(A, B)) {
                 ArrayList<Element> childElmt = inheritElmt(A, B);
                 Species childSpecies = new Species(A.getSpecies());
                 if (Util.isElementSame(childElmt, A.getElements())) {
@@ -300,10 +310,14 @@ public class Player implements Creature, InputProcessor {
 
                 Logger.print("Breeding successful!");
                 Logger.print(childName + " is in inventory.");
-            } else
-                throw new ParentLevelException();
+
+                return "Breeding successful!\n"+childName + " is now in inventory.";
+            } else {
+                return "Parent level is not enough for breeding!";
+            }
+//                return throw new ParentLevelException();
         } catch (Exception err) {
-            throw err;
+            return err.toString();
         }
     }
 
@@ -425,36 +439,50 @@ public class Player implements Creature, InputProcessor {
         OverlayScreen activeScreen = screen.getActiveScreen();
 
         //kalau ada popup yang sedang aktif dan bukan dialog biasa
-        if (activeScreen.isVisible() && activeScreen instanceof OptionScreen) {
-            if (keycode == Input.Keys.UP || keycode == Input.Keys.W) {
-                ((OptionScreen) activeScreen).moveUp();
-            }
-            if (keycode == Input.Keys.DOWN || keycode == Input.Keys.S) {
-                ((OptionScreen) activeScreen).moveDown();
-            }
-            if (keycode == Input.Keys.SPACE){
-                ((OptionScreen) activeScreen).handleSelect();
+        if (activeScreen.isVisible()) {
+            if(activeScreen instanceof OptionScreen){
+                if (keycode == Input.Keys.UP || keycode == Input.Keys.W) {
+                    ((OptionScreen) activeScreen).moveUp();
+                }
+                if (keycode == Input.Keys.DOWN || keycode == Input.Keys.S) {
+                    ((OptionScreen) activeScreen).moveDown();
+                }
+                if (keycode == Input.Keys.SPACE){
+                    ((OptionScreen) activeScreen).handleSelect();
+                }
+            }else if(activeScreen instanceof InputScreen){
+                ((InputScreen) activeScreen).onChange(keycode);
+            }else{
+                activeScreen.close();
             }
         } else {
             if (keycode == Input.Keys.LEFT || keycode == Input.Keys.A) {
                 MainScreen.turn++;
                 dx = -1;
                 this.lookDir = Direction.LEFT;
+                if (MainScreen.turn % InGameHelper.RESPAWN_TURN == 0) InGameHelper.spawnWildEngimons();
+                else if (MainScreen.turn % InGameHelper.WILD_ENGIMON_MOVE_TURN == 0) InGameHelper.moveWildEngimon();
             }
             if (keycode == Input.Keys.RIGHT || keycode == Input.Keys.D) {
                 MainScreen.turn++;
                 dx = 1;
                 this.lookDir = Direction.RIGHT;
+                if (MainScreen.turn % InGameHelper.RESPAWN_TURN == 0) InGameHelper.spawnWildEngimons();
+                else if (MainScreen.turn % InGameHelper.WILD_ENGIMON_MOVE_TURN == 0) InGameHelper.moveWildEngimon();
             }
             if (keycode == Input.Keys.UP || keycode == Input.Keys.W) {
                 MainScreen.turn++;
                 dy = 1;
                 this.lookDir = Direction.UP;
+                if (MainScreen.turn % InGameHelper.RESPAWN_TURN == 0) InGameHelper.spawnWildEngimons();
+                else if (MainScreen.turn % InGameHelper.WILD_ENGIMON_MOVE_TURN == 0) InGameHelper.moveWildEngimon();
             }
             if (keycode == Input.Keys.DOWN || keycode == Input.Keys.S) {
                 MainScreen.turn++;
                 dy = -1;
                 this.lookDir = Direction.DOWN;
+                if (MainScreen.turn % InGameHelper.RESPAWN_TURN == 0) InGameHelper.spawnWildEngimons();
+                else if (MainScreen.turn % InGameHelper.WILD_ENGIMON_MOVE_TURN == 0) InGameHelper.moveWildEngimon();
             }
             if (keycode == Input.Keys.SPACE) {
                 screen.openController();
@@ -462,9 +490,6 @@ public class Player implements Creature, InputProcessor {
             } else {
                 screen.hideDialog();
             }
-
-            if (MainScreen.turn % InGameHelper.RESPAWN_TURN == 0) InGameHelper.spawnWildEngimons();
-            else if (MainScreen.turn % InGameHelper.WILD_ENGIMON_MOVE_TURN == 0) InGameHelper.moveWildEngimon();
 
             if (mapLoader.isWalkable(this.pos.getX(),this.pos.getY(),dx,dy, true)) {
                 initializeMove(this.pos.getX(), this.pos.getY(), dx, dy);
