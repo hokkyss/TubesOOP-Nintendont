@@ -44,7 +44,7 @@ public class BattleScreen extends Table {
 
                     SkillItem rewardSkillItem = SkillItem.getRandomSkillItem(enemyEngimon.getElements());
                     MainScreen.player.skillItemList.insert(rewardSkillItem);
-                    res.append("You get new SkillItem: " + rewardSkillItem + "\n");
+                    res.append("You get new SkillItem: \n" + rewardSkillItem);
                 }
             } catch (Exception err) {
                 Logger.print(err.getMessage());
@@ -60,7 +60,8 @@ public class BattleScreen extends Table {
             }
         }
 
-        this.main.dialog(res.toString());
+        System.out.println(res.toString());
+        main.dialog(res.toString(), 0.65f);
     }
 
     public void open(){

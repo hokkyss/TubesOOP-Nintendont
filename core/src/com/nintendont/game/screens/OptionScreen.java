@@ -21,12 +21,13 @@ public class OptionScreen extends OverlayScreen{
     private int selectedIndex = 0;
 
     private Table uiContainer;
+    private float fontScale;
 
-    public OptionScreen(List<String> option, List<OnSelectHandler> onSelect)
-    {
-        super(350f, 400f);
+    public OptionScreen(List<String> option, List<OnSelectHandler> onSelect, float fontScale){
+        super(350f, 50f * option.size());
         Texture bg = new Texture(Gdx.files.internal("Util/ui-dialog.png"));
         TextureRegionDrawable temp = new TextureRegionDrawable(new TextureRegion(bg));
+        this.fontScale = fontScale;
         this.setBackground(temp);
         this.uiContainer = new Table();
         this.add(uiContainer).pad(5f);
@@ -39,22 +40,28 @@ public class OptionScreen extends OverlayScreen{
         changeArrowVisibility();
     }
 
+    public OptionScreen(List<String> option, List<OnSelectHandler> onSelect)
+    {
+        this(option,onSelect,1);
+    }
+
     private void addOption(String option)
     {
         Label optionLabel = new Label(option, this.getSkin());
         optionLabel.setColor(0,0,20,1);
+        optionLabel.setFontScale(fontScale);
         this.options.add(optionLabel);
         Texture bg = new Texture(Gdx.files.internal("Util/arrow-right.png"));
         TextureRegionDrawable temp = new TextureRegionDrawable(new TextureRegion(bg));
 
         TextureRegion tr = temp.getRegion();
         Image arrow = new Image(temp);
-        arrow.setScale(0.5f,0.5f);
+        arrow.setSize(25f, 25f);
         arrow.setVisible(false);
         this.arrows.add(arrow);
 
-        this.uiContainer.add(arrow).expand().align(Align.left).pad(0f, 20f, 25f, 0f);
-        this.uiContainer.add(optionLabel).expand().align(Align.left);
+        this.uiContainer.add(arrow).expand().size(25f, 25f).align(Align.left).pad(10f, 20f, 10f, 20f);
+        this.uiContainer.add(optionLabel).expand().size(250f, 50f).align(Align.left);
         this.uiContainer.row();
     }
 

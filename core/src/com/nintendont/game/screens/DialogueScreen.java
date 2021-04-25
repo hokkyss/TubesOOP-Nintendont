@@ -4,11 +4,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
 
 public class DialogueScreen extends OverlayScreen{
-    private String targetText ="";
+    private String targetText = "";
     private float animTimer = 0f;
     private float animationTotalTime = 0f;
     private float TIME_PER_CHARACTER =0.025f;
     private STATE state = STATE.IDLE;
+    private float scale;
 
     private Label textLabel;
 
@@ -23,17 +24,24 @@ public class DialogueScreen extends OverlayScreen{
     }
 
     public DialogueScreen(float w, float h){
-        super(w,h);
+        super(w, h);
         textLabel = new Label("\n", this.getSkin());
         this.textLabel.setColor(0,0,0,1);
         this.add(textLabel).expand().align(Align.left).pad(30f);
     }
 
     public void animateText(String text){
+        animateText(text, 1);
+    }
+
+    public void animateText(String text, float fontScale){
+        this.clearChildren();
         targetText = text;
         animationTotalTime = text.length()*TIME_PER_CHARACTER;
         state = STATE.ANIMATING;
         animTimer = 0f;
+        textLabel.setFontScale(fontScale);
+        this.add(textLabel).expand().align(Align.center).pad(30f);
     }
 
     public boolean isFinished(){
