@@ -168,6 +168,7 @@ public class MainScreen implements Screen {
         root = new Table();
         root.setFillParent(true);
         uiStage.addActor(root);
+        uiStage.setDebugAll(true);
 
         ArrayList<String> details = player.getAllEngimonDetail();
 
@@ -175,11 +176,11 @@ public class MainScreen implements Screen {
         for(int i = 0; i<details.size(); i++){
             String temp = details.get(i);
             detailHandler.add(() -> {
-                dialog(temp);
+                dialog(temp, 0.5f);
             });
         }
 
-        engimonInventory = new OptionScreen(player.getAllEngimonDisplayText(), detailHandler);
+        engimonInventory = new OptionScreen(player.getAllEngimonDisplayText(), detailHandler, 0.65f);
 
         //onSelectHandler for optionBox
         OnSelectHandler onBattle = () -> {dummyFunction("Battle");};
@@ -192,17 +193,16 @@ public class MainScreen implements Screen {
         OnSelectHandler onSwitchEngimon = () -> {dummyFunction("Switch Engimon");};
         OnSelectHandler onSkillItem = () -> {dummyFunction("Skill item...");};
         OnSelectHandler onCancel = () -> {hideDialog();};
+        OnSelectHandler onCheck = () -> {dialog(player.getActiveEngimon().interact());};
 
         dialogueScreen = new DialogueScreen();
         optionBox = new OptionScreen(
-                Arrays.asList("Battle","Interact","Engimon","Switch Engimon", "Skill Items", "Cancel"),
-                Arrays.asList(onBattle,onInteract, onEngimon, onSwitchEngimon, onSkillItem, onCancel)
+                Arrays.asList("Battle","Check Engimon","Interact","Engimon","Switch Engimon", "Skill Items", "Cancel"),
+                Arrays.asList(onBattle,onCheck, onInteract, onEngimon, onSwitchEngimon, onSkillItem, onCancel)
         );
 
         root.clearChildren();
-//        addBottomOverlay(dialogueScreen);
         addRightOverlay(optionBox);
-//        addRightOverlay(engimonInventory);
 
         activeScreen = optionBox;
     }
@@ -225,7 +225,7 @@ public class MainScreen implements Screen {
 
     public void openController(){
         root.clearChildren();
-        root.add(optionBox);
+        addRightOverlay(optionBox);
         activeScreen.close();
         activeScreen = optionBox;
         activeScreen.toggle();
@@ -248,13 +248,17 @@ public class MainScreen implements Screen {
         }
     }
 
-    public void dialog(String str){
+    public void dialog(String str, float scale){
         root.clearChildren();
         addBottomOverlay(dialogueScreen);
         activeScreen.close();
         activeScreen = dialogueScreen;
-        dialogueScreen.animateText(str);
+        dialogueScreen.animateText(str, scale);
         activeScreen.open();
+    }
+
+    public void dialog(String str){
+        dialog(str, 1);
     }
 
     public void switchOverlayScreen(OverlayScreen screen){

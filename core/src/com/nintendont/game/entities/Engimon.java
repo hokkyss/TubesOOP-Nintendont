@@ -156,7 +156,7 @@ public class Engimon {
             s = s + ("Parents : -\n");
         }
 
-        s = s + ("==============================\n");
+        s = s + ("==============================");
         return s;
     }
 
@@ -181,7 +181,7 @@ public class Engimon {
     
     public String display()
     {
-        return this.name+ " - " + this.species.getSpecies() + " / Lv. " + this.level + "\n";
+        return this.name+ " - " + this.species.getSpecies() + " / Lv. " + this.level;
     }
     private boolean hasLearnt(Skill s) {
         return this.skills.contains(s);
