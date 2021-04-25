@@ -166,6 +166,14 @@ public class MainScreen implements Screen {
         dispose();
     }
 
+    public Stage getUiStage() {
+        return uiStage;
+    }
+
+    public DialogueScreen getDialogueScreen() {
+        return dialogueScreen;
+    }
+
     private void initOverlays(){
         uiStage = new Stage(new ScreenViewport());
         uiStage.getViewport().update(Gdx.graphics.getWidth()/uiScale, Gdx.graphics.getHeight()/uiScale);

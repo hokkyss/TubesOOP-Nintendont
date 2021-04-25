@@ -304,47 +304,6 @@ public class Player implements Creature, InputProcessor {
         }
     }
 
-    public void battle(EngimonLiar enemy) throws ItemNotFoundException, InputTooLargeException, EngimonRanOutException {
-        Engimon myEngimon = this.getActiveEngimon();
-        int winner = Util.handleBattle(myEngimon, enemy);
-
-        Logger.print(myEngimon.getName() + " VS " + enemy.getName());
-
-        if (winner == 1) {
-            Logger.print(myEngimon.getName() + " Won the battle!");
-            int expWon = enemy.getLevel() * EXP_MULT;
-            myEngimon.addExp(expWon);
-
-            try {
-                if (myEngimon.isDead()) {
-                    Logger.EngimonDeadByLevel(myEngimon);
-                    this.engimonList.remove(myEngimon);
-                } else {
-                    Logger.print("You get new Engimon: " + enemy.getName());
-                    Engimon rewardEngimon = new Engimon(enemy.getName(), enemy.getSpecies(), enemy.getLevel());
-                    this.engimonList.insert(rewardEngimon);
-
-                    SkillItem rewardSkillItem = SkillItem.getRandomSkillItem(enemy.getElements());
-                    this.skillItemList.insert(rewardSkillItem);
-                    Logger.print("You get new SkillItem: \n" + rewardSkillItem);
-                }
-            } catch (Exception err) {
-                throw err;
-            }
-        } else {
-            Logger.print(myEngimon.getName() + " Lost the battle!");
-            myEngimon.faint();
-
-            if (myEngimon.getLife() == 0) {
-                this.engimonList.remove(myEngimon);
-            }
-        }
-
-        if (engimonList.size() == 0) {
-            throw new EngimonRanOutException();
-        }
-    }
-
     public float getWorldX() {
         return this.worldX;
     }
