@@ -17,7 +17,6 @@ import com.nintendont.game.Sounds;
 import com.nintendont.game.comparators.EngimonComparator;
 import com.nintendont.game.comparators.SkillItemComparator;
 import com.nintendont.game.entities.*;
-import jdk.jfr.internal.tool.Main;
 
 public class BattleScreen extends Table implements InputProcessor {
     private Player player;
