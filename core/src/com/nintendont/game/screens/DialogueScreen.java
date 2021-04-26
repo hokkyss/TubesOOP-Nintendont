@@ -1,6 +1,7 @@
 package com.nintendont.game.screens;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 
 public class DialogueScreen extends OverlayScreen{
@@ -72,5 +73,11 @@ public class DialogueScreen extends OverlayScreen{
                 setText(displayedText);
             }
         }
+    }
+
+    @Override
+    public void addOverlayTo(Table root)
+    {
+        root.add(this).expand().align(Align.bottom).pad(8f);
     }
 }

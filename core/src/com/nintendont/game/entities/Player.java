@@ -95,6 +95,9 @@ public class Player implements Creature, InputProcessor {
         this.engimonList.insert(new Engimon("fred", Species.get("Frederon"), 31));
         try {
             this.engimonList.get(0).learnSkill(SkillItem.TM01);
+            this.engimonList.get(0).learnSkill(SkillItem.TM18);
+            this.engimonList.get(0).learnSkill(SkillItem.TM19);
+            this.engimonList.get(0).setLevel(10);
             this.skillItemList.insert(SkillItem.TM04);
             this.skillItemList.insert(SkillItem.TM11, 3);
             this.skillItemList.insert(SkillItem.TM20);
@@ -125,6 +128,7 @@ public class Player implements Creature, InputProcessor {
     }
 
     public Engimon getActiveEngimon() {
+//        System.out.println(this.activeEngimonIdx);
         return this.engimonList.get(this.activeEngimonIdx);
     }
 
@@ -185,20 +189,30 @@ public class Player implements Creature, InputProcessor {
             skillItemList.remove(si);
             return "Berhasil menggunakan skillItem";
         } catch (SkillNotCompatibleException err) {
-            return e1.getName() + " tidak dapat menggunakan " + si.itemName;
+            return err.getMessage();
         } catch (SkillHasBeenLearntException err) {
-            return e1.getName() + " sudah mempelajari " + si.containedSkill.skillName;
+            return err.getMessage();
         } catch (Exception err) {
             return "";
         }
     }
 
+    public String useSkillItem(Engimon e1, SkillItem si, int index){
+        String res = e1.replace(index, si);
+        try {
+            skillItemList.remove(si);
+        } catch (ItemNotFoundException e) {
+
+        }
+        return res;
+    }
+
     public String throwSkillItem(int amount, SkillItem si)  {
         try {
             this.skillItemList.remove(si, amount);
-            return "Sukses membuang";
+            return "Sukses membuang " + si.itemName + ".";
         } catch (Exception err) {
-            return "Ggagal Membuang";
+            return err.getMessage();
         }
     }
 
@@ -207,14 +221,13 @@ public class Player implements Creature, InputProcessor {
             if (engimonList.size() == 1) {
                 return ("You only have 1 Engimon! Release failed");
             }
-
-            if (engimonList.find(e) == this.activeEngimonIdx) {
-                this.activeEngimonIdx = 0;
+            if (engimonList.find(e) <= this.activeEngimonIdx) {
+                this.activeEngimonIdx--;
             }
-
+            if(this.activeEngimonIdx < 0) this.activeEngimonIdx = 0;
             engimonList.remove(e);
             return "You have released " + e.getName();
-        } catch (Exception err) {
+        } catch (Exception ignored) {
         }
         return "";
     }
@@ -232,7 +245,7 @@ public class Player implements Creature, InputProcessor {
     public ArrayList<Element> inheritElmt(Engimon A, Engimon B) {
         Element elmtA = A.getElements().get(0);
         Element elmtB = B.getElements().get(0);
-        ArrayList<Element> inheritedElmt = new ArrayList<Element>();
+        ArrayList<Element> inheritedElmt = new ArrayList<>();
         if (elmtA == elmtB) {
             inheritedElmt.add(elmtA);
         } else {
@@ -249,15 +262,25 @@ public class Player implements Creature, InputProcessor {
     }
 
     public ArrayList<Skill> inheritSkill(Engimon A, Engimon B, Skill uniqueSkill) {
-        ArrayList<Skill> inheritedSkill = new ArrayList<Skill>();
+        ArrayList<Skill> inheritedSkill = new ArrayList<>();
         inheritedSkill.add(uniqueSkill);
 
-        ArrayList<Skill> parentSkills = new ArrayList<Skill>(A.getSkills());
+        ArrayList<Skill> parentSkills = new ArrayList<>(A.getSkills());
         parentSkills.addAll(B.getSkills());
         parentSkills.sort(new SkillComparator());
         for (int i = 0; i < parentSkills.size() && inheritedSkill.size() < 4; i++) {
             if (!inheritedSkill.contains(parentSkills.get(i))) {
                 inheritedSkill.add(parentSkills.get(i));
+            }
+        }
+        int ptrA, ptrB;
+        for (Skill s : inheritedSkill){
+            ptrA = A.getSkills().indexOf(s);
+            ptrB = B.getSkills().indexOf(s);
+            if(ptrA != -1 && ptrB != -1){
+                if(A.getSkills().get(ptrA).getMasteryLevel() == B.getSkills().get(ptrB).getMasteryLevel()){
+                    s.increaseMasteryLevel();
+                }
             }
         }
         return inheritedSkill;
@@ -315,17 +338,30 @@ public class Player implements Creature, InputProcessor {
         }
     }
 
-    public float getWorldX() {
+    public float getWorldX(){
         return this.worldX;
     }
 
-    public float getWorldY() {
+    public float getWorldY(){
         return this.worldY;
     }
 
     public float getActiveEngimonWorldX() { return this.activeEngimonWorldX; }
 
     public float getActiveEngimonWorldY(){ return this.activeEngimonWorldY; }
+
+    public void handleEngimonDie(Engimon e) {
+        try {
+            if (this.engimonList.size() == 1) {
+                screen.changeToEndScreen();
+//                screen.dialog("You lost all the engimon you had! Game over!");
+                return;
+            }
+            this.releaseEngimon(e);
+        } catch (Exception ignored){
+
+        }
+    }
 
     public void draw(Batch batch) {
         batch.draw(
@@ -453,32 +489,19 @@ public class Player implements Creature, InputProcessor {
             }
         } else {
             if (keycode == Input.Keys.LEFT || keycode == Input.Keys.A) {
-                MainScreen.turn++;
                 dx = -1;
                 this.lookDir = Direction.LEFT;
-                if (MainScreen.turn % InGameHelper.RESPAWN_TURN == 0) InGameHelper.spawnWildEngimons();
-                else if (MainScreen.turn % InGameHelper.WILD_ENGIMON_MOVE_TURN == 0) InGameHelper.moveWildEngimon();
             }
             if (keycode == Input.Keys.RIGHT || keycode == Input.Keys.D) {
-                MainScreen.turn++;
                 dx = 1;
                 this.lookDir = Direction.RIGHT;
-                if (MainScreen.turn % InGameHelper.RESPAWN_TURN == 0) InGameHelper.spawnWildEngimons();
-                else if (MainScreen.turn % InGameHelper.WILD_ENGIMON_MOVE_TURN == 0) InGameHelper.moveWildEngimon();
             }
             if (keycode == Input.Keys.UP || keycode == Input.Keys.W) {
-                MainScreen.turn++;
                 dy = 1;
                 this.lookDir = Direction.UP;
-                if (MainScreen.turn % InGameHelper.RESPAWN_TURN == 0) InGameHelper.spawnWildEngimons();
-                else if (MainScreen.turn % InGameHelper.WILD_ENGIMON_MOVE_TURN == 0) InGameHelper.moveWildEngimon();
             }
             if (keycode == Input.Keys.DOWN || keycode == Input.Keys.S) {
-                MainScreen.turn++;
                 dy = -1;
-                this.lookDir = Direction.DOWN;
-                if (MainScreen.turn % InGameHelper.RESPAWN_TURN == 0) InGameHelper.spawnWildEngimons();
-                else if (MainScreen.turn % InGameHelper.WILD_ENGIMON_MOVE_TURN == 0) InGameHelper.moveWildEngimon();
             }
             if (keycode == Input.Keys.SPACE) {
                 if (!screen.getActiveScreen().isVisible()) {
@@ -514,27 +537,27 @@ public class Player implements Creature, InputProcessor {
     }
 
     @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+    public boolean touchDown(int screenX, int screenY, int pointer, int button){
         return false;
     }
 
     @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+    public boolean touchUp(int screenX, int screenY, int pointer, int button){
         return false;
     }
 
     @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
+    public boolean touchDragged(int screenX, int screenY, int pointer){
         return false;
     }
 
     @Override
-    public boolean mouseMoved(int screenX, int screenY) {
+    public boolean mouseMoved(int screenX, int screenY){
         return false;
     }
 
     @Override
-    public boolean scrolled(float amountX, float amountY) {
+    public boolean scrolled(float amountX, float amountY){
         return false;
     }
 }

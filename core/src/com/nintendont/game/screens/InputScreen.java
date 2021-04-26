@@ -1,15 +1,10 @@
 package com.nintendont.game.screens;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldListener;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.nintendont.game.util.OnSubmitHandler;
 
 public class InputScreen extends OverlayScreen implements InputProcessor {
@@ -31,30 +26,12 @@ public class InputScreen extends OverlayScreen implements InputProcessor {
 
         this.onSubmitHandler = onSubmitHandler;
 
-//        this.input.setTextFieldListener(new TextFieldListener() {
-//            private InputScreen screen;
-//
-//            @Override
-//            public void keyTyped(TextField textField, char key) {
-//                if (key == '\n') {
-//                    onSubmitHandler.onSubmit(this.screen.input.getText());
-//                }
-//            }
-//
-//            private TextFieldListener init(InputScreen screen) {
-//                this.screen = screen;
-//                return this;
-//            }
-//        }.init(this));
-
-
         this.add(label).expand().size(720f, 50f).align(Align.center).pad(20f);
         this.row();
         this.add(input).expand().size(720f, 50f).align(Align.center).pad(20f);
     }
 
     public void onChange(int keycode){
-//        System.out.println("INI DARI ON CHANGE");
         String strKey = Input.Keys.toString(keycode);
         int n = this.input.getText().length();
 
@@ -68,7 +45,6 @@ public class InputScreen extends OverlayScreen implements InputProcessor {
             if(keycode == Input.Keys.SPACE){
                 strKey = " ";
             }
-//            System.out.println(Input.Keys.toString(keycode));
             this.input.setText(input.getText() + strKey);
         }
     }
@@ -126,6 +102,11 @@ public class InputScreen extends OverlayScreen implements InputProcessor {
     @Override
     public boolean scrolled(float amountX, float amountY) {
         return false;
+    }
+
+    @Override
+    public void addOverlayTo(Table root){
+        root.add(this).expand().align(Align.bottom).pad(8f);
     }
 }
 

@@ -2,7 +2,6 @@ package com.nintendont.game.screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -11,7 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
@@ -246,7 +244,7 @@ public class StarterScreen implements Screen {
                             Species.get(starterEngimon[this.screen.selectedEngimon]),
                             1
                     );
-                    this.screen.GoToMainScreen(starter);
+                    this.screen.GoToMainScreen(starter, game);
                 }
                 return true;
             }
@@ -308,8 +306,8 @@ public class StarterScreen implements Screen {
         this.game.setScreen(new MainScreen());
     }
 
-    public void GoToMainScreen(Engimon starter) {
-        this.game.setScreen(new MainScreen(starter));
+    public void GoToMainScreen(Engimon starter, Game game) {
+        this.game.setScreen(new MainScreen(starter, game));
     }
 
     public void setEngimonName(String name) {

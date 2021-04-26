@@ -28,8 +28,7 @@ public class Logger {
         return "Too bad!\n" + e.getName() + " has lost all it's life!\nIt will be removed from your inventory";
     }
 
-    public static void EngimonDeadByLevel(Engimon e) {
-        print("Too bad!");
-        print(e.getName() + " has reached its peak level! It will be removed from your inventory");
+    public static String EngimonDeadByLevel(Engimon e) {
+        return "Too bad!\n" + e.getName() + " has reached its peak level! It will be removed from your inventory";
     }
 }

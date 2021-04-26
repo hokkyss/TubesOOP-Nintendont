@@ -2,7 +2,6 @@ package com.nintendont.game.entities;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Interpolation;
 import com.nintendont.game.*;
 import com.nintendont.game.entities.saveable.SaveableEngimon;
 import com.nintendont.game.exceptions.SkillNotCompatibleException;
@@ -10,12 +9,7 @@ import com.nintendont.game.exceptions.SkillHasBeenLearntException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.nintendont.game.Logger;
-import com.nintendont.game.comparators.SkillComparator;
-import com.nintendont.game.exceptions.*;
 
 public class Engimon {
     public static final int EXP_PER_LEVEL = 100;
@@ -48,7 +42,7 @@ public class Engimon {
         this.cumExp = (level - 1) * EXP_PER_LEVEL;
         this.life = 3;
 
-        this.skills = new ArrayList<Skill>();
+        this.skills = new ArrayList<>();
         this.skills.add(new Skill(species.getUniqueSkill()));
 
         this.parents = parents;
@@ -66,12 +60,12 @@ public class Engimon {
         this.cumExp = se.cumExp;
         this.life = se.life;
 
-        this.skills = new ArrayList<Skill>();
+        this.skills = new ArrayList<>();
         this.skills.addAll(se.skills);
 
         this.parents = null;
         if (se.parents != null) {
-            this.parents = new HashMap<String, String>();
+            this.parents = new HashMap<>();
             se.parents.forEach((key, value) -> this.parents.put(key, value));
         }
 
@@ -147,9 +141,10 @@ public class Engimon {
     }
 
     public void addExp(int exp) {
-        if (this.exp + exp >= EXP_PER_LEVEL && !(this instanceof EngimonLiar)) {
+        if (this.exp + exp >= EXP_PER_LEVEL) {
             Logger.EngimonLevelUp(this, this.exp + exp);
         }
+        System.out.println("MASUK SINI BANG");
         this.cumExp += exp;
         this.exp = (this.exp + exp) % EXP_PER_LEVEL;
         this.level = (this.cumExp / EXP_PER_LEVEL) + 1;
@@ -167,34 +162,61 @@ public class Engimon {
         return isDead;
     }
 
+    public ArrayList<String> getAllSkillName()
+    {
+        ArrayList<String> res = new ArrayList<>();
+        for(Skill s : this.skills)
+        {
+            res.add(s.skillName);
+        }
+        return res;
+    }
+
+    public String replace(int index, SkillItem si)
+    {
+        if(this.skills.contains(si.containedSkill))
+        {
+            return new SkillHasBeenLearntException(si.containedSkill, this).getMessage();
+        }
+
+        String s = "3...2...1...\n";
+        s = s + this.name + " has forgotten " + this.skills.get(index).skillName + ".\n";
+        s = s + this.name + " has learned " + si.containedSkill.skillName + ".";
+
+        this.skills.set(index, si.containedSkill);
+
+        return s;
+    }
+
     public String interact() {
         return this.species.interact();
     }
 
     public String details() {
         String s = "";
-        s = s + ("=======ENGIMON'S DETAIL=======\n");
-        s = s + ("ID Engimon : " + this.idEngimon + "\n");
-        s = s + ("Nama : " + this.name + "\n");
-        s = s + ("Species : " + this.species.getSpecies() + "\n");
-        s = s + ("Elements : "
-                + this.species.getElements().stream().map(e -> e.name()).collect(Collectors.joining(", ")) + "\n");
-        s = s + ("Level : " + this.level + "\n");
-        s = s + ("EXP : (" + this.exp + "/100)\n");
-        s = s + ("Total EXP : " + this.cumExp + "\n");
-        s = s + ("Unique Skill : " + this.species.getUniqueSkill().skillName + "\n");
+        s = s + "=======ENGIMON'S DETAIL=======\n";
+        s = s + "ID Engimon : " + this.idEngimon + "\n";
+        s = s + "Nama : " + this.name + "\n";
+        s = s + "Species : " + this.species.getSpecies() + "\n";
+        s = s + "Life: " + this.life + "\n";
+        s = s + "Elements : "
+                + this.species.getElements().stream().map(e -> e.name()).collect(Collectors.joining(", ")) + "\n";
+        s = s + "Level : " + this.level + "\n";
+        s = s + "EXP : (" + this.exp + "/100)\n";
+        s = s + "Total EXP : " + this.cumExp + "\n";
+        s = s + "Unique Skill : " + this.species.getUniqueSkill().skillName + "\n";
 
         // TODO: Print skill level, mastery level, etc.
-        s = s + ("Skills : " + this.getSkills().stream().map(S -> S.skillName).collect(Collectors.joining(", ")) + "\n");
+        s = s + "Skills : " + this.getSkills().stream().map(S -> S.skillName + "(" + S.getMasteryLevel() + ")").collect(Collectors.joining(", ")) + "\n";
 
         if (this.parents != null && this.parents.size() == 2) {
-            s = s + ("Parents : " + this.parents.entrySet().stream()
-                    .map(entry -> entry.getKey() + " - " + entry.getValue()).collect(Collectors.joining(" <3 ")) + "\n");
+            s = s + "Parents : " + this.parents.entrySet().stream()
+                    .map(entry -> entry.getKey() + " - " + entry.getValue()).collect(Collectors.joining(" <3 ")) + "\n";
         } else {
-            s = s + ("Parents : -\n");
+            s = s + "Parents : -\n";
         }
 
-        s = s + ("==============================");
+        s = s + "==============================";
         return s;
     }
 
@@ -228,15 +250,12 @@ public class Engimon {
 
     public void learnSkill(Skill s) throws SkillNotCompatibleException, SkillHasBeenLearntException {
         if (this.hasLearnt(s)) {
-            Logger.print("Skill not compatible or engimon has learnt the skill");
             throw new SkillHasBeenLearntException(s, this);
         }
 
         if (!isSkillCompatible(s)) {
-            Logger.print("Skill not compatible or engimon has learnt the skill");
             throw new SkillNotCompatibleException(s, this);
         }
-
         this.skills.add(new Skill(s));
     }
 

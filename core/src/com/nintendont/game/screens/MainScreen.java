@@ -1,9 +1,8 @@
 package com.nintendont.game.screens;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
-import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.nintendont.game.*;
 import com.badlogic.gdx.Screen;
@@ -15,8 +14,8 @@ import com.nintendont.game.entities.*;
 import com.nintendont.game.maps.MapLoader;
 import com.nintendont.game.util.OnSelectHandler;
 import com.nintendont.game.util.OnSubmitHandler;
-import java.util.ArrayList;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class MainScreen implements Screen {
@@ -30,6 +29,7 @@ public class MainScreen implements Screen {
     private OptionScreen skillItemInventory;
     private OptionScreen skillItemSelection;
     private OptionScreen skillItemToEngimon;
+    private OptionScreen skillItemUsageMax;
 
     private OverlayScreen activeScreen;
 
@@ -46,15 +46,24 @@ public class MainScreen implements Screen {
     private int uiScale = 1;
     private OrthographicCamera camera;
 
+    private Game game;
+    private InGameHelper inGameThread = new InGameHelper();
+
     public MainScreen() {
-        this(null);
+
     }
 
-    public MainScreen(Engimon starter) {
+    public MainScreen(Game game) {
+        this(null, game);
+    }
+
+    public MainScreen(Engimon starter, Game game) {
         MainScreen.starter = starter;
 
         mapLoader = new MapLoader();
         camera = new OrthographicCamera();
+
+        this.game = game;
 
         try {
             // starter null = loaded game
@@ -66,7 +75,7 @@ public class MainScreen implements Screen {
 
             Gdx.input.setInputProcessor(player);
 
-            if (starter != null) InGameHelper.spawnWildEngimons();
+            this.inGameThread.start();;
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Failed to create player");
@@ -146,6 +155,7 @@ public class MainScreen implements Screen {
     public void dispose() {
         mapLoader.getMap().dispose();
         mapLoader.getRenderer().dispose();
+        this.inGameThread.interrupt();
     }
 
     @Override
@@ -212,7 +222,7 @@ public class MainScreen implements Screen {
         );
 
         root.clearChildren();
-        addRightOverlay(optionBox);
+        optionBox.addOverlayTo(root);
 
         activeScreen = optionBox;
     }
@@ -259,6 +269,8 @@ public class MainScreen implements Screen {
     }
 
     private void generateEngimonSelectionMenu(Engimon e, int idx){
+        System.out.println("UPDATED!");
+        System.out.println(idx);
         ArrayList<OnSelectHandler> selectHandlers = new ArrayList<>();
         selectHandlers.add(()->{ dialog(e.details(), 0.65f); });
         selectHandlers.add(()->{ dialog(player.switchActiveEngimon(idx)); });
@@ -345,30 +357,32 @@ public class MainScreen implements Screen {
         ArrayList<OnSelectHandler> selectHandlers = new ArrayList<OnSelectHandler>();
         for(int i = 0; i<player.engimonList.size(); i++){
             int idx = i;
-            selectHandlers.add(() -> { dialog(player.useSkillItem(player.getEngimon(idx), s)); });
+            Engimon target = player.getEngimon(idx);
+            if (target.getSkills().size()<4) {
+                selectHandlers.add(() -> { dialog(player.useSkillItem(player.getEngimon(idx), s)); });
+            } else {
+                selectHandlers.add(()->{ generateSkillItemMaxUsageMenu(player.getEngimon(idx), s ); });
+            }
         }
         skillItemToEngimon = new OptionScreen(player.getAllEngimonDisplayText(), selectHandlers, 0.65f);
     }
 
-    private void addBottomOverlay(OverlayScreen overlay){
-        root.add(overlay)
-                .expand()
-                .align(Align.bottom)
-                .pad(8f)
-                ;
-    }
-
-    private void addRightOverlay(OverlayScreen overlay){
-        root.add(overlay)
-                .expand()
-                .align(Align.right)
-                .pad(8f)
-        ;
+    private void generateSkillItemMaxUsageMenu(Engimon e, SkillItem s){
+        ArrayList<OnSelectHandler> selectHandlers = new ArrayList<OnSelectHandler>();
+        for(int i = 0; i<4; i++){
+            int idx = i;
+            selectHandlers.add(()->{dialog(player.useSkillItem(e, s, idx));});
+        }
+        selectHandlers.add(()->{hideDialog();});
+        ArrayList<String> skills = e.getAllSkillName();
+        skills.add("Cancel");
+        skillItemUsageMax = new OptionScreen(skills,selectHandlers);
+        switchOverlayScreen(skillItemUsageMax);
     }
 
     public void openController(){
         root.clearChildren();
-        addRightOverlay(optionBox);
+        optionBox.addOverlayTo(root);
         activeScreen.close();
         activeScreen = optionBox;
         activeScreen.toggle();
@@ -391,7 +405,7 @@ public class MainScreen implements Screen {
 
     public void dialog(String str, float scale){
         root.clearChildren();
-        addBottomOverlay(dialogueScreen);
+        dialogueScreen.addOverlayTo(root);
         activeScreen.close();
         activeScreen = dialogueScreen;
         dialogueScreen.animateText(str, scale);
@@ -404,20 +418,15 @@ public class MainScreen implements Screen {
 
     public void switchOverlayScreen(OverlayScreen screen){
         root.clearChildren();
-        if(screen instanceof OptionScreen){
-            addRightOverlay(screen);
-        }else{
-            addBottomOverlay(screen);
-        }
+        screen.addOverlayTo(root);
 
         activeScreen.close();
         activeScreen = screen;
         activeScreen.open();
     }
 
-    public void dummyFunction(String str){
-        System.out.println("MASUK BANG");
-        System.out.println(str);
+    public void changeToEndScreen() {
+        game.setScreen(new EndScreen(game));
     }
 
     public void hideDialog(){

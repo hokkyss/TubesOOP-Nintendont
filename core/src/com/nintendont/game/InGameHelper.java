@@ -10,24 +10,36 @@ import com.nintendont.game.maps.*;
 import com.nintendont.game.screens.BattleScreen;
 import com.nintendont.game.screens.MainScreen;
 import com.nintendont.game.screens.StarterScreen;
-
+import java.lang.*;
 import java.util.ArrayList;
-import java.util.Random;
 
-public class InGameHelper {
-    public static final int LEVEL_BIG_WILD_ENGIMON = 30;
+public class InGameHelper extends Thread {
     public static final int MAX_WILD_ENGIMON = 75;
     public static final int RESPAWN_TURN = 60;
     public static final int WILD_ENGIMON_MOVE_TURN = 5;
+    public static final int WILD_ENGIMON_LEVEL_UP_TURN = 15;
+
+    @Override
+    public void run() {
+        while(this.isAlive()){
+            if (MainScreen.turn % RESPAWN_TURN == 0) spawnWildEngimons();
+            else if (MainScreen.turn % WILD_ENGIMON_MOVE_TURN == 0) moveWildEngimon();
+            else if (MainScreen.turn % WILD_ENGIMON_LEVEL_UP_TURN == 0) levelUpWildEngimons();
+
+            MainScreen.turn++;
+            try {
+                this.sleep(Logger.randomize.nextInt(2000) + 1000);
+            } catch (Exception ignored) {}
+        }
+    }
 
     public static void spawnWildEngimons() {
-        Random rand = new Random();
         MainScreen.wildEngimons.clear();
 
         for (int i = 0; i < MAX_WILD_ENGIMON; i++) {
-            Species s = Species.listOfSpecies.get(rand.nextInt(Species.listOfSpecies.size()));
+            Species s = Species.listOfSpecies.get(Logger.randomize.nextInt(Species.listOfSpecies.size()));
             ArrayList<Element> elements = s.getElements();
-            Position p = new Position(rand.nextInt(47) + 9, rand.nextInt(45) + 10);
+            Position p = new Position(Logger.randomize.nextInt(47) + 9, Logger.randomize.nextInt(45) + 10);
 
             boolean seaEngimon = elements.contains(Element.WATER);
             boolean grasslandEngimon = elements.contains(Element.GROUND) || elements.contains(Element.ELECTRIC);
@@ -41,7 +53,7 @@ public class InGameHelper {
                     (grasslandEngimon && t == Terrain.GRASSLAND) ||
                     (mountainEngimon && t == Terrain.MOUNTAIN) ||
                     (tundraEngimon && t == Terrain.TUNDRA)))
-                MainScreen.wildEngimons.add(new EngimonLiar(s.getSpecies(), s, rand.nextInt(MainScreen.player.getActiveEngimon().getLevel()) + 1, p));
+                MainScreen.wildEngimons.add(new EngimonLiar(s.getSpecies(), s, Logger.randomize.nextInt(MainScreen.player.getActiveEngimon().getLevel()) + 1, p));
         }
     }
 
@@ -64,7 +76,7 @@ public class InGameHelper {
         }
 
         if (!MainScreen.mapLoader.isWalkable(x, y, dx, dy)) {
-            throw new Exception("You\'ve hit something!");
+            throw new Exception("You've hit something!");
         } else {
             obj.setPosition(new Position(x + dx, y + dy));
         }
@@ -99,6 +111,12 @@ public class InGameHelper {
                     engimonLiar.setPosition(currPos);
             }
         }
+    }
+
+    public static void levelUpWildEngimons() {
+            for (EngimonLiar engimonLiar : MainScreen.wildEngimons) {
+                    engimonLiar.addExp(100);
+            }
     }
 
     public static void battleNearbyEngimon(Player player, MainScreen mainScreen) throws Exception {

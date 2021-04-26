@@ -3,7 +3,6 @@ package com.nintendont.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -94,30 +93,13 @@ public class OptionScreen extends OverlayScreen{
         changeArrowVisibility();
     }
 
-    public ArrayList<Label> getOptions()
-    {
-        return this.options;
-    }
-
     public void handleSelect(){
         this.interfaces.get(this.selectedIndex).onSelect();
     }
 
-    public int getSelected()
+    @Override
+    public void addOverlayTo(Table root)
     {
-        return this.selectedIndex;
-    }
-
-    public void clearChoices()
-    {
-        this.uiContainer.clearChildren();
-        this.arrows.clear();
-        this.options.clear();
-        this.selectedIndex = 0;
-    }
-
-    public void cancel()
-    {
-        this.setVisible(false);
+        root.add(this).expand().align(Align.right).pad(8f);
     }
 }

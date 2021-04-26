@@ -1,7 +1,6 @@
 package com.nintendont.game.entities;
 
 import com.nintendont.game.comparators.ElementComparator;
-import com.nintendont.game.Logger;
 import java.util.ArrayList;
 
 public enum Element {
@@ -21,13 +20,12 @@ public enum Element {
     }
 
     public static ArrayList<Element> constructElements(String elements) {
-        ArrayList<Element> res = new ArrayList<Element>();
+        ArrayList<Element> res = new ArrayList<>();
         try {
             for (String el : elements.split(",")) {
                 res.add(Element.valueOf(el.toUpperCase().trim()));
             }
-        } catch (Exception e) {
-            Logger.print("Element not found");
+        } catch (Exception ignored){
         }
         res.sort(comparator);
         return res;

@@ -37,7 +37,7 @@ public class Species {
 
         this.ICON_SPRITE_MAP = new Texture(Gdx.files.internal(this.pathIconSprite));
         TextureRegion[][] temp = TextureRegion.split(ICON_SPRITE_MAP, ICON_SPRITE_MAP.getWidth() / 2, ICON_SPRITE_MAP.getHeight());
-        this.ICON_ANIMATION = new Animation<TextureRegion>(0.5f, temp[0]);
+        this.ICON_ANIMATION = new Animation<>(0.5f, temp[0]);
     }
 
     public Species(Species target) {

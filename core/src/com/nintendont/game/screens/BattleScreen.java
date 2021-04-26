@@ -55,17 +55,20 @@ public class BattleScreen extends Table implements InputProcessor {
 
             try {
                 if (playerEngimon.isDead()) {
+                    res.append("Oh no!\n");
+                    res.append(playerEngimon.getName() + " has reach it's max level!\n");
+                    res.append(playerEngimon.getName() + " will rest forever, thank you trainer!\n\n");
                     Logger.EngimonDeadByLevel(playerEngimon);
                     MainScreen.player.engimonList.remove(playerEngimon);
-                } else {
-                    res.append("You get new Engimon: " + enemyEngimon.getName() + "\n");
-                    Engimon rewardEngimon = new Engimon(enemyEngimon.getName(), enemyEngimon.getSpecies(), enemyEngimon.getLevel());
-                    MainScreen.player.engimonList.insert(rewardEngimon);
-
-                    SkillItem rewardSkillItem = SkillItem.getRandomSkillItem(enemyEngimon.getElements());
-                    MainScreen.player.skillItemList.insert(rewardSkillItem);
-                    res.append("You get new SkillItem: \n" + rewardSkillItem.display());
                 }
+                res.append("You get new Engimon: " + enemyEngimon.getName() + "\n");
+                Engimon rewardEngimon = new Engimon(enemyEngimon.getName(), enemyEngimon.getSpecies(), enemyEngimon.getLevel());
+                MainScreen.player.engimonList.insert(rewardEngimon);
+
+                SkillItem rewardSkillItem = SkillItem.getRandomSkillItem(enemyEngimon.getElements());
+                MainScreen.player.skillItemList.insert(rewardSkillItem);
+                res.append("You get new SkillItem: \n" + rewardSkillItem.display());
+
             } catch (Exception err) {
                 Logger.print(err.getMessage());
             }
@@ -77,7 +80,8 @@ public class BattleScreen extends Table implements InputProcessor {
 
             if (playerEngimon.getLife() == 0) {
                 try {
-                    MainScreen.player.engimonList.remove(playerEngimon);
+                    MainScreen.player.handleEngimonDie(playerEngimon);
+//                    MainScreen.player.engimonList.remove(playerEngimon);
                 } catch(Exception e) {}
             }
         }
@@ -98,7 +102,7 @@ public class BattleScreen extends Table implements InputProcessor {
                 )
         );
 
-        main.dialog(res.toString(), 1f);
+        main.dialog(res.toString(), 0.65f);
 
         this.add(playerEngimon.getName() + " (" + playerEngimonPower + ")").height(200).colspan(2);
         this.add().colspan(2);
