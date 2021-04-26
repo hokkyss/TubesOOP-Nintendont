@@ -1,24 +1,52 @@
-import com.nintendont.game.entities.Skill;
-import com.nintendont.game.entities.SkillItem;
-import org.junit.Before;
+import com.nintendont.game.entities.*;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.junit.Test;
 import org.junit.Assert;
 
-import com.nintendont.game.entities.Engimon;
-import com.nintendont.game.Util;
-import com.nintendont.game.entities.Species;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class EngimonTest {
-    /*
-    @Before
-    public void construct_species
+    public void load()
     {
-        try
-        {
-            Util.loadSpecies();
+        String filePath = System.getProperty("user.dir") + "/../data/Engimon.xlsx";
+
+        Workbook workbook = null;
+        try {
+            workbook = WorkbookFactory.create(new FileInputStream(filePath));
+        } catch (IOException e) {
         }
-        catch (Exception e)
-        {
+
+        Sheet sheet = workbook.getSheetAt(0);
+
+        Species.listOfSpecies = new ArrayList<>();
+
+        int i = 0;
+        for (Row row : sheet) {
+            if (i != 0) { // not column name
+                String name = row.getCell(0).toString();
+                ArrayList<Element> elements = Element.constructElements(row.getCell(1).toString());
+                Skill uniqueSkill = Skill.getBySkillName(row.getCell(2).toString());
+                if (uniqueSkill == null) {
+                    System.out.println(row.getCell(2).toString());
+                }
+                ArrayList<String> responses = new ArrayList<>();
+                responses.add(row.getCell(3).toString());
+                responses.add(row.getCell(4).toString());
+
+                Species s = new Species(name, elements, uniqueSkill, responses);
+                Species.listOfSpecies.add(s);
+            }
+            i++;
+        }
+
+        try {
+            workbook.close();
+        } catch (IOException e) {
 
         }
     }
@@ -26,19 +54,22 @@ public class EngimonTest {
     @Test
     public void test_contruct()
     {
+        load();
         Assert.assertEquals(0, Engimon.EngimonCount);
 
-        Engimon a = new Engimon("Embirun", Species.get("Emberon"), 1);
+        Engimon a = new Engimon("Embirun", Species.get("Emberon"), 1, true);
         Assert.assertEquals(1, a.getLevel());
         Assert.assertEquals("Embirun", a.getName());
         Assert.assertEquals(3, a.getLife());
-        Assert.assertEquals(Engimon.EngimonCount - 1, a.getID());
+        Assert.assertEquals(Engimon.EngimonCount, a.getID());
     }
 
     @Test
     public void test_get_set_level()
     {
-        Engimon a = new Engimon("Embirun", Species.get("Emberon"), 5);
+        load();
+
+        Engimon a = new Engimon("Embirun", Species.get("Emberon"), 5, true);
         Assert.assertEquals(5, a.getLevel());
         a.setLevel(49);
         Assert.assertEquals(49, a.getLevel());
@@ -47,7 +78,9 @@ public class EngimonTest {
     @Test
     public void test_exp()
     {
-        Engimon a = new Engimon("Embirun", Species.get("Emberon"), 5);
+        load();
+
+        Engimon a = new Engimon("Embirun", Species.get("Emberon"), 5, true);
         a.addExp(50);
         Assert.assertEquals(5, a.getLevel());
 
@@ -58,7 +91,9 @@ public class EngimonTest {
     @Test
     public void test_dead()
     {
-        Engimon a = new Engimon("Embirun", Species.get("Emberon"), 5);
+        load();
+
+        Engimon a = new Engimon("Embirun", Species.get("Emberon"), 5, true);
         a.addExp(50);
         Assert.assertEquals(5, a.getLevel());
         Assert.assertFalse(a.isDead());
@@ -74,7 +109,9 @@ public class EngimonTest {
     @Test
     public void test_skill_compatible()
     {
-        Engimon a = new Engimon("Embirun", Species.get("Emberon"), 1);
+        load();
+
+        Engimon a = new Engimon("Embirun", Species.get("Emberon"), 1, true);
         try
         {
             // seharusnya masuk ke dalam catch
@@ -109,7 +146,9 @@ public class EngimonTest {
     @Test
     public void test_faint()
     {
-        Engimon a = new Engimon("Embirun", Species.get("Emberon"), 1);
+        load();
+
+        Engimon a = new Engimon("Embirun", Species.get("Emberon"), 1, true);
 
         Assert.assertEquals(3, a.getLife());
         a.faint();
@@ -117,5 +156,4 @@ public class EngimonTest {
         a.faint();
         Assert.assertEquals(1, a.getLife());
     }
-    */
 }

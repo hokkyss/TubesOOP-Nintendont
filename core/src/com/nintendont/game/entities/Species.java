@@ -25,6 +25,21 @@ public class Species {
 
     }
 
+    // konstruktor ini digunakan khusus di dalam unit testing
+    public Species(String species, ArrayList<Element> elements, Skill uniqueSkill, ArrayList<String> response) {
+        this.species = species;
+        this.elements = elements;
+        elements.sort(Element.comparator);
+        this.uniqueSkill = uniqueSkill;
+        this.response = response;
+
+        this.pathBattleSprite = null;
+        this.pathIconSprite = null;
+
+        this.ICON_SPRITE_MAP = null;
+        this.ICON_ANIMATION = null;
+    }
+
     public Species(String species, ArrayList<Element> elements, Skill uniqueSkill, ArrayList<String> response, String pathBattleSprite, String pathIconSprite) {
         this.species = species;
         this.elements = elements;

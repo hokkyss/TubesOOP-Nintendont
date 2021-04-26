@@ -33,6 +33,25 @@ public class Engimon {
         this.species = null;
     }
 
+    // konstruktor ini hanya digunakan untuk unitTesting
+    public Engimon(String name, Species species, int level, boolean unitTesting) {
+        this.idEngimon = EngimonCount + 1;
+        this.name = name;
+        this.species = species;
+        this.level = level;
+        this.exp = 0;
+        this.cumExp = (level - 1) * EXP_PER_LEVEL;
+        this.life = 3;
+
+        this.skills = new ArrayList<>();
+        this.skills.add(new Skill(species.getUniqueSkill()));
+
+        this.parents = null;
+        EngimonCount++;
+
+        this.engimonTexture = null;
+    }
+
     public Engimon(String name, Species species, int level, HashMap<String, String> parents) {
         this.idEngimon = EngimonCount + 1;
         this.name = name;

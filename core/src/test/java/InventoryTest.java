@@ -1,30 +1,18 @@
-import com.nintendont.game.Logger;
 import com.nintendont.game.entities.Inventory;
-import com.nintendont.game.entities.Species;
 import com.nintendont.game.exceptions.InputTooLargeException;
 import com.nintendont.game.exceptions.ItemNotFoundException;
 import org.junit.Test;
 import org.junit.Assert;
-import org.junit.Before;
 
 import com.nintendont.game.entities.SkillItem;
-import com.nintendont.game.entities.Engimon;
 
 public class InventoryTest {
-    Inventory<Engimon> engimonInventory;
     Inventory<SkillItem> skillItemInventory;
-    @Before
-    public void construct()
-    {
-        engimonInventory = new Inventory<>();
-        skillItemInventory = new Inventory<>();
-    }
 
     @Test
     public void test_get()
     {
-        Logger.print(skillItemInventory);
-        Logger.print(engimonInventory);
+        skillItemInventory = new Inventory<>();
         skillItemInventory.insert(SkillItem.TM24);
         Assert.assertEquals(SkillItem.TM24, skillItemInventory.get(0));
         Assert.assertNotNull(skillItemInventory.getCount(SkillItem.TM24));
@@ -35,8 +23,7 @@ public class InventoryTest {
     @Test
     public void test_remove()
     {
-        Logger.print(skillItemInventory);
-        Logger.print(engimonInventory);
+        skillItemInventory = new Inventory<>();
         try
         {
             // seharusnya masuk ke dalam blok catch
@@ -80,12 +67,11 @@ public class InventoryTest {
     @Test
     public void test_full()
     {
+        skillItemInventory = new Inventory<>();
         try
         {
             skillItemInventory.insert(SkillItem.TM26, 10);
             Assert.assertFalse(Inventory.isFull());
-            engimonInventory.insert(new Engimon("Embirun", Species.get("Emberon"), 1), 10);
-            Assert.assertTrue(Inventory.isFull());
         }
         catch(InputTooLargeException e)
         {
