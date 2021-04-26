@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.nintendont.game.InGameHelper;
 import com.nintendont.game.Logger;
+import com.nintendont.game.Sounds;
 import com.nintendont.game.entities.Engimon;
 import com.nintendont.game.entities.EngimonLiar;
 import com.nintendont.game.entities.Player;
@@ -43,6 +44,10 @@ public class BattleScreen extends Table implements InputProcessor {
         StringBuilder res = new StringBuilder();
 
         if (winner == 1) {
+            Sounds.battleWin.setLooping(true);
+            Sounds.battleWin.setVolume(0.25f);
+            Sounds.battleWin.play();
+
             res.append(playerEngimon.getName() + " won the battle!\n\n");
             int expWon = enemyEngimon.getLevel() * Player.EXP_MULT;
             playerEngimon.addExp(expWon);
@@ -64,6 +69,8 @@ public class BattleScreen extends Table implements InputProcessor {
                 Logger.print(err.getMessage());
             }
         } else {
+            Sounds.engimonFaint.play(0.25f);
+
             res.append(playerEngimon.getName() + " lost the battle!\n\n");
             res.append(playerEngimon.faint());
 

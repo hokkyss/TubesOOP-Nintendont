@@ -62,6 +62,7 @@ public class Player implements Creature, InputProcessor {
     public Player(MainScreen screen, Engimon starter, MapLoader mapLoader) throws InputTooLargeException {
         this.screen = screen;
         this.activeEngimonIdx = 0;
+
         // to access map properties
         this.mapLoader = mapLoader;
 
@@ -74,7 +75,11 @@ public class Player implements Creature, InputProcessor {
         } catch (Exception err) {
             throw err;
         }
-        CHEAT();
+
+        if (GameConfig.USE_CHEAT) {
+            CHEAT();
+        }
+
         this.playerTexture = PlayerSprite.STANDING_SOUTH;
         this.state = PlayerState.STANDING;
         this.walkDir = null;
@@ -131,6 +136,7 @@ public class Player implements Creature, InputProcessor {
         String s = "Active engimon has been changed from " + this.engimonList.get(this.activeEngimonIdx).getName();
         s = s + "\nto " + this.engimonList.get(idx).getName();
         this.activeEngimonIdx = idx;
+        Sounds.switchEngimon.play(0.25f);
         return s;
     }
 
@@ -229,7 +235,7 @@ public class Player implements Creature, InputProcessor {
         ArrayList<Element> inheritedElmt = new ArrayList<Element>();
         if (elmtA == elmtB) {
             inheritedElmt.add(elmtA);
-        } else if (elmtA != elmtB) {
+        } else {
             if (Element.getAdvantage(elmtA, elmtB) > Element.getAdvantage(elmtB, elmtA)) {
                 inheritedElmt.add(elmtA);
             } else if (Element.getAdvantage(elmtA, elmtB) < Element.getAdvantage(elmtB, elmtA)) {
@@ -431,9 +437,11 @@ public class Player implements Creature, InputProcessor {
             if(activeScreen instanceof OptionScreen){
                 if (keycode == Input.Keys.UP || keycode == Input.Keys.W) {
                     ((OptionScreen) activeScreen).moveUp();
+                    Sounds.menuCursor.play(0.25f);
                 }
                 if (keycode == Input.Keys.DOWN || keycode == Input.Keys.S) {
                     ((OptionScreen) activeScreen).moveDown();
+                    Sounds.menuCursor.play(0.25f);
                 }
                 if (keycode == Input.Keys.SPACE){
                     ((OptionScreen) activeScreen).handleSelect();
@@ -473,6 +481,9 @@ public class Player implements Creature, InputProcessor {
                 else if (MainScreen.turn % InGameHelper.WILD_ENGIMON_MOVE_TURN == 0) InGameHelper.moveWildEngimon();
             }
             if (keycode == Input.Keys.SPACE) {
+                if (!screen.getActiveScreen().isVisible()) {
+                    Sounds.menuOpen.play(0.25f);
+                }
                 screen.openController();
                 return true;
             } else {

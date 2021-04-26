@@ -3,8 +3,7 @@ package com.nintendont.game.entities;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Interpolation;
-import com.nintendont.game.GameConfig;
-import com.nintendont.game.Logger;
+import com.nintendont.game.*;
 import com.nintendont.game.entities.saveable.SaveableEngimon;
 import com.nintendont.game.exceptions.SkillNotCompatibleException;
 import com.nintendont.game.exceptions.SkillHasBeenLearntException;
@@ -15,7 +14,6 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.nintendont.game.Logger;
-import com.nintendont.game.Util;
 import com.nintendont.game.comparators.SkillComparator;
 import com.nintendont.game.exceptions.*;
 
@@ -223,6 +221,7 @@ public class Engimon {
     {
         return this.name+ " - " + this.species.getSpecies() + " / Lv. " + this.level;
     }
+
     private boolean hasLearnt(Skill s) {
         return this.skills.contains(s);
     }
@@ -237,6 +236,9 @@ public class Engimon {
             Logger.print("Skill not compatible or engimon has learnt the skill");
             throw new SkillNotCompatibleException(s, this);
         }
+
+        Sounds.engimonLearnSkill.play(0.25f);
+
         this.skills.add(new Skill(s));
     }
 

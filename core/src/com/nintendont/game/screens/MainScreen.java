@@ -125,9 +125,9 @@ public class MainScreen implements Screen {
 
     @Override
     public void show() {
-//        Sounds.defaultMusic.setLooping(true);
-//        Sounds.defaultMusic.setVolume(0.15f);
-//        Sounds.defaultMusic.play();
+        Sounds.defaultMusic.setLooping(true);
+        Sounds.defaultMusic.setVolume(0.15f);
+        Sounds.defaultMusic.play();
 
         mapLoader.initAnimationTiles();
 
@@ -184,14 +184,26 @@ public class MainScreen implements Screen {
             handleInteract(player.getLookDir());
         };
 
-        OnSelectHandler onEngimon = () -> {updateEngimonInventoryOverlay(); switchOverlayScreen(engimonInventory);};
-        OnSelectHandler onSkillItem = () -> {updateSkillItemInventoryOverlay(); switchOverlayScreen(skillItemInventory);};
-        OnSelectHandler onCheck = () -> {dialog(player.getActiveEngimon().interact());};
+        OnSelectHandler onEngimon = () -> {
+            updateEngimonInventoryOverlay();
+            switchOverlayScreen(engimonInventory);
+        };
+        OnSelectHandler onSkillItem = () -> {
+            updateSkillItemInventoryOverlay();
+            switchOverlayScreen(skillItemInventory);
+        };
+        OnSelectHandler onCheck = () -> {
+            dialog(player.getActiveEngimon().interact());
+        };
         OnSelectHandler onSave = () -> {
             InGameHelper.saveGame(this, player);
             dialog("Game saved!");
+            Sounds.saveGame.play(0.25f);
         };
-        OnSelectHandler onCancel = () -> {hideDialog();};
+        OnSelectHandler onCancel = () -> {
+            Sounds.menuClose.play(0.25f);
+            hideDialog();
+        };
 
         dialogueScreen = new DialogueScreen();
         optionBox = new OptionScreen(
@@ -215,7 +227,10 @@ public class MainScreen implements Screen {
             });
         }
 
-        selectHandlers.add(()->{hideDialog();});
+        selectHandlers.add(() -> {
+            Sounds.menuClose.play(0.25f);
+            hideDialog();
+        });
 
         ArrayList<String> menu = player.getAllEngimonDisplayText();
         menu.add("Cancel");
@@ -232,7 +247,10 @@ public class MainScreen implements Screen {
             });
         }
 
-        selectHandlers.add(()->{hideDialog();});
+        selectHandlers.add(()->{
+            Sounds.menuClose.play(0.25f);
+            hideDialog();
+        });
 
         ArrayList<String> menu = player.getAllSkillItemDisplayText();
         menu.add("Close");
@@ -254,15 +272,19 @@ public class MainScreen implements Screen {
             }
         }); //breed
         selectHandlers.add(()->{ dialog(player.releaseEngimon(e)); });
-        selectHandlers.add(()->{ hideDialog(); });
+        selectHandlers.add(()->{
+            Sounds.menuClose.play(0.25f);
+            hideDialog();
+        });
 
         engimonSelection = new OptionScreen(Arrays.asList("Detail Engimon", "Switch Engimon", "Rename", "Breed", "Release Engimon","Cancel"), selectHandlers, 0.9f);
     }
 
     private void generateSetNameFor(int idx){
         OnSubmitHandler onSetName = (name) -> {
-            player.setEngimonName(idx, (String) name);
+            player.setEngimonName(idx, name.toString());
             Gdx.input.setInputProcessor(player);
+            Sounds.menuClose.play(0.25f);
             hideDialog();
         };
         nameInput = new InputScreen("Enter name : ", onSetName);
@@ -295,7 +317,10 @@ public class MainScreen implements Screen {
             }
         }
 
-        selectHandlers.add(()->{hideDialog();});
+        selectHandlers.add(()->{
+            Sounds.menuClose.play(0.25f);
+            hideDialog();
+        });
 
         ArrayList<String> menu = player.getAllEngimonDisplayText();
         menu.remove(selected.display()); //deleting current engimon
@@ -308,7 +333,10 @@ public class MainScreen implements Screen {
         selectHandlers.add(()->{ dialog(s.display(), 0.65f);});
         selectHandlers.add(()->{ generateSkillItemUseMenu(s); switchOverlayScreen(skillItemToEngimon);});
         selectHandlers.add(()->{ dialog(player.throwSkillItem(1, s));});
-        selectHandlers.add(()->{hideDialog();});
+        selectHandlers.add(()->{
+            hideDialog();
+            Sounds.menuClose.play(0.25f);
+        });
 
         skillItemSelection = new OptionScreen(Arrays.asList("Detail Skill Item", "Use Skill Item", "Dispose Skill Item","Cancel"),selectHandlers, 0.9f);
     }
@@ -347,11 +375,9 @@ public class MainScreen implements Screen {
     }
 
     public void handleInteract(Direction dir){
-        System.out.println("SINI BANG");
         Position pos = player.getPosition();
 
         if(dir == null){
-            System.out.println("BROKE!!!!!!!!");
             return;
         }
 
