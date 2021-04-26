@@ -260,6 +260,7 @@ public class StarterScreen implements Screen {
         loadBtn.setPosition(col_width * 4, 0);
         loadBtn.addListener(new InputListener(){
             private StarterScreen screen;
+            private Game game;
             @Override
             public void touchUp (InputEvent event,
                                  float x,
@@ -269,14 +270,15 @@ public class StarterScreen implements Screen {
             }
             @Override
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                InGameHelper.loadGame(this.screen);
+                InGameHelper.loadGame(this.game, this.screen);
                 return true;
             }
-            private InputListener init(StarterScreen screen){
+            private InputListener init(Game game, StarterScreen screen){
                 this.screen = screen;
+                this.game = game;
                 return this;
             }
-        }.init(this));
+        }.init(this.game, this));
 
         // add buttons to stage
         stage.addActor(titleLabel);
