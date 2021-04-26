@@ -193,31 +193,30 @@ public class Engimon {
     }
 
     public String details() {
-        String s = "";
-        s = s + "=======ENGIMON'S DETAIL=======\n";
-        s = s + "ID Engimon : " + this.idEngimon + "\n";
-        s = s + "Nama : " + this.name + "\n";
-        s = s + "Species : " + this.species.getSpecies() + "\n";
-        s = s + "Life: " + this.life + "\n";
-        s = s + "Elements : "
-                + this.species.getElements().stream().map(e -> e.name()).collect(Collectors.joining(", ")) + "\n";
-        s = s + "Level : " + this.level + "\n";
-        s = s + "EXP : (" + this.exp + "/100)\n";
-        s = s + "Total EXP : " + this.cumExp + "\n";
-        s = s + "Unique Skill : " + this.species.getUniqueSkill().skillName + "\n";
+        StringBuilder s = new StringBuilder();
+        s.append("=======ENGIMON'S DETAIL=======\n");
+        s.append("ID Engimon : " + this.idEngimon + "\n");
+        s.append("Nama : " + this.name + "\n");
+        s.append("Species : " + this.species.getSpecies() + "\n");
+        s.append("Life: " + this.life + "\n");
+        s.append("Elements : ");
+        s.append(this.species.getElements().stream().map(e -> e.name()).collect(Collectors.joining(", ")) + "\n");
+        s.append("Level : " + this.level + "\n");
+        s.append("EXP : (" + this.exp + "/100)\n");
+        s.append("Total EXP : " + this.cumExp + "\n");
+        s.append("Unique Skill : " + this.species.getUniqueSkill().skillName + "\n");
 
-        // TODO: Print skill level, mastery level, etc.
-        s = s + "Skills : " + this.getSkills().stream().map(S -> S.skillName + "(" + S.getMasteryLevel() + ")").collect(Collectors.joining(", ")) + "\n";
+        s.append("Skills : " + this.getSkills().stream().map(S -> S.skillName + "(" + S.getMasteryLevel() + ")").collect(Collectors.joining(", ")) + "\n");
 
         if (this.parents != null && this.parents.size() == 2) {
-            s = s + "Parents : " + this.parents.entrySet().stream()
-                    .map(entry -> entry.getKey() + " - " + entry.getValue()).collect(Collectors.joining(" <3 ")) + "\n";
+            s.append("Parents : " + this.parents.entrySet().stream()
+                    .map(entry -> entry.getKey() + " - " + entry.getValue()).collect(Collectors.joining(" <3 ")) + "\n");
         } else {
-            s = s + "Parents : -\n";
+            s.append("Parents : -\n");
         }
 
-        s = s + "==============================";
-        return s;
+        s.append("==============================");
+        return s.toString();
     }
 
     public String faint() {

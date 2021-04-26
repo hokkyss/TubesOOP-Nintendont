@@ -70,8 +70,14 @@ public class Skill implements Comparable<Skill> {
         return s;
     }
 
-    public boolean equals(Skill s) {
-        return this.skillName.equals(s.skillName);
+    @Override
+    public boolean equals(Object s) {
+        if(s == this) return true;
+
+        if(!(s instanceof Skill)) return false;
+
+        Skill temp = (Skill)s;
+        return this.skillName.equals(temp.skillName);
     }
 
     public static Skill getBySkillName(String skillName) {
