@@ -29,16 +29,18 @@ public class SaveableEngimon {
         this.exp = e.getExp();
         this.cumExp = e.getCumExp();
         this.life = e.getLife();
-        this.skills = e.getSkills();
-        this.parents = e.getParents();
+
+        this.skills = new ArrayList<Skill>();
+        this.skills.addAll(e.getSkills());
+
+        this.parents = null;
+        if (e.getParents() != null) {
+            this.parents = new HashMap<String, String>();
+            e.getParents().forEach((key, value) -> this.parents.put(key, value));
+        }
     }
 
     public Engimon toEngimon() {
-        return new Engimon(
-                this.name,
-                this.species.toSpecies(),
-                this.level,
-                this.parents
-        );
+        return new Engimon(this);
     }
 }

@@ -2,6 +2,7 @@ package com.nintendont.game.entities;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.nintendont.game.GameConfig;
+import com.nintendont.game.entities.saveable.SaveableEngimonLiar;
 
 public class EngimonLiar extends Engimon implements Creature {
     private Position position;
@@ -18,6 +19,11 @@ public class EngimonLiar extends Engimon implements Creature {
     public EngimonLiar(Engimon e, Position p) {
         super(e.getName(), e.getSpecies(), e.getLevel());
         this.position = p;
+    }
+
+    public EngimonLiar(SaveableEngimonLiar sel) {
+        super(sel);
+        this.position = sel.getPosition();
     }
 
     @Override

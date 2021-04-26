@@ -1,5 +1,6 @@
 package com.nintendont.game;
 
+import com.nintendont.game.comparators.EngimonComparator;
 import com.nintendont.game.entities.*;
 import com.nintendont.game.comparators.SkillItemComparator;
 import com.nintendont.game.entities.saveable.SaveableEngimon;
@@ -78,6 +79,8 @@ public class GameData {
                     e.toEngimon()
             );
         }
+
+//        MainScreen.player.engimonList.invenList.sort(new EngimonComparator());
 
         MainScreen.player.activeEngimonPos = this.activeEngimonPos;
         MainScreen.player.switchActiveEngimon(this.activeEngimonIdx);

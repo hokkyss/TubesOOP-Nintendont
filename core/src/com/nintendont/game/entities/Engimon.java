@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Interpolation;
 import com.nintendont.game.GameConfig;
 import com.nintendont.game.Logger;
+import com.nintendont.game.entities.saveable.SaveableEngimon;
 import com.nintendont.game.exceptions.SkillNotCompatibleException;
 import com.nintendont.game.exceptions.SkillHasBeenLearntException;
 import java.util.*;
@@ -56,7 +57,29 @@ public class Engimon {
         EngimonCount++;
 
         this.engimonTexture = species.getIconAnimation().getKeyFrame(0);
+    }
 
+    public Engimon(SaveableEngimon se) {
+        this.idEngimon = EngimonCount + 1;
+        this.name = se.name;
+        this.species = se.species.toSpecies();
+        this.level = se.level;
+        this.exp = se.exp;
+        this.cumExp = se.cumExp;
+        this.life = se.life;
+
+        this.skills = new ArrayList<Skill>();
+        this.skills.addAll(se.skills);
+
+        this.parents = null;
+        if (se.parents != null) {
+            this.parents = new HashMap<String, String>();
+            se.parents.forEach((key, value) -> this.parents.put(key, value));
+        }
+
+        EngimonCount++;
+
+        this.engimonTexture = species.getIconAnimation().getKeyFrame(0);
     }
 
     public Engimon(String name, Species species, int level) {

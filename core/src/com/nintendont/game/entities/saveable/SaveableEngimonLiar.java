@@ -27,11 +27,6 @@ public class SaveableEngimonLiar extends SaveableEngimon implements Creature {
     }
 
     public EngimonLiar toEngimonLiar() {
-        return new EngimonLiar(
-                this.name,
-                this.species.toSpecies(),
-                this.level,
-                this.position
-        );
+        return new EngimonLiar(this);
     }
 }
