@@ -3,7 +3,6 @@ package com.nintendont.game.entities;
 import com.nintendont.game.Logger;
 import java.util.ArrayList;
 
-// learn skill belum karena bakal butuh engimon
 public class SkillItem implements Comparable<SkillItem> {
     // atribut skill item
     public final String itemName;

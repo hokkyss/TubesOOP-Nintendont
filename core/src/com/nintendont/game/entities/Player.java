@@ -1,21 +1,11 @@
 package com.nintendont.game.entities;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Interpolation;
-import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.nintendont.game.Sounds;
-import com.nintendont.game.entities.PlayerSprite;
 import com.nintendont.game.GameConfig;
 import com.nintendont.game.Logger;
 import com.nintendont.game.Util;
@@ -28,11 +18,9 @@ import com.nintendont.game.screens.MainScreen;
 import com.nintendont.game.screens.OptionScreen;
 import com.nintendont.game.screens.OverlayScreen;
 import com.nintendont.game.InGameHelper;
-import org.apache.xpath.operations.Bool;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Scanner;
 
 public class Player implements Creature, InputProcessor {
     private MainScreen screen;

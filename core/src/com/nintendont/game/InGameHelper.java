@@ -78,7 +78,7 @@ public class InGameHelper {
 
             try {
                 currPos = moveCreature(engimonLiar, Direction.randomize());
-            } catch (Exception e) {}
+            } catch (Exception ignored) {}
 
             // if found a new position for wild engimon
             if (currPos != null){
@@ -134,7 +134,6 @@ public class InGameHelper {
             // lose
             throw new EngimonRanOutException();
         }
-//        player.battle(enemy);
     }
 
     public static double getBattlePower(Engimon engimon) {

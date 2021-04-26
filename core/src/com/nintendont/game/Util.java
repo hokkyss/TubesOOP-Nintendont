@@ -1,29 +1,12 @@
 package com.nintendont.game;
 
 import java.util.*;
-import java.nio.charset.Charset;
-import java.nio.file.*;
 import java.io.FileInputStream;
-import java.io.IOException;
-
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.nintendont.game.entities.*;
 import com.nintendont.game.screens.MainScreen;
 import org.apache.poi.ss.usermodel.*;
 
 public class Util {
-
-    // Const
-    public static final int RESPAWN_TURN = 10;
-    public static final int WILD_ENGIMON_MOVE_TURN = 5;
-    public static final int MAX_WILD_ENGIMON = 15;
-    public static final int LEVEL_BIG_WILD_ENGIMON = 15;
-
-    // Attributes
-//    private static char[][] arrPeta;
-//    private static ArrayList<EngimonLiar> wildEngimons = new ArrayList<EngimonLiar>();
-//    public static Player player;
 
     public Util() {
 
@@ -62,49 +45,6 @@ public class Util {
 
         workbook.close();
     }
-
-    public static void printHelp() {
-        Logger.print("Command   | Usage");
-        Logger.print("legend    | Show Map Legends");
-        Logger.print("w,a,s,d   | Movement");
-        Logger.print("show      | Show Active Engimon Stats");
-        Logger.print("change    | Change Active Engimon");
-        Logger.print("inventory | Access Inventory");
-        Logger.print("use       | Use Skill Item To Teach Engimon");
-        Logger.print("battle    | Battle Nearby Wild Engimon");
-        Logger.print("interact  | Interract With Active Engimon");
-        Logger.print("exit      | Leave the game");
-    }
-
-    public static void printLegend(){
-        Logger.print("Legends:");
-        Logger.print("W/w    | Water Engimon");
-        Logger.print("I/i    | Ice Engimon");
-        Logger.print("F/f    | FIre Engimon");
-        Logger.print("G/g    | Ground Engimon");
-        Logger.print("E/e    | Electric Engimon");
-        Logger.print("S/s    | Engimon that have more than 1 element");
-        Logger.print("");
-        Logger.print("P      | You");
-        Logger.print("X      | Your Engimon");
-        Logger.print("");
-        Logger.print("-      | Grassland");
-        Logger.print("o      | Sea");
-        Logger.print("A      | Mountain");
-        Logger.print("T      | Tundra");
-    }
-
-//    public static void printInventory(Scanner scanner) {
-//        int opt;
-//
-//        Logger.print("1. Engimon");
-//        Logger.print("2. Skill Item");
-//        Logger.print("Choose a number (1-2): ");
-//        opt = scanner.nextInt();
-//
-//        if(opt == 1) player.showAllEngimon();
-//        else player.showSkillItem();
-//    }
 
     public static EngimonLiar getEngimonInCell(Position p) {
         for (EngimonLiar e : MainScreen.wildEngimons) {
