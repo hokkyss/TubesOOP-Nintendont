@@ -237,8 +237,6 @@ public class Engimon {
             throw new SkillNotCompatibleException(s, this);
         }
 
-        Sounds.engimonLearnSkill.play(0.25f);
-
         this.skills.add(new Skill(s));
     }
 

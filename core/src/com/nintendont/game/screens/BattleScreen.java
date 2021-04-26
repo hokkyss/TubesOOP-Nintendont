@@ -44,6 +44,7 @@ public class BattleScreen extends Table implements InputProcessor {
         StringBuilder res = new StringBuilder();
 
         if (winner == 1) {
+            Sounds.defaultMusic.stop();
             Sounds.battleWin.setLooping(true);
             Sounds.battleWin.setVolume(0.25f);
             Sounds.battleWin.play();
@@ -128,6 +129,10 @@ public class BattleScreen extends Table implements InputProcessor {
                 actor.addAction(Actions.removeActor());
             }
         }
+        Sounds.defaultMusic.setLooping(true);
+        Sounds.defaultMusic.setVolume(0.15f);
+        Sounds.defaultMusic.play();
+        Sounds.battleWin.stop();
         this.setVisible(false);
     }
 
