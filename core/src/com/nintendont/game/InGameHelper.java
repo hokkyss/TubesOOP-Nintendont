@@ -1,5 +1,6 @@
 package com.nintendont.game;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Json;
@@ -165,13 +166,13 @@ public class InGameHelper extends Thread {
         file.writeString(json.toJson(new GameData(screen, player)), false);
     }
 
-    public static void loadGame(StarterScreen screen) {
+    public static void loadGame(Game game, StarterScreen screen) {
         FileHandle file = Gdx.files.local("save.json");
         String save = file.readString();
         Json json = new Json();
         GameData gameData = json.fromJson(GameData.class, save);
 
-        screen.GoToMainScreen();
+        screen.GoToMainScreen(null, game);
 
         try {
             gameData.load();
