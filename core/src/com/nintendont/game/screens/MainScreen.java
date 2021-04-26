@@ -178,7 +178,6 @@ public class MainScreen implements Screen {
         root = new Table();
         root.setFillParent(true);
         uiStage.addActor(root);
-        uiStage.setDebugAll(true);
 
         //onSelectHandler for optionBox
         OnSelectHandler onBattle = () -> {
@@ -358,10 +357,10 @@ public class MainScreen implements Screen {
 
     private void generateSkillItemUseMenu(SkillItem s){
         ArrayList<OnSelectHandler> selectHandlers = new ArrayList<OnSelectHandler>();
-        for(int i = 0; i<player.engimonList.size(); i++){
+        for(int i = 0; i < player.engimonList.size(); i++){
             int idx = i;
             Engimon target = player.getEngimon(idx);
-            if (target.getSkills().size()<4) {
+            if (target.getSkills().size() < 4) {
                 selectHandlers.add(() -> { dialog(player.useSkillItem(player.getEngimon(idx), s)); });
             } else {
                 selectHandlers.add(()->{ generateSkillItemMaxUsageMenu(player.getEngimon(idx), s ); });

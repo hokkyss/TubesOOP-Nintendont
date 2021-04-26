@@ -187,7 +187,7 @@ public class Player implements Creature, InputProcessor {
         try {
             e1.learnSkill(si);
             skillItemList.remove(si);
-            return "Berhasil menggunakan skillItem";
+            return "Berhasil menggunakan skillItem.\n" + e1.getName() + " learned " + si.containedSkill.skillName + ".";
         } catch (SkillNotCompatibleException err) {
             return err.getMessage();
         } catch (SkillHasBeenLearntException err) {
@@ -198,6 +198,10 @@ public class Player implements Creature, InputProcessor {
     }
 
     public String useSkillItem(Engimon e1, SkillItem si, int index){
+        if(e1.getSkills().contains(si.containedSkill))
+        {
+            return "Gagal menggunakan skill item. \n" + e1.getName() + " have learned " + si.containedSkill.skillName + "!";
+        }
         String res = e1.replace(index, si);
         try {
             skillItemList.remove(si);

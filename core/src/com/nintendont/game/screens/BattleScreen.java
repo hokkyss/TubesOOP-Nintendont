@@ -14,10 +14,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.nintendont.game.InGameHelper;
 import com.nintendont.game.Logger;
 import com.nintendont.game.Sounds;
-import com.nintendont.game.entities.Engimon;
-import com.nintendont.game.entities.EngimonLiar;
-import com.nintendont.game.entities.Player;
-import com.nintendont.game.entities.SkillItem;
+import com.nintendont.game.comparators.EngimonComparator;
+import com.nintendont.game.comparators.SkillItemComparator;
+import com.nintendont.game.entities.*;
+import jdk.jfr.internal.tool.Main;
 
 public class BattleScreen extends Table implements InputProcessor {
     private Player player;
@@ -63,10 +63,14 @@ public class BattleScreen extends Table implements InputProcessor {
                 }
                 res.append("You get new Engimon: " + enemyEngimon.getName() + "\n");
                 Engimon rewardEngimon = new Engimon(enemyEngimon.getName(), enemyEngimon.getSpecies(), enemyEngimon.getLevel());
+                Engimon activeEngimon = MainScreen.player.getActiveEngimon();
                 MainScreen.player.engimonList.insert(rewardEngimon);
+                MainScreen.player.engimonList.invenList.sort(new EngimonComparator());
+                MainScreen.player.switchActiveEngimon(MainScreen.player.engimonList.invenList.indexOf(activeEngimon));
 
                 SkillItem rewardSkillItem = SkillItem.getRandomSkillItem(enemyEngimon.getElements());
                 MainScreen.player.skillItemList.insert(rewardSkillItem);
+                MainScreen.player.skillItemList.invenList.sort(new SkillItemComparator());
                 res.append("You get new SkillItem: \n" + rewardSkillItem.display());
 
             } catch (Exception err) {
