@@ -13,7 +13,11 @@ public class InventoryTest {
     public void test_get()
     {
         skillItemInventory = new Inventory<>();
-        skillItemInventory.insert(SkillItem.TM24);
+        try{
+            skillItemInventory.insert(SkillItem.TM24);
+        }catch(Exception e){
+            Assert.assertTrue(false);
+        }
         Assert.assertEquals(SkillItem.TM24, skillItemInventory.get(0));
         Assert.assertNotNull(skillItemInventory.getCount(SkillItem.TM24));
         Assert.assertEquals((Object)1, skillItemInventory.getCount(SkillItem.TM24));

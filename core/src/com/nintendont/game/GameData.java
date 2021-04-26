@@ -35,10 +35,14 @@ public class GameData {
         Inventory.nCapacity = 0;
 
         this.engimonList = new Inventory<>();
-        for(Engimon e : player.engimonList.invenList) {
-            this.engimonList.insert(
-                    new SaveableEngimon(e)
-            );
+        try{
+            for(Engimon e : player.engimonList.invenList) {
+                this.engimonList.insert(
+                        new SaveableEngimon(e)
+                );
+            }
+        }catch(Exception e) {
+
         }
 
         Engimon activeEngimon = player.getActiveEngimon();
@@ -75,11 +79,16 @@ public class GameData {
         Inventory.nCapacity = 0;
 
         MainScreen.player.engimonList = new Inventory<>();
-        for(SaveableEngimon e : this.engimonList.invenList) {
-            MainScreen.player.engimonList.insert(
-                    e.toEngimon()
-            );
+        try{
+            for(SaveableEngimon e : this.engimonList.invenList) {
+                MainScreen.player.engimonList.insert(
+                        e.toEngimon()
+                );
+            }
+        }catch(Exception e){
+
         }
+
 
         MainScreen.player.engimonList.invenList.sort(new EngimonComparator());
 

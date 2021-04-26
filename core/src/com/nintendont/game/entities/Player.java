@@ -91,9 +91,9 @@ public class Player implements Creature, InputProcessor {
 
     private void CHEAT()
     {
-        this.engimonList.insert(new Engimon("test", Species.get("Emberon"), 31));
-        this.engimonList.insert(new Engimon("fred", Species.get("Frederon"), 31));
         try {
+            this.engimonList.insert(new Engimon("test", Species.get("Emberon"), 31));
+            this.engimonList.insert(new Engimon("fred", Species.get("Frederon"), 31));
             this.engimonList.get(0).learnSkill(SkillItem.TM01);
             this.engimonList.get(0).learnSkill(SkillItem.TM18);
             this.engimonList.get(0).learnSkill(SkillItem.TM19);

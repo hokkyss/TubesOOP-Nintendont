@@ -30,13 +30,13 @@ public class Inventory<T> {
     }
 
     // setter
-    public void insert(T el) // throws InputTooLargeException
+    public void insert(T el)  throws InputTooLargeException
     {
         try {
             insert(el, 1);
         } catch (InputTooLargeException err) {
-            err.printStackTrace();
-            // throw err; // bagusnya do nothing
+//            err.printStackTrace();
+            throw err; // bagusnya do nothing
         }
     }
 

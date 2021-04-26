@@ -116,3 +116,6 @@ Thumbs.db
 
 ## Game Save
 save.json
+
+out/*
+desktop/out

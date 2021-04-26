@@ -73,7 +73,8 @@ public class BattleScreen extends Table implements InputProcessor {
                 res.append("You get new SkillItem: \n" + rewardSkillItem.display());
 
             } catch (Exception err) {
-                Logger.print(err.getMessage());
+                res.append(err.getMessage());
+//                Logger.print(err.getMessage());
             }
         } else {
             Sounds.engimonFaint.play(0.25f);
