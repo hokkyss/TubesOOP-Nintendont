@@ -81,7 +81,7 @@ public class EndScreen implements Screen{
 
         stage.addActor(titleLabel);
         stage.addActor(descLabel);
-        stage.addActor(button);
+//        stage.addActor(button);
     }
 
     @Override

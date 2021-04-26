@@ -78,7 +78,7 @@ public class MainScreen implements Screen {
             this.inGameThread.start();;
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("Failed to create player");
+//            System.out.println("Failed to create player");
         }
     }
 
@@ -269,10 +269,13 @@ public class MainScreen implements Screen {
     }
 
     private void generateEngimonSelectionMenu(Engimon e, int idx){
-        System.out.println("UPDATED!");
-        System.out.println(idx);
+//        System.out.println("UPDATED!");
+//        System.out.println(idx);
         ArrayList<OnSelectHandler> selectHandlers = new ArrayList<>();
-        selectHandlers.add(()->{ dialog(e.details(), 0.65f); });
+        selectHandlers.add(()->{
+            new EngimonScreen(player, this, e);
+//            dialog(e.details(), 0.65f);
+        });
         selectHandlers.add(()->{ dialog(player.switchActiveEngimon(idx)); });
         selectHandlers.add(()->{ generateSetNameFor(idx); }); //rename
         selectHandlers.add(()->{
