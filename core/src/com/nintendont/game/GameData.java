@@ -33,8 +33,6 @@ public class GameData {
         this.pos = player.getPosition();
         this.activeEngimonPos = player.activeEngimonPos;
 
-        this.activeEngimonIdx = player.getActiveEngimonIdx();
-
         Inventory.nCapacity = 0;
 
         this.engimonList = new Inventory<SaveableEngimon>();
@@ -43,6 +41,10 @@ public class GameData {
                     new SaveableEngimon(e)
             );
         }
+
+        Engimon activeEngimon = player.getActiveEngimon();
+        MainScreen.player.engimonList.invenList.sort(new EngimonComparator());
+        this.activeEngimonIdx = player.engimonList.find(activeEngimon);
 
         this.skillItemList = new Inventory<SkillItem>();
         player.skillItemList.countInven.entrySet().stream().forEach(
@@ -80,7 +82,7 @@ public class GameData {
             );
         }
 
-//        MainScreen.player.engimonList.invenList.sort(new EngimonComparator());
+        MainScreen.player.engimonList.invenList.sort(new EngimonComparator());
 
         MainScreen.player.activeEngimonPos = this.activeEngimonPos;
         MainScreen.player.switchActiveEngimon(this.activeEngimonIdx);
